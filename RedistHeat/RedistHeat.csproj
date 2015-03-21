@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{200C6EC1-7929-4B3B-A78D-A8EB3F77ABD5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>RedistHeat</RootNamespace>
+    <AssemblyName>RedistHeat</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>D:\1\RimWorld727Win\RimWorld727Win_Data\Managed\Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UnityEngine">
+      <HintPath>D:\1\RimWorld727Win\RimWorld727Win_Data\Managed\UnityEngine.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AirNet\AirOverlayMat.cs" />
+    <Compile Include="AirNet\CompAirIntersection.cs" />
+    <Compile Include="AirNet\CompAirController.cs" />
+    <Compile Include="AirNet\CompAirConditioner.cs" />
+    <Compile Include="Building_AirNets\Building_DuctComp.cs" />
+    <Compile Include="Building_AirNets\Building_InDoorCooler.cs" />
+    <Compile Include="Building_AirNets\Building_DuctIntersection.cs" />
+    <Compile Include="Building_AirNets\Building_DuctPipe.cs" />
+    <Compile Include="Building_AirNets\Building_DuctHeater.cs" />
+    <Compile Include="Building_Vents\Building_VentDoor.cs" />
+    <Compile Include="Misc\ThingDef_AirNet.cs" />
+    <Compile Include="Building_Vents\Building_ActiveVent.cs" />
+    <Compile Include="Building_AirNets\Building_SmartDuctFan.cs" />
+    <Compile Include="Building_TempControl\Building_ExhaustPort.cs" />
+    <Compile Include="Building_TempControl\Building_IndustrialCooler.cs" />
+    <Compile Include="Building_TempControl\Building_IndustrialHeater.cs" />
+    <Compile Include="Building_Vents\Building_Vent.cs" />
+    <Compile Include="AirNet\CompAir.cs" />
+    <Compile Include="AirNet\CompAirTransmitter.cs" />
+    <Compile Include="AirNet\CompAirTrader.cs" />
+    <Compile Include="AirNet\AirNetGrid.cs" />
+    <Compile Include="AirNet\AirNet.cs" />
+    <Compile Include="Misc\ConstSet.cs" />
+    <Compile Include="Misc\Interface.cs" />
+    <Compile Include="Misc\StaticSet.cs" />
+    <Compile Include="PlaceWorkers\PlaceWorker_DuctIntersection.cs" />
+    <Compile Include="PlaceWorkers\PlaceWorker_DuctCompNorth.cs" />
+    <Compile Include="PlaceWorkers\PlaceWorker_ExhaustPort.cs" />
+    <Compile Include="PlaceWorkers\PlaceWorker_IndustrialCooler.cs" />
+    <Compile Include="PlaceWorkers\PlaceWorker_Vent.cs" />
+    <Compile Include="PlaceWorkers\PlaceWorker_ActiveVent.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
