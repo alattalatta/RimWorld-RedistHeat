@@ -22,14 +22,13 @@ namespace RedistHeat
 			var room = vecNorth.GetRoom();
 			var room2 = vecSouth.GetRoom();
 
-			if (room == null || room2 == null)
+			if (room == null && room2 == null)
 				return;
-
 			if (room == room2 && !room.UsesOutdoorTemperature)
 			{
 				return;
 			}
-			if (!room.UsesOutdoorTemperature)
+			if (room != null && !room.UsesOutdoorTemperature)
 			{
 				GenDraw.DrawFieldEdges(room.Cells.ToList(), new Color(1f, 0.7f, 0f, 0.5f));
 			}

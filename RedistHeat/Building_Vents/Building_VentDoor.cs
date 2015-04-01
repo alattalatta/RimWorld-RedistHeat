@@ -18,7 +18,7 @@ namespace RedistHeat
 
 		public virtual void ExchangeHeat()
 		{
-			if (Find.TickManager.TicksGame%ConstSet.E_INTERVAL_SEC != 0 || !Validate())
+			if (Find.TickManager.TicksGame%ConstSet.E_INTERVAL_DOOR != 0 || !Validate())
 				return;
 			var neighRooms = new Room[4];
 			var neighRoomCount = 0;

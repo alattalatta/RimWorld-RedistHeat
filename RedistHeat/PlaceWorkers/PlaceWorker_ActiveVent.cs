@@ -13,15 +13,12 @@ namespace RedistHeat
 			var vecSouth = center + IntVec3.south.RotatedBy(rot);
 			GenDraw.DrawFieldEdges(new List<IntVec3>
 			{
-				vecSouth
-			}, new Color(1f, 0.7f, 0f, 0.5f));
-			GenDraw.DrawFieldEdges(new List<IntVec3>
-			{
 				vecNorth
 			}, new Color(1f, 0.7f, 0f, 0.5f));
 
 			var controlledRoom = vecNorth.GetRoom();
 			var otherRoom = vecSouth.GetRoom();
+
 			if (controlledRoom == null && otherRoom == null)
 				return;
 
@@ -29,7 +26,7 @@ namespace RedistHeat
 			{
 				GenDraw.DrawFieldEdges(controlledRoom.Cells.ToList(), new Color(1f, 0.7f, 0f, 0.5f));
 			}
-			else if (!controlledRoom.UsesOutdoorTemperature)
+			else if (controlledRoom != null && !controlledRoom.UsesOutdoorTemperature)
 			{
 				GenDraw.DrawFieldEdges(controlledRoom.Cells.ToList(), new Color(1f, 0.7f, 0f, 0.5f));
 			}
