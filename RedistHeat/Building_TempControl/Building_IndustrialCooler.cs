@@ -73,12 +73,10 @@ namespace RedistHeat
 				tempHotSum += finder.VecNorth.GetTemperature();
 			}
 			var tempHotAvg = tempHotSum / neighDucts.Count;
-			//if(Prefs.LogVerbose) Log.Message("Hot temp: " + tempHotAvg);
 
 			//Cooler's temperature
 			var tempCold = room.Temperature;
 			var tempDiff = tempHotAvg - tempCold;
-			//if (Prefs.LogVerbose) Log.Message("Cold temp: " + tempCold);
 			
 			if (tempHotAvg - tempDiff > 40.0)
 				tempDiff = tempHotAvg - 40f;
@@ -86,25 +84,26 @@ namespace RedistHeat
 			var num2 = 1.0 - tempDiff * (1.0 / 130.0);
 			if (num2 < 0.0)
 				num2 = 0.0f;
-			//if (Prefs.LogVerbose) Log.Message("num2: " + num2);
 
 			var energyLimit = (float)(Energy * neighDucts.Count * num2 * 4.16666650772095);
-			var tempChange = GenTemperature.ControlTemperatureTempChange(vecSouth, energyLimit, compTempControl.targetTemperature);
-			isWorking = !Mathf.Approximately(tempChange, 0.0f);
+			var coldAir = GenTemperature.ControlTemperatureTempChange(vecSouth, energyLimit, compTempControl.targetTemperature);
+			isWorking = !Mathf.Approximately(coldAir, 0.0f);
 			if (!isWorking)
 				return;
-			room.Temperature += tempChange;
-			//if (Prefs.LogVerbose) Log.Message("energyLimit: " + energyLimit);
+			room.Temperature += coldAir;
 
-			var tempPush = (float)(-energyLimit * 1.25 / neighDucts.Count);
+			var hotAir = (float)(-energyLimit * 1.25 / neighDucts.Count);
 
-			//if (Prefs.LogVerbose) Log.Message("tempChange | tempPush: " + energyLimit + " | " + tempPush);
 
-			if (!Mathf.Approximately(tempPush, 0.0f)) return;
+			/*if (Prefs.LogVerbose)
+			{
+				Log.Message("coldAir | heatPush: " + energyLimit + " | " + hotAir);
+			}*/
+			if (Mathf.Approximately(hotAir, 0.0f)) return;
 
 			foreach (var finder in neighDucts)
 			{
-				GenTemperature.PushHeat(finder.VecNorth, tempPush);
+				GenTemperature.PushHeat(finder.VecNorth, hotAir);
 			}
 		}
 

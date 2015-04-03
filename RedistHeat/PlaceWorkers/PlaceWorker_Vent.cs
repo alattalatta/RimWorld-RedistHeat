@@ -26,13 +26,14 @@ namespace RedistHeat
 				return;
 			if (room == room2 && !room.UsesOutdoorTemperature)
 			{
+				GenDraw.DrawFieldEdges(room.Cells.ToList(), new Color(1f, 0.7f, 0f, 0.5f));
 				return;
 			}
 			if (room != null && !room.UsesOutdoorTemperature)
 			{
 				GenDraw.DrawFieldEdges(room.Cells.ToList(), new Color(1f, 0.7f, 0f, 0.5f));
 			}
-			if (!room2.UsesOutdoorTemperature)
+			if (room2 != null && !room2.UsesOutdoorTemperature)
 			{
 				GenDraw.DrawFieldEdges(room2.Cells.ToList(), new Color(1f, 0.7f, 0f, 0.5f));
 			}
