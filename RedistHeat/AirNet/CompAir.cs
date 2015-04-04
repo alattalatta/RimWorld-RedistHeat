@@ -25,19 +25,12 @@ namespace RedistHeat
 			{
 				connectedNet = new AirNet(new List<CompAir> { this });
 			}
-
-			Find.MapDrawer.MapChanged(parent.Position, MapChangeType.PowerGrid, true, false);
 			AirNetGrid.Register(this);
 		}
 		public override void PostDeSpawn()
 		{
 			base.PostDeSpawn();
 			AirNetGrid.Deregister(this);
-			if (AirNetGrid.AirNodeAt(Position) == null)
-			{
-				connectedNet.SplitNetAt(this);
-			}
-			Find.MapDrawer.MapChanged(parent.Position, MapChangeType.PowerGrid, true, false);
 		}
 		public override string CompInspectStringExtra()
 		{
@@ -54,19 +47,9 @@ namespace RedistHeat
 			return str.ToString();
 		}
 
-		private void ConnectToNet(AirNet net)
-		{
-			if (connectedNet == null)
-			{
-				net.RegisterNode(this);
-			}
-			else
-			{
-				connectedNet.MergeIntoNet(net);
-			}
-		}
 		public void TryConnectTo()
 		{
+			//Must check inside for underneath pipe
 			foreach (var c in GenAdj.CardinalDirectionsAndInside)
 			{
 				var compAir = AirNetGrid.AirNodeAt(c + Position);
@@ -75,6 +58,13 @@ namespace RedistHeat
 
 				ConnectToNet(compAir.connectedNet);
 			}
+		}
+		private void ConnectToNet(AirNet net)
+		{
+			if (connectedNet == null)
+				net.RegisterNode(this);
+			else
+				connectedNet.MergeIntoNet(net);
 		}
 		public override void CompPrintForPowerGrid(SectionLayer layer)
 		{

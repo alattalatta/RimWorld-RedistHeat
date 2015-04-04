@@ -55,7 +55,7 @@ namespace RedistHeat
 				yield return g;
 			}
 
-			var l = new Command_Action()
+			var l = new Command_Action
 			{
 				defaultLabel = StaticSet.StringUIRefreshIDLabel,
 				defaultDesc = StaticSet.StringUIRefreshIDDesc,

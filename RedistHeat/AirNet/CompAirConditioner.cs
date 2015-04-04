@@ -1,8 +1,4 @@
-﻿using RimWorld;
-using UnityEngine;
-using Verse.Sound;
-
-namespace RedistHeat
+﻿namespace RedistHeat
 {
 	public class CompAirConditioner : CompAirController
 	{

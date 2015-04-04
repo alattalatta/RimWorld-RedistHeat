@@ -52,7 +52,7 @@ namespace RedistHeat
 				yield return g;
 			}
 
-			var l2 = new Command_Action()
+			var l2 = new Command_Action
 			{
 				defaultLabel = (-10f).ToStringTemperature("F0"),
 				defaultDesc = "CommandLowerTempDesc".Translate(),
@@ -61,7 +61,7 @@ namespace RedistHeat
 			};
 			yield return l2;
 
-			var l1 = new Command_Action()
+			var l1 = new Command_Action
 			{
 				defaultLabel = (-1f).ToStringTemperature("F0"),
 				defaultDesc = "CommandLowerTempDesc".Translate(),
@@ -70,7 +70,7 @@ namespace RedistHeat
 			};
 			yield return l1;
 
-			var s = new Command_Action()
+			var s = new Command_Action
 			{
 				defaultLabel = "CommandResetTemp".Translate(),
 				defaultDesc = "CommandResetTempDesc".Translate(),
@@ -79,7 +79,7 @@ namespace RedistHeat
 			};
 			yield return s;
 
-			var r1 = new Command_Action()
+			var r1 = new Command_Action
 			{
 				defaultLabel = (1f).ToStringTemperature("F0"),
 				defaultDesc = "CommandRaiseTempDesc".Translate(),
@@ -88,7 +88,7 @@ namespace RedistHeat
 			};
 			yield return r1;
 
-			var r2 = new Command_Action()
+			var r2 = new Command_Action
 			{
 				defaultLabel = (10f).ToStringTemperature("F0"),
 				defaultDesc = "CommandRaiseTempDesc".Translate(),

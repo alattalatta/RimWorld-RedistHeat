@@ -14,84 +14,76 @@ namespace RedistHeat
 				AirNetGrid.netGrid[current] = new List<CompAir>();
 			}
 		}
-		private static void RegisterInCell(CompAir comp, IntVec3 c)
+
+		#region Node management
+		//Register
+		public static void Register(CompAir comp)
 		{
-			//Log.Message("AirNetGrid.RegisterInCell");
-			if (!c.InBounds())
+			if (!comp.Position.InBounds())
 			{
-				Log.Warning(string.Concat(new object[]
-				{
-					comp,
-					" tried to register out of bounds at ",
-					c,
-					". Destroying."
-				}));
+				Log.Warning(comp + " tried to register out of bounds at " + comp.Position + ". Destroying.");
 				comp.parent.Destroy();
 			}
 			else
 			{
-				AirNetGrid.netGrid[CellIndices.CellToIndex(c)].Add(comp);
+				var index = CellIndices.CellToIndex(comp.Position);
+				if(AirNetGrid.netGrid[index] == null)
+					AirNetGrid.netGrid[index] = new List<CompAir>();
+				AirNetGrid.netGrid[index].Add(comp);
 			}
+			NotifyDrawerForGridUpdate(comp.Position);
 		}
-		private static void DeregisterInCell(CompAir comp, IntVec3 c)
+
+		//Deregister
+		public static void Deregister(CompAir comp)
 		{
-			//Log.Message("AirNetGrid.DeregisterInCell");
-			if (!c.InBounds())
+			if (!comp.Position.InBounds())
 			{
-				Log.Error(comp + " tried to de-register out of bounds at " + c);
+				Log.Error(comp + " tried to de-register out of bounds at " + comp.Position);
 			}
 			else
 			{
-				var num = CellIndices.CellToIndex(c);
-				if (AirNetGrid.netGrid[num].Contains(comp))
+				var index = CellIndices.CellToIndex(comp.Position);
+				if (AirNetGrid.netGrid[index].Contains(comp))
 				{
-					AirNetGrid.netGrid[num].Remove(comp);
+					AirNetGrid.netGrid[index].Remove(comp);
 				}
 			}
+			if (AirNetGrid.AirNodeAt(comp.Position) == null)
+			{
+				comp.connectedNet.SplitNetAt(comp);
+			}
+			NotifyDrawerForGridUpdate(comp.Position);
 		}
-		public static void Register(CompAir comp)
+
+		//Overlay drawer update
+		private static void NotifyDrawerForGridUpdate(IntVec3 pos)
 		{
-			AirNetGrid.RegisterInCell(comp, comp.Position);
+			Find.MapDrawer.MapChanged(pos, MapChangeType.PowerGrid, true, false);
 		}
-		public static void Deregister(CompAir comp)
-		{
-			AirNetGrid.DeregisterInCell(comp, comp.Position);
-		}
-		public static List<CompAir> AirListAt(IntVec3 c)
+		#endregion
+
+		#region Finders
+		//AirNodeListAt: public for future use
+		// ReSharper disable once MemberCanBePrivate.Global
+		public static List<CompAir> AirNodeListAt(IntVec3 pos)
 		{
 			List<CompAir> result;
-			if (!c.InBounds())
+			if (!pos.InBounds())
 			{
-				Log.Error("Got ThingsListAt out of bounds: " + c);
+				Log.Error("Got ThingsListAt out of bounds: " + pos);
 				result = new List<CompAir>();
 			}
 			else
 			{
-				result = AirNetGrid.netGrid[CellIndices.CellToIndex(c)];
+				result = AirNetGrid.netGrid[CellIndices.CellToIndex(pos)];
 			}
 			return result;
 		}
-		public static IEnumerable<CompAir> AirAt(IntVec3 c)
-		{
-			foreach (var current in AirNetGrid.AirListAt(c))
-			{
-				yield return current;
-			}
-		}
 		public static CompAir AirNodeAt(IntVec3 c)
 		{
-			return AirNetGrid.AirListAt(c).Find(s => true);
+			return AirNetGrid.AirNodeListAt(c).Find(s => true);
 		}
-		public static IEnumerable<CompAirTrader> AirTradersAt(IntVec3 c)
-		{
-			foreach (var current in AirNetGrid.AirListAt(c))
-			{
-				var compAirTrader = current as CompAirTrader;
-				if (compAirTrader != null)
-				{
-					yield return compAirTrader;
-				}
-			}
-		}
+		#endregion
 	}
 }

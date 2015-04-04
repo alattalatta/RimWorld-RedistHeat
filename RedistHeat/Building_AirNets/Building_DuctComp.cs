@@ -6,11 +6,10 @@ namespace RedistHeat
 {
 	public class Building_DuctComp : Building, ITempExchangable
 	{
+		private bool isLocked;
 		private CompAirTrader compAir;
 		private CompPowerTrader compPower;
-		private bool isLocked;
-
-		protected IntVec3 vec;
+		private IntVec3 vec;
 
 		protected Room ThisRoom
 		{

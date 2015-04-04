@@ -34,11 +34,8 @@ namespace RedistHeat
 				RegisterNode(current);
 			}
 		}
-		public AirNet(CompAir newNode)
-			: this(new List<CompAir>
-		{
-			newNode
-		})
+		private AirNet(CompAir newNode)
+			: this(new List<CompAir> { newNode })
 		{
 		}
 		public void RegisterNode(CompAir node)
@@ -58,6 +55,7 @@ namespace RedistHeat
 				}
 			}
 		}
+		// ReSharper disable once MemberCanBePrivate.Global
 		public void DeregisterNode(CompAir node)
 		{
 			nodes.Remove(node);
@@ -80,29 +78,28 @@ namespace RedistHeat
 		}
 		public void SplitNetAt(CompAir node)
 		{
-			//DeregisterNode(node);
-			//var list = new List<AirNet>();
+			//Must check inside for underneath pipe
 			foreach (var current in GenAdj.CardinalDirectionsAndInside)
 			{
 				var compAir = AirNetGrid.AirNodeAt(node.Position + current);
 				if (compAir == null || compAir.connectedNet != this)
 					continue;
-				var airNet = AirNet.FromContiguousNodes(compAir);
-				//list.Add(airNet);
+				AirNet.ContiguousNodes(compAir);
 			}
-			//return list;
 		}
-		private static AirNet FromContiguousNodes(CompAir root)
+		private static AirNet ContiguousNodes(CompAir root)
 		{
 			var connectedNet = root.connectedNet;
 			connectedNet.DeregisterNode(root);
 			var airNet = new AirNet(root);
+
+			//Should check inside?
 			foreach (var current in GenAdj.CardinalDirectionsAndInside)
 			{
 				var compAir = AirNetGrid.AirNodeAt(root.Position + current);
 				if (compAir != null && compAir.connectedNet == connectedNet)
 				{
-					AirNet.FromContiguousNodes(compAir).MergeIntoNet(airNet);
+					AirNet.ContiguousNodes(compAir).MergeIntoNet(airNet);
 				}
 			}
 			return airNet;
