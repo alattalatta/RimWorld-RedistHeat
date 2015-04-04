@@ -1,4 +1,5 @@
-﻿using Verse;
+﻿using System.Linq;
+using Verse;
 using UnityEngine;
 // ReSharper disable All
 
@@ -52,6 +53,17 @@ namespace RedistHeat
 			var a = targetTemperature - airNet.Temperature;
 			var b = energyLimit / airNet.nodes.Count;
 			return (double)energyLimit <= 0.0 ? Mathf.Min(Mathf.Max(a, b), 0.0f) : Mathf.Max(Mathf.Min(a, b), 0.0f);
+		}
+
+		public static void WipeExistingPipe(Thing newThing)
+		{
+			if (newThing.def.defName == "RedistHeat_DuctPipe") return;
+
+			foreach (Thing current in Find.ThingGrid.ThingsAt(newThing.Position).ToList())
+			{
+				if (current.def.defName == "RedistHeat_DuctPipe")
+					current.Destroy(DestroyMode.Cancel);
+			}
 		}
 	}
 }

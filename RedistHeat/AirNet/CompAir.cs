@@ -26,6 +26,7 @@ namespace RedistHeat
 				connectedNet = new AirNet(new List<CompAir> { this });
 			}
 			AirNetGrid.Register(this);
+			StaticSet.WipeExistingPipe(parent);
 		}
 		public override void PostDeSpawn()
 		{
