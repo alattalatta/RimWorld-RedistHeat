@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using RimWorld;
 using Verse;
 
@@ -23,6 +24,7 @@ namespace RedistHeat
 			compAir = GetComp<CompAirTrader>();
 			compPower = GetComp<CompPowerTrader>();
 			compAir.roomTemp = ThisRoom.Temperature;
+			StaticSet.WipeExistingPipe(Position);
 		}
 		public override void ExposeData()
 		{

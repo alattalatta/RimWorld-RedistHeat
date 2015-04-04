@@ -15,6 +15,7 @@ namespace RedistHeat
 			{
 				vec[i] = Position + GenAdj.CardinalDirections[i];
 			}
+			StaticSet.WipeExistingPipe(Position);
 		}
 		public override void DeSpawn()
 		{
