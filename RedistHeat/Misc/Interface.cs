@@ -1,12 +1,9 @@
 ﻿// ReSharper disable All
+
+using Verse;
+
 namespace RedistHeat
 {
-	public interface ITempExchangable
-	{
-		bool Validate();
-		void ExchangeHeat();
-	}
-
 	public interface IXml
 	{
 		void Xmlize();

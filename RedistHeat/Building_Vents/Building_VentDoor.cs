@@ -1,61 +1,68 @@
 ﻿using RimWorld;
+using UnityEngine;
 using Verse;
 
 namespace RedistHeat
 {
-	public class Building_VentDoor : Building_Door, ITempExchangable
+	public class BuildingVentDoor : Building_Door
 	{
+		private const float EqualizationRate = 0.21f;
+		private int curTick, elapTick;
 		public override void SpawnSetup()
 		{
 			base.SpawnSetup();
+			curTick = elapTick = Find.TickManager.TicksGame;
 		}
 
 		public override void Tick()
 		{
 			base.Tick();
-			ExchangeHeat();
-		}
-
-		public virtual void ExchangeHeat()
-		{
-			if (Find.TickManager.TicksGame%ConstSet.E_INTERVAL_DOOR != 0 || !Validate())
+			curTick = Find.TickManager.TicksGame;
+			if (curTick - elapTick <= 250) return;
+			if (!Validate())
 				return;
-			var neighRooms = new Room[4];
-			var neighRoomCount = 0;
-			float totalTemp = 0;
-			for (var i = 0; i < 4; i++)
+
+			Log.Message(Rotation.ToString());
+			var roomNorth = (Position + IntVec3.North.RotatedBy(Rotation)).GetRoom();
+			if (roomNorth == null) return;
+			var roomSouth = (Position + IntVec3.South.RotatedBy(Rotation)).GetRoom();
+			if (roomSouth == null) return;
+
+			if (roomNorth == roomSouth || (roomNorth.UsesOutdoorTemperature && roomSouth.UsesOutdoorTemperature))
+				return;
+
+			float tempEq;
+			if (roomNorth.UsesOutdoorTemperature)
+				tempEq = roomNorth.Temperature;
+			else if (roomSouth.UsesOutdoorTemperature)
+				tempEq = roomSouth.Temperature;
+			else
 			{
-				var neigh = Position + GenAdj.CardinalDirections[i];
-
-				if (!neigh.InBounds())
-					continue;
-
-				var r = neigh.GetRoom();
-				if (r == null) continue;
-				totalTemp += r.Temperature;
-				neighRooms[neighRoomCount] = r;
-				neighRoomCount++;
+				tempEq = (roomNorth.Temperature * roomNorth.CellCount + roomSouth.Temperature * roomSouth.CellCount)
+					/ (roomNorth.CellCount + roomSouth.CellCount);
 			}
 
-			if (neighRoomCount == 0) return;
+			if (!roomNorth.UsesOutdoorTemperature)
+				ExchangeHeat(roomNorth, tempEq, EqualizationRate);
+			if (!roomSouth.UsesOutdoorTemperature)
+				ExchangeHeat(roomSouth, tempEq, EqualizationRate);
 
-			var avgTemp = totalTemp / neighRoomCount;
-
-			Position.GetRoom().Temperature = avgTemp;
-
-			for (var i = 0; i < neighRoomCount; i++)
-			{
-				var neighTemp = neighRooms[i].Temperature;
-
-				var diff = avgTemp - neighTemp;
-
-				neighRooms[i].PushHeat(diff);
-			}
+			elapTick = Find.TickManager.TicksGame;
 		}
 
-		public virtual bool Validate()
+		private static void ExchangeHeat(Room r, float targetTemp, float rate)
 		{
-			return !Locked;
+			var tempDiff = Mathf.Abs(r.Temperature - targetTemp);
+			var tempRated = tempDiff * rate;
+			if (targetTemp < r.Temperature)
+				r.Temperature = Mathf.Max(targetTemp, r.Temperature - tempRated);
+			else if (targetTemp > r.Temperature)
+				r.Temperature = Mathf.Min(targetTemp, r.Temperature + tempRated);
+		}
+
+		private static bool Validate()
+		{
+			return true;
 		}
 	}
 }

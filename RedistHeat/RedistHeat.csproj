@@ -35,8 +35,9 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Assembly-CSharp">
-      <HintPath>D:\1\RimWorld727Win\RimWorld727Win_Data\Managed\Assembly-CSharp.dll</HintPath>
+    <Reference Include="Assembly-CSharp, Version=0.10.5578.37460, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>D:\1\RimWorld780Win\RimWorld780Win_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -44,8 +45,9 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="UnityEngine">
-      <HintPath>D:\1\RimWorld727Win\RimWorld727Win_Data\Managed\UnityEngine.dll</HintPath>
+    <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>D:\1\RimWorld780Win\RimWorld780Win_Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -54,16 +56,13 @@
     <Compile Include="AirNetGraphic\AirOverlayMat.cs" />
     <Compile Include="AirNet\CompAirIntersection.cs" />
     <Compile Include="AirNet\CompAirController.cs" />
-    <Compile Include="AirNet\CompAirConditioner.cs" />
     <Compile Include="Building_AirNets\Building_DuctComp.cs" />
-    <Compile Include="Building_AirNets\Building_InDoorCooler.cs" />
     <Compile Include="Building_AirNets\Building_DuctIntersection.cs" />
     <Compile Include="Building_AirNets\Building_DuctPipe.cs" />
-    <Compile Include="Building_AirNets\Building_DuctHeater.cs" />
     <Compile Include="Building_Vents\Building_VentDoor.cs" />
     <Compile Include="Misc\ThingDef_AirNet.cs" />
     <Compile Include="Building_Vents\Building_ActiveVent.cs" />
-    <Compile Include="Building_AirNets\Building_SmartDuctFan.cs" />
+    <Compile Include="Building_AirNets\Building_SmartDuctOutlet.cs" />
     <Compile Include="Building_TempControl\Building_ExhaustPort.cs" />
     <Compile Include="Building_TempControl\Building_IndustrialCooler.cs" />
     <Compile Include="Building_TempControl\Building_IndustrialHeater.cs" />
@@ -80,7 +79,6 @@
     <Compile Include="PlaceWorkers\PlaceWorker_DuctCompNorth.cs" />
     <Compile Include="PlaceWorkers\PlaceWorker_ExhaustPort.cs" />
     <Compile Include="PlaceWorkers\PlaceWorker_IndustrialCooler.cs" />
-    <Compile Include="PlaceWorkers\PlaceWorker_Vent.cs" />
     <Compile Include="PlaceWorkers\PlaceWorker_ActiveVent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -22,7 +22,7 @@ namespace RedistHeat
 		public static string StringNetworkTemperature = "RedistHeat_NetworkTemperature".Translate();
 
 		public static string StringExposeDuct = "RedistHeat_MustExposeDuct".Translate();
-		public static string StringExposeBoth = "RedistHeat_MustExposeBothSides".Translate();
+		public static string StringExposeBoth = "MustPlaceVentWithFreeSpaces".Translate();
 		public static string StringExposeHot = "RedistHeat_MustExposeHotSide".Translate();
 		public static string StringExposeCold = "RedistHeat_MustExposeColdSide".Translate();
 		public static string StringAttachToCooler = "RedistHeat_MustPlaceBackSideOnCooler".Translate();
@@ -51,7 +51,7 @@ namespace RedistHeat
 		public static float ControlTemperatureTempChange(AirNet airNet, float energyLimit, float targetTemperature)
 		{
 			var a = targetTemperature - airNet.Temperature;
-			var b = energyLimit / airNet.nodes.Count;
+			var b = energyLimit / airNet.Nodes.Count;
 			return (double)energyLimit <= 0.0 ? Mathf.Min(Mathf.Max(a, b), 0.0f) : Mathf.Max(Mathf.Min(a, b), 0.0f);
 		}
 

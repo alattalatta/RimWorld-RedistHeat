@@ -4,10 +4,10 @@ using Verse;
 
 namespace RedistHeat
 {
-	public class Building_DuctPipe : Building
+	public class BuildingDuctPipe : Building
 	{
 		private CompAirTransmitter compAir;
-		private Graphic_LinkedAirTransmitter graphicLinked;
+		private GraphicLinkedAirTransmitter graphicLinked;
 
 		public override Graphic Graphic
 		{
@@ -50,7 +50,7 @@ namespace RedistHeat
 			if (graphicLinked != null && graphicLinked.MatSingle != null) return;
 
 			var graphicSingle = GraphicDatabase.Get<Graphic_Single>(def.graphicPath);
-			graphicLinked = new Graphic_LinkedAirTransmitter(graphicSingle);
+			graphicLinked = new GraphicLinkedAirTransmitter(graphicSingle);
 		}
 	}
 }

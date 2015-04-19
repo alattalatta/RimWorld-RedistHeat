@@ -10,7 +10,7 @@ namespace RedistHeat
 		{
 			AirOverlayMat.TransmitterShader = ShaderDatabase.MetaOverlay;
 			var graphic = GraphicDatabase.Get<Graphic_Single>("Things/Special/AirTransmitterOverlay", AirOverlayMat.TransmitterShader);
-			AirOverlayMat.LinkedOverlayGraphic = new Graphic_LinkedAirTransmitterOverlay(graphic);
+			AirOverlayMat.LinkedOverlayGraphic = new GraphicLinkedAirTransmitterOverlay(graphic);
 			graphic.MatSingle.renderQueue = 3800;
 		}
 	}

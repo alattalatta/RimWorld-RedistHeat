@@ -4,19 +4,19 @@ using Verse;
 
 namespace RedistHeat
 {
-	public class Building_ExhaustPort : Building_TempControl
+	public class BuildingExhaustPort : Building_TempControl
 	{
 		public IntVec3 VecNorth { get; private set; }
 		public IntVec3 VecSouth { get; private set; }
-		public bool isAvailable;
+		public bool IsAvailable;
 
-		private Building_IndustrialCooler neighCooler;
+		private BuildingIndustrialCooler neighCooler;
 
 		public override void SpawnSetup()
 		{
 			base.SpawnSetup();
-			VecNorth = Position + IntVec3.north.RotatedBy(Rotation);
-			VecSouth = Position + IntVec3.south.RotatedBy(Rotation);
+			VecNorth = Position + IntVec3.North.RotatedBy(Rotation);
+			VecSouth = Position + IntVec3.South.RotatedBy(Rotation);
 			if ((neighCooler = AdjacentCooler()) == null)
 				Log.Message("no cooler found during SpawnSetup().");
 		}
@@ -25,13 +25,13 @@ namespace RedistHeat
 			neighCooler = AdjacentCooler();
 			if (compPowerTrader.PowerOn && neighCooler != null && !VecNorth.Impassable())
 			{
-				isAvailable = true;
-				compPowerTrader.powerOutput = -compPowerTrader.props.basePowerConsumption;
+				IsAvailable = true;
+				compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption;
 			}
 			else
 			{
-				isAvailable = false;
-				compPowerTrader.powerOutput = -compPowerTrader.props.basePowerConsumption * 0.1f;
+				IsAvailable = false;
+				compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption * 0.1f;
 			}
 		}
 		public override string GetInspectString()
@@ -40,14 +40,14 @@ namespace RedistHeat
 			str.AppendLine(base.GetInspectString());
 			str.Append(StaticSet.StringState + " ");
 
-			str.Append(isAvailable ? StaticSet.StringWorking : StaticSet.StringNotWorking);
+			str.Append(IsAvailable ? StaticSet.StringWorking : StaticSet.StringNotWorking);
 
 			return str.ToString();
 		}
 
-		private Building_IndustrialCooler AdjacentCooler()
+		private BuildingIndustrialCooler AdjacentCooler()
 		{
-			var finder = Find.ThingGrid.ThingAt<Building_IndustrialCooler>(VecSouth);
+			var finder = Find.ThingGrid.ThingAt<BuildingIndustrialCooler>(VecSouth);
 			return finder;
 		}
 	}

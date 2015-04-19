@@ -5,7 +5,7 @@ using Verse;
 
 namespace RedistHeat
 {
-	public class Building_DuctIntersection : Building
+	public class BuildingDuctIntersection : Building
 	{
 		IntVec3[] vec = new IntVec3[4];
 		public override void SpawnSetup()
@@ -28,7 +28,7 @@ namespace RedistHeat
 			//Split: North and South
 			if (cardinals[0] != null && cardinals[2] != null)
 			{
-				if (cardinals[0].connectedNet == cardinals[2].connectedNet)
+				if (cardinals[0].ConnectedNet == cardinals[2].ConnectedNet)
 				{
 					SplitConnection(cardinals[0]);
 				}
@@ -36,7 +36,7 @@ namespace RedistHeat
 			//Split: East and West
 			if (cardinals[1] != null && cardinals[3] != null)
 			{
-				if (cardinals[1].connectedNet == cardinals[3].connectedNet)
+				if (cardinals[1].ConnectedNet == cardinals[3].ConnectedNet)
 				{
 					SplitConnection(cardinals[1]);
 				}
@@ -76,7 +76,7 @@ namespace RedistHeat
 			//Start: North and South
 			if (cardinals[0] != null && cardinals[2] != null)
 			{
-				if (cardinals[0].connectedNet != cardinals[2].connectedNet)
+				if (cardinals[0].ConnectedNet != cardinals[2].ConnectedNet)
 				{
 					MergeNet(cardinals[2], cardinals[0]);
 				}
@@ -84,7 +84,7 @@ namespace RedistHeat
 			//Start: East and West
 			if (cardinals[1] != null && cardinals[3] != null)
 			{
-				if (cardinals[1].connectedNet != cardinals[3].connectedNet)
+				if (cardinals[1].ConnectedNet != cardinals[3].ConnectedNet)
 				{
 					MergeNet(cardinals[3], cardinals[1]);
 				}
@@ -92,25 +92,25 @@ namespace RedistHeat
 		}
 		private static void SplitConnection(CompAir compAir)
 		{
-			compAir.connectedNet.SplitNetAt(compAir);
+			compAir.ConnectedNet.SplitNetAt(compAir);
 			compAir.TryConnectTo();
-			if (compAir.connectedNet == null)
+			if (compAir.ConnectedNet == null)
 			{
 				//Make a new net
-				compAir.connectedNet = new AirNet(new List<CompAir>
+				compAir.ConnectedNet = new AirNet(new List<CompAir>
 				{
 					compAir
 				});
 			}
 			else
 			{
-				compAir.connectedNet.MergeIntoNet(new AirNet());
+				compAir.ConnectedNet.MergeIntoNet(new AirNet());
 			}
 			AirNetGrid.Register(compAir);
 		}
 		private static void MergeNet(CompAir compAirSource, CompAir compAirTarget)
 		{
-			compAirSource.connectedNet.MergeIntoNet(compAirTarget.connectedNet);
+			compAirSource.ConnectedNet.MergeIntoNet(compAirTarget.ConnectedNet);
 		}
 	}
 }

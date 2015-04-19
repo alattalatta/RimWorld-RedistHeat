@@ -7,7 +7,7 @@ namespace RedistHeat
 {
 	public class CompAir : ThingComp
 	{
-		public AirNet connectedNet;
+		public AirNet ConnectedNet;
 
 		public IntVec3 Position
 		{
@@ -21,9 +21,9 @@ namespace RedistHeat
 
 			Position = parent.Position;
 			TryConnectTo();
-			if (connectedNet == null)
+			if (ConnectedNet == null)
 			{
-				connectedNet = new AirNet(new List<CompAir> { this });
+				ConnectedNet = new AirNet(new List<CompAir> { this });
 			}
 			AirNetGrid.Register(this);
 		}
@@ -35,14 +35,14 @@ namespace RedistHeat
 		public override string CompInspectStringExtra()
 		{
 			var str = new StringBuilder();
-			if (connectedNet == null)
+			if (ConnectedNet == null)
 			{
 				return "No AirNet";
 			}
 			str.Append(StaticSet.StringNetworkTemperature + ": ");
-			str.AppendLine(Mathf.Round(connectedNet.Temperature).ToStringTemperature("F0"));
+			str.AppendLine(Mathf.Round(ConnectedNet.Temperature).ToStringTemperature("F0"));
 			str.Append((StaticSet.StringNetworkID + ": "));
-			str.Append(connectedNet.NetId.ToString());
+			str.Append(ConnectedNet.NetId.ToString());
 
 			return str.ToString();
 		}
@@ -53,18 +53,18 @@ namespace RedistHeat
 			foreach (var c in GenAdj.CardinalDirectionsAndInside)
 			{
 				var compAir = AirNetGrid.AirNodeAt(c + Position);
-				if (compAir == null || compAir.connectedNet == null)
+				if (compAir == null || compAir.ConnectedNet == null)
 					continue;
 
-				ConnectToNet(compAir.connectedNet);
+				ConnectToNet(compAir.ConnectedNet);
 			}
 		}
 		private void ConnectToNet(AirNet net)
 		{
-			if (connectedNet == null)
+			if (ConnectedNet == null)
 				net.RegisterNode(this);
 			else
-				connectedNet.MergeIntoNet(net);
+				ConnectedNet.MergeIntoNet(net);
 		}
 		public override void CompPrintForPowerGrid(SectionLayer layer)
 		{

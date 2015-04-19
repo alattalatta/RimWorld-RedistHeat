@@ -5,36 +5,36 @@ using Verse;
 
 namespace RedistHeat
 {
-	public class PlaceWorker_ActiveVent : PlaceWorker
+	public class PlaceWorkerActiveVent : PlaceWorker
 	{
-		public override void DrawGhost(ThingDef def, IntVec3 center, IntRot rot)
+		public override void DrawGhost(ThingDef def, IntVec3 center, Rot4 rot)
 		{
-			var vecNorth = center + IntVec3.north.RotatedBy(rot);
-			var vecSouth = center + IntVec3.south.RotatedBy(rot);
+			var vecNorth = center + IntVec3.North.RotatedBy(rot);
+			var vecSouth = center + IntVec3.South.RotatedBy(rot);
 			GenDraw.DrawFieldEdges(new List<IntVec3>
 			{
 				vecNorth
 			}, new Color(1f, 0.7f, 0f, 0.5f));
+			GenDraw.DrawFieldEdges(new List<IntVec3>
+			{
+				vecSouth
+			}, Color.white);
 
 			var controlledRoom = vecNorth.GetRoom();
 			var otherRoom = vecSouth.GetRoom();
 
-			if (controlledRoom == null && otherRoom == null)
+			if (controlledRoom == null || otherRoom == null)
 				return;
 
-			if (controlledRoom == otherRoom && !controlledRoom.UsesOutdoorTemperature)
-			{
-				GenDraw.DrawFieldEdges(controlledRoom.Cells.ToList(), new Color(1f, 0.7f, 0f, 0.5f));
-			}
-			else if (controlledRoom != null && !controlledRoom.UsesOutdoorTemperature)
+			if (!controlledRoom.UsesOutdoorTemperature)
 			{
 				GenDraw.DrawFieldEdges(controlledRoom.Cells.ToList(), new Color(1f, 0.7f, 0f, 0.5f));
 			}
 		}
-		public override AcceptanceReport AllowsPlacing(EntityDef def, IntVec3 center, IntRot rot)
+		public override AcceptanceReport AllowsPlacing(EntityDef def, IntVec3 center, Rot4 rot)
 		{
-			var vecNorth = center + IntVec3.north.RotatedBy(rot);
-			var vecSouth = center + IntVec3.south.RotatedBy(rot);
+			var vecNorth = center + IntVec3.North.RotatedBy(rot);
+			var vecSouth = center + IntVec3.South.RotatedBy(rot);
 			if (!vecNorth.InBounds() || !vecSouth.InBounds())
 				return false;
 			if (vecNorth.Impassable() || vecSouth.Impassable())

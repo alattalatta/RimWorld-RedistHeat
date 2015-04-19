@@ -4,7 +4,7 @@ using Verse;
 
 namespace RedistHeat
 {
-	public class Building_IndustrialHeater : Building_TempControl
+	public class BuildingIndustrialHeater : Building_TempControl
 	{
 		private int ticksUntilSpray = 6;
 		private int sprayTicksLeft;
@@ -43,11 +43,11 @@ namespace RedistHeat
 			if (flag)
 			{
 				Position.GetRoom().Temperature += num2;
-				compPowerTrader.powerOutput = -compPowerTrader.props.basePowerConsumption;
+				compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption;
 			}
 			else
 			{
-				compPowerTrader.powerOutput = -compPowerTrader.props.basePowerConsumption * compTempControl.props.lowPowerConsumptionFactor;
+				compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption * compTempControl.props.lowPowerConsumptionFactor;
 			}
 			compTempControl.operatingAtHighPower = flag;
 		}

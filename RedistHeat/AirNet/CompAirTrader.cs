@@ -1,9 +1,6 @@
-﻿using Verse;
-
-namespace RedistHeat
+﻿namespace RedistHeat
 {
 	public class CompAirTrader : CompAir
 	{
-		public float roomTemp;
 	}
 }

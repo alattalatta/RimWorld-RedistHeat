@@ -4,12 +4,12 @@ using Verse;
 
 namespace RedistHeat
 {
-	public class PlaceWorker_IndustrialCooler : PlaceWorker
+	public class PlaceWorkerIndustrialCooler : PlaceWorker
 	{
-		public override void DrawGhost(ThingDef def, IntVec3 center, IntRot rot)
+		public override void DrawGhost(ThingDef def, IntVec3 center, Rot4 rot)
 		{
-			var vecSouth = center + IntVec3.south.RotatedBy(rot);
-			var vecSouthEast = vecSouth + IntVec3.east.RotatedBy(rot);
+			var vecSouth = center + IntVec3.South.RotatedBy(rot);
+			var vecSouthEast = vecSouth + IntVec3.East.RotatedBy(rot);
 			GenDraw.DrawFieldEdges(new List<IntVec3>() { vecSouth, vecSouthEast }, GenTemperature.ColorSpotCold);
 			var room = vecSouth.GetRoom();
 			if (room == null || room.UsesOutdoorTemperature)
@@ -17,10 +17,10 @@ namespace RedistHeat
 			GenDraw.DrawFieldEdges(room.Cells.ToList(), GenTemperature.ColorRoomCold);
 		}
 
-		public override AcceptanceReport AllowsPlacing(EntityDef def, IntVec3 center, IntRot rot)
+		public override AcceptanceReport AllowsPlacing(EntityDef def, IntVec3 center, Rot4 rot)
 		{
-			var vecSouth = center + IntVec3.south.RotatedBy(rot);
-			var vecSouthEast = vecSouth + IntVec3.east.RotatedBy(rot);
+			var vecSouth = center + IntVec3.South.RotatedBy(rot);
+			var vecSouthEast = vecSouth + IntVec3.East.RotatedBy(rot);
 			if (!vecSouth.InBounds() || !vecSouthEast.InBounds())
 				return false;
 			if (vecSouth.Impassable() || vecSouthEast.Impassable())

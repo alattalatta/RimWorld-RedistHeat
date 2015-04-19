@@ -5,13 +5,13 @@ namespace RedistHeat
 {
 	public static class AirNetGrid
 	{
-		private static List<CompAir>[] netGrid;
+		private static List<CompAir>[] _netGrid;
 		static AirNetGrid()
 		{
-			AirNetGrid.netGrid = new List<CompAir>[CellIndices.NumGridCells];
+			AirNetGrid._netGrid = new List<CompAir>[CellIndices.NumGridCells];
 			foreach (var current in CellIndices.AllCellIndicesOnMap)
 			{
-				AirNetGrid.netGrid[current] = new List<CompAir>();
+				AirNetGrid._netGrid[current] = new List<CompAir>();
 			}
 		}
 
@@ -27,9 +27,9 @@ namespace RedistHeat
 			else
 			{
 				var index = CellIndices.CellToIndex(comp.Position);
-				if(AirNetGrid.netGrid[index] == null)
-					AirNetGrid.netGrid[index] = new List<CompAir>();
-				AirNetGrid.netGrid[index].Add(comp);
+				if(AirNetGrid._netGrid[index] == null)
+					AirNetGrid._netGrid[index] = new List<CompAir>();
+				AirNetGrid._netGrid[index].Add(comp);
 			}
 			NotifyDrawerForGridUpdate(comp.Position);
 		}
@@ -44,14 +44,14 @@ namespace RedistHeat
 			else
 			{
 				var index = CellIndices.CellToIndex(comp.Position);
-				if (AirNetGrid.netGrid[index].Contains(comp))
+				if (AirNetGrid._netGrid[index].Contains(comp))
 				{
-					AirNetGrid.netGrid[index].Remove(comp);
+					AirNetGrid._netGrid[index].Remove(comp);
 				}
 			}
 			if (AirNetGrid.AirNodeAt(comp.Position) == null)
 			{
-				comp.connectedNet.SplitNetAt(comp);
+				comp.ConnectedNet.SplitNetAt(comp);
 			}
 			NotifyDrawerForGridUpdate(comp.Position);
 		}
@@ -76,7 +76,7 @@ namespace RedistHeat
 			}
 			else
 			{
-				result = AirNetGrid.netGrid[CellIndices.CellToIndex(pos)];
+				result = AirNetGrid._netGrid[CellIndices.CellToIndex(pos)];
 			}
 			return result;
 		}

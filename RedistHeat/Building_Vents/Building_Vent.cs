@@ -1,60 +1,78 @@
 ﻿using RimWorld;
 using System.Collections.Generic;
+using UnityEngine;
 using Verse;
 
 namespace RedistHeat
 {
-	public class Building_Vent : Building, ITempExchangable
+	public class BuildingVent : Building_TempControl
 	{
+		private const float EqualizationRate = 0.25f;
 		private bool isLocked;
 
-		private IntVec3 vecNorth;
-		private IntVec3 vecSouth;
-		protected Room roomNorth, roomSouth;
+		protected Room RoomNorth, RoomSouth;
 
-		public override void SpawnSetup()
-		{
-			base.SpawnSetup();
-			vecNorth = Position + IntVec3.north.RotatedBy(Rotation);
-			vecSouth = Position + IntVec3.south.RotatedBy(Rotation);
-			roomNorth = vecNorth.GetRoom();
-			roomSouth = vecSouth.GetRoom();
-		}
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.LookValue(ref isLocked, "isLocked", false);
 		}
-		public override void Tick()
+		public override void TickRare()
 		{
-			base.Tick();
-			ExchangeHeat();
-		}
-
-		public virtual void ExchangeHeat()
-		{
-			if (!Validate() || Find.TickManager.TicksGame % ConstSet.E_INTERVAL_VENT != 0)
+			if (!Validate())
+			{
 				return;
-			roomNorth = vecNorth.GetRoom();
-			roomSouth = vecSouth.GetRoom();
+			}
 
-			var temp1 = roomNorth.Temperature;
-			var temp2 = roomSouth.Temperature;
-
-			var tempDiff = temp1 - temp2;
-
-			if (roomNorth.UsesOutdoorTemperature && roomSouth.UsesOutdoorTemperature)
+			RoomNorth = (Position + IntVec3.North.RotatedBy(Rotation)).GetRoom();
+			if (RoomNorth == null)
+			{
 				return;
-			if (!roomNorth.UsesOutdoorTemperature)
-				roomNorth.PushHeat(-tempDiff);
-			if (!roomSouth.UsesOutdoorTemperature)
-				roomSouth.PushHeat(tempDiff);
-		}
-		public virtual bool Validate()
-		{
-			return (!isLocked && !vecNorth.Impassable() && !vecSouth.Impassable());
+			}
+			RoomSouth = (Position + IntVec3.South.RotatedBy(Rotation)).GetRoom();
+			if (RoomSouth == null)
+			{
+				return;
+			}
+
+			if (RoomNorth == RoomSouth || (RoomNorth.UsesOutdoorTemperature && RoomSouth.UsesOutdoorTemperature))
+			{
+				return;
+			}
+
+			float tempEq;
+			if (RoomNorth.UsesOutdoorTemperature)
+				tempEq = RoomNorth.Temperature;
+			else if (RoomSouth.UsesOutdoorTemperature)
+				tempEq = RoomSouth.Temperature;
+			else
+			{
+				tempEq = (RoomNorth.Temperature * RoomNorth.CellCount + RoomSouth.Temperature * RoomSouth.CellCount)
+					/ (RoomNorth.CellCount + RoomSouth.CellCount);
+			}
+
+			if(!RoomNorth.UsesOutdoorTemperature)
+				ExchangeHeat(RoomNorth, tempEq, EqualizationRate);
+			if(!RoomSouth.UsesOutdoorTemperature)
+				ExchangeHeat(RoomSouth, tempEq, EqualizationRate);
+			
 		}
 
+		private static void ExchangeHeat(Room r, float targetTemp, float rate)
+		{
+			var tempDiff = Mathf.Abs(r.Temperature - targetTemp);
+			var tempRated = tempDiff * rate;
+			Log.Message("tempDiff: " + tempDiff + " tempRated: " + tempRated);
+			if (targetTemp < r.Temperature)
+				r.Temperature = Mathf.Max(targetTemp, r.Temperature - tempRated);
+			else if (targetTemp > r.Temperature)
+				r.Temperature = Mathf.Min(targetTemp, r.Temperature + tempRated);
+		}
+
+		protected virtual bool Validate()
+		{
+			return !isLocked;
+		}
 
 		public override void Draw()
 		{
@@ -69,7 +87,7 @@ namespace RedistHeat
 				yield return g;
 			}
 
-			var l = new Command_Toggle()
+			var l = new Command_Toggle
 			{
 				defaultLabel = StaticSet.StringUILockLabel,
 				defaultDesc = StaticSet.StringUILockDesc,

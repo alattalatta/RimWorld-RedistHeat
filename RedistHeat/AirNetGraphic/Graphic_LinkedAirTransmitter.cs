@@ -2,9 +2,9 @@
 using Verse;
 namespace RedistHeat
 {
-	public class Graphic_LinkedAirTransmitter : Graphic_Linked
+	public class GraphicLinkedAirTransmitter : Graphic_Linked
 	{
-		public Graphic_LinkedAirTransmitter(Graphic subGraphic)
+		public GraphicLinkedAirTransmitter(Graphic subGraphic)
 			: base(subGraphic)
 		{
 		}
