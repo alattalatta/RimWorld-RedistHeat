@@ -23,7 +23,7 @@ namespace RedistHeat
 			var cardinals = new CompAir[4];
 			for (var i = 0; i < 4; i++)
 			{
-				cardinals[i] = AirNetGrid.AirNodeAt(vec[i]);
+				cardinals[i] = AirNetGrid.AirNodeAt(vec[i]) as CompAir;
 			}
 			//Split: North and South
 			if (cardinals[0] != null && cardinals[2] != null)
@@ -71,7 +71,7 @@ namespace RedistHeat
 			var cardinals = new CompAir[4];
 			for (var i = 0; i < 4; i++)
 			{
-				cardinals[i] = AirNetGrid.AirNodeAt(vec[i]);
+				cardinals[i] = AirNetGrid.AirNodeAt(vec[i]) as CompAir;
 			}
 			//Start: North and South
 			if (cardinals[0] != null && cardinals[2] != null)
