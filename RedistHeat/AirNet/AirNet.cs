@@ -81,7 +81,7 @@ namespace RedistHeat
 			//Must check inside for underneath pipe
 			foreach (var current in GenAdj.CardinalDirectionsAndInside)
 			{
-				var compAir = AirNetGrid.AirNodeAt(node.Position + current);
+				var compAir = AirNetGrid.AirNodeAt(node.Position + current) as CompAir;
 				if (compAir == null || compAir.ConnectedNet != this)
 					continue;
 				AirNet.ContiguousNodes(compAir);
@@ -96,7 +96,7 @@ namespace RedistHeat
 			//Should check inside?
 			foreach (var current in GenAdj.CardinalDirectionsAndInside)
 			{
-				var compAir = AirNetGrid.AirNodeAt(root.Position + current);
+				var compAir = AirNetGrid.AirNodeAt(root.Position + current) as CompAir;
 				if (compAir != null && compAir.ConnectedNet == connectedNet)
 				{
 					AirNet.ContiguousNodes(compAir).MergeIntoNet(airNet);

@@ -5,32 +5,19 @@ using Verse;
 
 namespace RedistHeat
 {
-	public class CompAir : ThingComp
+	public class CompAir : CompAirBase
 	{
 		public AirNet ConnectedNet;
-
-		public IntVec3 Position
-		{
-			get;
-			private set;
-		}
 
 		public override void PostSpawnSetup()
 		{
 			base.PostSpawnSetup();
 
-			Position = parent.Position;
 			TryConnectTo();
 			if (ConnectedNet == null)
 			{
 				ConnectedNet = new AirNet(new List<CompAir> { this });
 			}
-			AirNetGrid.Register(this);
-		}
-		public override void PostDeSpawn()
-		{
-			base.PostDeSpawn();
-			AirNetGrid.Deregister(this);
 		}
 		public override string CompInspectStringExtra()
 		{
@@ -52,7 +39,7 @@ namespace RedistHeat
 			//Must check inside for underneath pipe
 			foreach (var c in GenAdj.CardinalDirectionsAndInside)
 			{
-				var compAir = AirNetGrid.AirNodeAt(c + Position);
+				var compAir = AirNetGrid.AirNodeAt(c + Position) as CompAir;
 				if (compAir == null || compAir.ConnectedNet == null)
 					continue;
 

@@ -1,8 +1,9 @@
-﻿using Verse;
+﻿using System.Collections.Generic;
+using Verse;
 
 namespace RedistHeat
 {
-	public class CompAirIntersection : ThingComp
+	public class CompAirIntersection : CompAirBase
 	{
 		public override void CompPrintForPowerGrid(SectionLayer layer)
 		{
