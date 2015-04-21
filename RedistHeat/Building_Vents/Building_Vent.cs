@@ -62,7 +62,6 @@ namespace RedistHeat
 		{
 			var tempDiff = Mathf.Abs(r.Temperature - targetTemp);
 			var tempRated = tempDiff * rate;
-			Log.Message("tempDiff: " + tempDiff + " tempRated: " + tempRated);
 			if (targetTemp < r.Temperature)
 				r.Temperature = Mathf.Max(targetTemp, r.Temperature - tempRated);
 			else if (targetTemp > r.Temperature)
