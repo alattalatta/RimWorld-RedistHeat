@@ -25,25 +25,32 @@ namespace RedistHeat
 		}
 		public override void TickRare()
 		{
-			if (!compPowerTrader.PowerOn || AdjacentDucts().Count == 0)
+			if (AdjacentDucts().Count == 0)
 			{
 				isWorking = false;
+				return;
 			}
 
 			neighDucts = GetAvailableDucts(AdjacentDucts());
 
-			if (vecSouth.Impassable() || vecSouthEast.Impassable() || neighDucts.Count == 0)
+			if (!compPowerTrader.PowerOn || vecSouth.Impassable() || vecSouthEast.Impassable() || neighDucts.Count == 0)
 			{
 				isWorking = false;
 			}
 			else
 			{
-				ControlTemperature();
+				isWorking = true;
 			}
+
 			if (isWorking)
+			{
+				ControlTemperature();
 				compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption;
+			}
 			else
-				compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption * compTempControl.props.lowPowerConsumptionFactor;
+				compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption*
+				                              compTempControl.props.lowPowerConsumptionFactor;
+
 			compTempControl.operatingAtHighPower = isWorking;
 		}
 		public override string GetInspectString()
@@ -62,7 +69,7 @@ namespace RedistHeat
 			var room = vecSouth.GetRoom();
 			if (room == null)
 			{
-				Log.Warning("Trying to get northRoom of null");
+				Log.Warning("Tried to get northRoom of null.");
 				return;
 			}
 
@@ -89,17 +96,17 @@ namespace RedistHeat
 			var coldAir = GenTemperature.ControlTemperatureTempChange(vecSouth, energyLimit, compTempControl.targetTemperature);
 			isWorking = !Mathf.Approximately(coldAir, 0.0f);
 			if (!isWorking)
+			{
 				return;
+			}
 			room.Temperature += coldAir;
 
 			var hotAir = (float)(-energyLimit * 1.25 / neighDucts.Count);
 
-
-			/*if (Prefs.LogVerbose)
+			if (Mathf.Approximately(hotAir, 0.0f))
 			{
-				Log.Message("coldAir | heatPush: " + energyLimit + " | " + hotAir);
-			}*/
-			if (Mathf.Approximately(hotAir, 0.0f)) return;
+				return;
+			}
 
 			foreach (var finder in neighDucts)
 			{

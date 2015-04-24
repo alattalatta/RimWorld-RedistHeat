@@ -1,10 +1,11 @@
-﻿namespace RedistHeat
+﻿using Verse;
+
+namespace RedistHeat
 {
 	public class BuildingSmartDuctOutlet : BuildingDuctComp
 	{
 		protected override bool Validate()
 		{
-			if (RoomNorth == null) return false;
 			return (base.Validate() && ValidateTemp(RoomNorth.Temperature, CompAir.ConnectedNet.Temperature));
 		}
 		private bool ValidateTemp(float roomTemp, float netTemp)

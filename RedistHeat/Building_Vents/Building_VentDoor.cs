@@ -22,7 +22,6 @@ namespace RedistHeat
 			if (!Validate())
 				return;
 
-			Log.Message(Rotation.ToString());
 			var roomNorth = (Position + IntVec3.North.RotatedBy(Rotation)).GetRoom();
 			if (roomNorth == null) return;
 			var roomSouth = (Position + IntVec3.South.RotatedBy(Rotation)).GetRoom();

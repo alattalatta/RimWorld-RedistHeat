@@ -17,6 +17,7 @@ namespace RedistHeat
 		{
 			base.SpawnSetup();
 			CompAir = GetComp<CompAirTrader>();
+			RoomNorth = (Position + IntVec3.North.RotatedBy(Rotation)).GetRoom();
 			StaticSet.WipeExistingPipe(Position);
 		}
 		public override void ExposeData()
@@ -32,7 +33,6 @@ namespace RedistHeat
 				return;
 
 			RoomNorth = (Position + IntVec3.North.RotatedBy(Rotation)).GetRoom();
-			if (RoomNorth == null) return;
 
 			float tempEq;
 			if (RoomNorth.UsesOutdoorTemperature)
@@ -70,6 +70,7 @@ namespace RedistHeat
 		}
 		protected virtual bool Validate()
 		{
+			if (RoomNorth == null) return false;
 			return !isLocked;
 		}
 
