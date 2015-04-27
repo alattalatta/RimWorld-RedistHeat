@@ -19,8 +19,6 @@ namespace RedistHeat
 			base.Tick();
 			curTick = Find.TickManager.TicksGame;
 			if (curTick - elapTick <= 250) return;
-			if (!Validate())
-				return;
 
 			var roomNorth = (Position + IntVec3.North.RotatedBy(Rotation)).GetRoom();
 			if (roomNorth == null) return;
@@ -57,11 +55,6 @@ namespace RedistHeat
 				r.Temperature = Mathf.Max(targetTemp, r.Temperature - tempRated);
 			else if (targetTemp > r.Temperature)
 				r.Temperature = Mathf.Min(targetTemp, r.Temperature + tempRated);
-		}
-
-		private static bool Validate()
-		{
-			return true;
 		}
 	}
 }
