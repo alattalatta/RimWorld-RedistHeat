@@ -54,6 +54,7 @@
     <Compile Include="AirNetGraphic\Graphic_LinkedAirTransmitter.cs" />
     <Compile Include="AirNetGraphic\Graphic_LinkedAirTransmitterOverlay.cs" />
     <Compile Include="AirNetGraphic\AirOverlayMat.cs" />
+    <Compile Include="AirNet\AirNetManager.cs" />
     <Compile Include="AirNet\CompAirBase.cs" />
     <Compile Include="AirNet\CompAirIntersection.cs" />
     <Compile Include="AirNet\CompAirController.cs" />

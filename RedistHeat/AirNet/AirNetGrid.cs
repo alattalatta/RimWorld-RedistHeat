@@ -8,15 +8,15 @@ namespace RedistHeat
 		private static List<CompAirBase>[] _netGrid;
 		static AirNetGrid()
 		{
-			AirNetGrid._netGrid = new List<CompAirBase>[CellIndices.NumGridCells];
+			_netGrid = new List<CompAirBase>[CellIndices.NumGridCells];
 			foreach (var current in CellIndices.AllCellIndicesOnMap)
 			{
-				AirNetGrid._netGrid[current] = new List<CompAirBase>();
+				_netGrid[current] = new List<CompAirBase>();
 			}
 		}
 
 		#region Node management
-		//Register CompAirBase
+		//Register Base
 		public static void Register(CompAirBase comp)
 		{
 			if (!comp.Position.InBounds())
@@ -27,34 +27,13 @@ namespace RedistHeat
 			else
 			{
 				var index = CellIndices.CellToIndex(comp.Position);
-				if (AirNetGrid._netGrid[index] == null)
-					AirNetGrid._netGrid[index] = new List<CompAirBase>();
-				AirNetGrid._netGrid[index].Add(comp);
+				if (_netGrid[index] == null)
+					_netGrid[index] = new List<CompAirBase>();
+				_netGrid[index].Add(comp);
 			}
-			NotifyDrawerForGridUpdate(comp.Position);
+			AirNetManager.NotifyDrawerForGridUpdate(comp.Position);
 		}
 
-		//Deregister
-		public static void Deregister(CompAir comp)
-		{
-			if (!comp.Position.InBounds())
-			{
-				Log.Error(comp + " tried to de-register out of bounds at " + comp.Position);
-			}
-			else
-			{
-				var index = CellIndices.CellToIndex(comp.Position);
-				if (AirNetGrid._netGrid[index].Contains(comp))
-				{
-					AirNetGrid._netGrid[index].Remove(comp);
-				}
-			}
-			if (AirNetGrid.AirNodeAt(comp.Position) == null)
-			{
-				comp.ConnectedNet.SplitNetAt(comp);
-			}
-			NotifyDrawerForGridUpdate(comp.Position);
-		}
 		//Deregister Base
 		public static void Deregister(CompAirBase comp)
 		{
@@ -65,18 +44,12 @@ namespace RedistHeat
 			else
 			{
 				var index = CellIndices.CellToIndex(comp.Position);
-				if (AirNetGrid._netGrid[index].Contains(comp))
+				if (_netGrid[index].Contains(comp))
 				{
-					AirNetGrid._netGrid[index].Remove(comp);
+					_netGrid[index].Remove(comp);
 				}
 			}
-			NotifyDrawerForGridUpdate(comp.Position);
-		}
-
-		//Overlay drawer update
-		private static void NotifyDrawerForGridUpdate(IntVec3 pos)
-		{
-			Find.MapDrawer.MapChanged(pos, MapChangeType.PowerGrid, true, false);
+			AirNetManager.NotifyDrawerForGridUpdate(comp.Position);
 		}
 		#endregion //#region Node management
 
@@ -92,13 +65,13 @@ namespace RedistHeat
 			}
 			else
 			{
-				result = AirNetGrid._netGrid[CellIndices.CellToIndex(pos)];
+				result = _netGrid[CellIndices.CellToIndex(pos)];
 			}
 			return result;
 		}
 		public static CompAirBase AirNodeAt(IntVec3 c)
 		{
-			return AirNetGrid.AirNodeListAt(c).Find(s => true);
+			return AirNodeListAt(c).Find(s => true);
 		}
 		#endregion //#region Finders
 	}

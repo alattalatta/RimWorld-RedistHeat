@@ -42,11 +42,10 @@ namespace RedistHeat
 				}
 			}
 		}
-		public override void Tick()
+		public override void TickRare()
 		{
-			base.Tick();
-			if (Find.TickManager.TicksGame % ConstSet.E_INTERVAL_DUCT == 0)
-				MakeConnection();
+			base.TickRare();
+			MakeConnection();
 		}
 
 		public override IEnumerable<Gizmo> GetGizmos()
@@ -90,6 +89,8 @@ namespace RedistHeat
 				}
 			}
 		}
+
+		//When despawning, split
 		private static void SplitConnection(CompAir compAir)
 		{
 			compAir.ConnectedNet.SplitNetAt(compAir);

@@ -9,21 +9,21 @@ namespace RedistHeat
 		private static int _lastId;
 
 		public List<CompAir> Nodes = new List<CompAir>();
-
 		public float Temperature
 		{
 			get { return temperature; }
 			set { temperature = Mathf.Clamp(value, -270, 2000); }
 		}
-
 		public int NetId
 		{
 			get;
 			private set;
 		}
+
+		/* Constructors */
 		public AirNet()
 		{
-			NetId = checked(AirNet._lastId++);
+			NetId = checked(_lastId++);
 			temperature = GenTemperature.OutdoorTemp;
 		}
 		public AirNet(IEnumerable<CompAir> newNodes)
@@ -35,9 +35,9 @@ namespace RedistHeat
 			}
 		}
 		private AirNet(CompAir newNode)
-			: this(new List<CompAir> { newNode })
-		{
-		}
+			: this(new List<CompAir> { newNode }) { }
+
+
 		public void RegisterNode(CompAir node)
 		{
 			if (node.ConnectedNet == this)
@@ -47,12 +47,12 @@ namespace RedistHeat
 			else
 			{
 				if (node.ConnectedNet != null)
-					node.ConnectedNet.DeregisterNode(node);
-				else
 				{
-					Nodes.Add(node);
-					node.ConnectedNet = this;
+					//Deregister if the node is registered to another net
+					node.ConnectedNet.DeregisterNode(node);
 				}
+				Nodes.Add(node);
+				node.ConnectedNet = this;
 			}
 		}
 		// ReSharper disable once MemberCanBePrivate.Global
@@ -60,7 +60,8 @@ namespace RedistHeat
 		{
 			Nodes.Remove(node);
 			node.ConnectedNet = null;
-		}/*
+		}
+		/*
 		public void PushHeat(float e)
 		{
 			if(Nodes.Count == 1)
@@ -84,7 +85,7 @@ namespace RedistHeat
 				var compAir = AirNetGrid.AirNodeAt(node.Position + current) as CompAir;
 				if (compAir == null || compAir.ConnectedNet != this)
 					continue;
-				AirNet.ContiguousNodes(compAir);
+				ContiguousNodes(compAir);
 			}
 		}
 		private static AirNet ContiguousNodes(CompAir root)
@@ -99,7 +100,7 @@ namespace RedistHeat
 				var compAir = AirNetGrid.AirNodeAt(root.Position + current) as CompAir;
 				if (compAir != null && compAir.ConnectedNet == connectedNet)
 				{
-					AirNet.ContiguousNodes(compAir).MergeIntoNet(airNet);
+					ContiguousNodes(compAir).MergeIntoNet(airNet);
 				}
 			}
 			return airNet;
