@@ -45,20 +45,11 @@ namespace RedistHeat
 
 			//compAir.connectedNet.PushHeat((roomNorth.Temperature - compAir.connectedNet.Temperature) * compAir.props.energyPerSecond);
 
-			ExchangeHeatNet(tempEq, EqualizationRate);
+			CompAir.ExchangeHeatNet(tempEq, EqualizationRate);
 			if (!RoomNorth.UsesOutdoorTemperature)
 				ExchangeHeat(RoomNorth, tempEq, EqualizationRate);
 		}
 
-		private void ExchangeHeatNet(float targetTemp, float rate)
-		{
-			var tempDiff = Mathf.Abs(CompAir.ConnectedNet.Temperature - targetTemp);
-			var tempRated = tempDiff * rate;
-			if (targetTemp < CompAir.ConnectedNet.Temperature)
-				CompAir.ConnectedNet.Temperature = Mathf.Max(targetTemp, CompAir.ConnectedNet.Temperature - tempRated);
-			else if (targetTemp > CompAir.ConnectedNet.Temperature)
-				CompAir.ConnectedNet.Temperature = Mathf.Min(targetTemp, CompAir.ConnectedNet.Temperature + tempRated);
-		}
 		private static void ExchangeHeat(Room r, float targetTemp, float rate)
 		{
 			var tempDiff = Mathf.Abs(r.Temperature - targetTemp);

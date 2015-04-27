@@ -60,14 +60,14 @@ namespace RedistHeat
 		{
 			Nodes.Remove(node);
 			node.ConnectedNet = null;
-		}
+		}/*
 		public void PushHeat(float e)
 		{
 			if(Nodes.Count == 1)
 				Temperature += e / Nodes.Count;
 			else
 				Temperature += e * 2 / Nodes.Count;
-		}
+		}*/
 		public void MergeIntoNet(AirNet newNet)
 		{
 			foreach (var current in new List<CompAir>(Nodes))
