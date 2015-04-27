@@ -74,7 +74,6 @@
     <Compile Include="AirNet\CompAirTrader.cs" />
     <Compile Include="AirNet\AirNetGrid.cs" />
     <Compile Include="AirNet\AirNet.cs" />
-    <Compile Include="Misc\Interface.cs" />
     <Compile Include="Misc\StaticSet.cs" />
     <Compile Include="PlaceWorkers\PlaceWorker_DuctIntersection.cs" />
     <Compile Include="PlaceWorkers\PlaceWorker_DuctCompNorth.cs" />

@@ -13,9 +13,6 @@ namespace RedistHeat
 		public static string StringWorking = "RedistHeat_Working".Translate();
 		public static string StringNotWorking = "RedistHeat_NotWorking".Translate();
 
-		public static string StringVentOpened = "RedistHeat_Opened".Translate();
-		public static string StringVentClosed = "RedistHeat_Closed".Translate();
-
 		public static string StringWorkingDucts = "RedistHeat_WorkingDucts".Translate();
 
 		public static string StringNetworkID = "RedistHeat_NetworkID".Translate();
@@ -39,21 +36,6 @@ namespace RedistHeat
 		public static readonly Texture2D UIRefreshID = ContentFinder<Texture2D>.Get("UI/Commands/TryReconnect", true);
 
 		public static readonly Texture2D UILock = ContentFinder<Texture2D>.Get("UI/Commands/Lock", true);
-
-		public static float ControlTemperatureTempChange(Room room, float energyLimit, float targetTemperature)
-		{
-			if (room == null)
-				return 0.0f;
-			var a = targetTemperature - room.Temperature;
-			var b = energyLimit / room.CellCount;
-			return (double)energyLimit <= 0.0 ? Mathf.Min(Mathf.Max(a, b), 0.0f) : Mathf.Max(Mathf.Min(a, b), 0.0f);
-		}
-		public static float ControlTemperatureTempChange(AirNet airNet, float energyLimit, float targetTemperature)
-		{
-			var a = targetTemperature - airNet.Temperature;
-			var b = energyLimit / airNet.Nodes.Count;
-			return (double)energyLimit <= 0.0 ? Mathf.Min(Mathf.Max(a, b), 0.0f) : Mathf.Max(Mathf.Min(a, b), 0.0f);
-		}
 
 		public static void WipeExistingPipe(IntVec3 pos)
 		{
