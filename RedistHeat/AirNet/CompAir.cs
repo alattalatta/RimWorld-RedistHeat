@@ -27,7 +27,7 @@ namespace RedistHeat
 				return "No AirNet";
 			}
 			str.Append(StaticSet.StringNetworkID + ": ");
-			str.Append(ConnectedNet.NetId.ToString() + " / ");
+			str.Append(ConnectedNet.NetId + " / ");
 			str.Append(StaticSet.StringNetworkTemperature + ": ");
 			str.Append(Mathf.Round(ConnectedNet.Temperature).ToStringTemperature("F0"));
 

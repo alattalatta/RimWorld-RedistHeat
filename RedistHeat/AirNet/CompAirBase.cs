@@ -4,7 +4,7 @@ namespace RedistHeat
 {
 	public class CompAirBase : ThingComp
 	{
-		public IntVec3 Position { get; protected set; }
+		public IntVec3 Position { get; private set; }
 
 		public override void PostSpawnSetup()
 		{
