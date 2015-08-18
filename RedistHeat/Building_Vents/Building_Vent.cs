@@ -77,7 +77,7 @@ namespace RedistHeat
 		{
 			base.Draw();
 			if (isLocked)
-				OverlayDrawer.DrawOverlay(this, OverlayTypes.Locked);
+				OverlayDrawer.DrawOverlay(this, OverlayTypes.ForbiddenBig);
 		}
 		public override IEnumerable<Gizmo> GetGizmos()
 		{

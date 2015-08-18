@@ -21,7 +21,7 @@ namespace RedistHeat
 				if (!neighCell.InBounds()) continue;
 
 				var transmitter = AirNetGrid.AirNodeAt(neighCell);
-				if (transmitter == null || transmitter.parent.def.DrawsLinked) continue;
+				if (transmitter == null || transmitter.parent.def.graphicData.Linked) continue;
 
 				var mat = LinkedDrawMatFrom(thing, neighCell);
 				Printer_Plane.PrintPlane(layer, neighCell.ToVector3ShiftedWithAltitude(thing.def.Altitude), Vector2.one, mat, 0f);

@@ -49,7 +49,7 @@ namespace RedistHeat
 		{
 			if (graphicLinked != null && graphicLinked.MatSingle != null) return;
 
-			var graphicSingle = GraphicDatabase.Get<Graphic_Single>(def.graphicPath);
+			var graphicSingle = GraphicDatabase.Get<Graphic_Single>(def.graphicData.texPath);
 			graphicLinked = new GraphicLinkedAirTransmitter(graphicSingle);
 		}
 	}

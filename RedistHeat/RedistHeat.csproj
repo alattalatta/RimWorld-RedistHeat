@@ -35,9 +35,9 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Assembly-CSharp, Version=0.10.5585.27469, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Assembly-CSharp, Version=0.10.5588.26555, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>D:\1\RimWorld783Win\RimWorld783Win_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <HintPath>D:\1\RimWorld902WinDev\RimWorld902WinDev_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -47,7 +47,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>D:\1\RimWorld783Win\RimWorld783Win_Data\Managed\UnityEngine.dll</HintPath>
+      <HintPath>D:\1\RimWorld902WinDev\RimWorld902WinDev_Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

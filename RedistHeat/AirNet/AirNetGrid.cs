@@ -9,9 +9,9 @@ namespace RedistHeat
 		static AirNetGrid()
 		{
 			_netGrid = new List<CompAirBase>[CellIndices.NumGridCells];
-			foreach (var current in CellIndices.AllCellIndicesOnMap)
+			for (var i = 0; i < CellIndices.NumGridCells; i++)
 			{
-				_netGrid[current] = new List<CompAirBase>();
+				_netGrid[i] = new List<CompAirBase>();
 			}
 		}
 

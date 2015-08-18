@@ -8,7 +8,7 @@ namespace RedistHeat
 		//Overlay drawer update
 		public static void NotifyDrawerForGridUpdate(IntVec3 pos)
 		{
-			Find.MapDrawer.MapChanged(pos, MapChangeType.PowerGrid, true, false);
+			Find.MapDrawer.MapMeshDirty(pos, MapMeshFlag.PowerGrid, true, false);
 		}
 	}
 }

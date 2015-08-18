@@ -17,7 +17,7 @@ namespace RedistHeat
 			GenDraw.DrawFieldEdges(room.Cells.ToList(), GenTemperature.ColorRoomHot);
 		}
 
-		public override AcceptanceReport AllowsPlacing(EntityDef def, IntVec3 center, Rot4 rot)
+		public override AcceptanceReport AllowsPlacing(BuildableDef def, IntVec3 center, Rot4 rot)
 		{
 			var vecNorth = center + IntVec3.North.RotatedBy(rot);
 			var vecSouth = center + IntVec3.South.RotatedBy(rot);

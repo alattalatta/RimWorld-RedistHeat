@@ -28,7 +28,7 @@ namespace RedistHeat
 			}
 			else
 			{
-				if (temperature > 140f)
+				if (temperature > 120f)
 				{
 					powerMod = 0f;
 				}

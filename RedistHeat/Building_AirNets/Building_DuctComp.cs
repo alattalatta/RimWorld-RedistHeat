@@ -7,7 +7,7 @@ namespace RedistHeat
 {
 	public class BuildingDuctComp : Building_TempControl
 	{
-		private const float EqualizationRate = 0.21f;
+		private const float EqualizationRate = 0.33f;
 		private bool isLocked;
 		
 		protected CompAirTrader CompAir;
@@ -69,7 +69,7 @@ namespace RedistHeat
 		{
 			base.Draw();
 			if (isLocked)
-				OverlayDrawer.DrawOverlay(this, OverlayTypes.Locked);
+				OverlayDrawer.DrawOverlay(this, OverlayTypes.ForbiddenBig);
 		}
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
