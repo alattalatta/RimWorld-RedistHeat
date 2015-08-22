@@ -7,7 +7,7 @@ namespace RedistHeat
 {
 	public class BuildingDuctComp : Building_TempControl
 	{
-		private const float EqualizationRate = 0.67f;
+		private const float EqualizationRate = 0.85f;
 		private bool _isLocked;
 		
 		protected CompAirTrader CompAir;
@@ -18,7 +18,7 @@ namespace RedistHeat
 			base.SpawnSetup();
 			CompAir = GetComp<CompAirTrader>();
 			RoomNorth = (Position + IntVec3.North.RotatedBy(Rotation)).GetRoom();
-			StaticSet.WipeExistingPipe(Position);
+			Common.WipeExistingPipe(Position);
 		}
 		public override void ExposeData()
 		{

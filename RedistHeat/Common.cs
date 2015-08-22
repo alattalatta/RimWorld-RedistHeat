@@ -1,4 +1,5 @@
-﻿using Verse;
+﻿using System.Linq;
+using Verse;
 
 namespace RedistHeat
 {
@@ -13,6 +14,11 @@ namespace RedistHeat
 		{
 			if (Prefs.DevMode && Prefs.LogVerbose)
 				Log.Warning(str);
+		}
+		public static void WipeExistingPipe(IntVec3 pos)
+		{
+			var pipe = Find.ThingGrid.ThingsAt(pos).ToList().Find(s => s.def.defName == "RedistHeat_DuctPipe");
+			pipe?.Destroy(DestroyMode.Cancel);
 		}
 	}
 }

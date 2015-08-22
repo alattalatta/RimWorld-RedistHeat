@@ -4,14 +4,14 @@ namespace RedistHeat
 {
 	public class CompAirTrader : CompAir
 	{
-		public void ExchangeHeatWithNet(float targetTemp, float rate)
+		public void ExchangeHeatWithNet(float tempEq, float rate)
 		{
-			var tempDiff = Mathf.Abs(ConnectedNet.NetTemperature - targetTemp);
+			var tempDiff = Mathf.Abs(ConnectedNet.NetTemperature - tempEq);
 			var tempRated = tempDiff * rate * props.energyPerSecond;
-			if (targetTemp < ConnectedNet.NetTemperature)
-				ConnectedNet.NetTemperature = Mathf.Max(targetTemp, ConnectedNet.NetTemperature - tempRated);
-			else if (targetTemp > ConnectedNet.NetTemperature)
-				ConnectedNet.NetTemperature = Mathf.Min(targetTemp, ConnectedNet.NetTemperature + tempRated);
+			if (tempEq < ConnectedNet.NetTemperature)
+				ConnectedNet.NetTemperature = Mathf.Max(tempEq, ConnectedNet.NetTemperature - tempRated);
+			else if (tempEq > ConnectedNet.NetTemperature)
+				ConnectedNet.NetTemperature = Mathf.Min(tempEq, ConnectedNet.NetTemperature + tempRated);
 		}
 	}
 }
