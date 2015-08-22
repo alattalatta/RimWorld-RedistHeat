@@ -5,14 +5,14 @@ namespace RedistHeat
 {
 	public class AirNet
 	{
-		private float temperature;
+		private float _netTemperature;
 		private static int _lastId;
 
-		public List<CompAir> Nodes = new List<CompAir>();
-		public float Temperature
+		public readonly List<CompAir> Nodes = new List<CompAir>();
+		public float NetTemperature
 		{
-			get { return temperature; }
-			set { temperature = Mathf.Clamp(value, -270, 2000); }
+			get { return _netTemperature; }
+			set { _netTemperature = Mathf.Clamp(value, -270, 2000); }
 		}
 		public int NetId
 		{
@@ -24,7 +24,7 @@ namespace RedistHeat
 		public AirNet()
 		{
 			NetId = checked(_lastId++);
-			temperature = GenTemperature.OutdoorTemp;
+			_netTemperature = GenTemperature.OutdoorTemp;
 		}
 		public AirNet(IEnumerable<CompAir> newNodes)
 			: this()
@@ -46,29 +46,19 @@ namespace RedistHeat
 			}
 			else
 			{
-				if (node.ConnectedNet != null)
-				{
-					//Deregister if the node is registered to another net
-					node.ConnectedNet.DeregisterNode(node);
-				}
+				//Deregister if the node is registered to another net
+				node.ConnectedNet?.DeregisterNode(node);
 				Nodes.Add(node);
 				node.ConnectedNet = this;
 			}
 		}
-		// ReSharper disable once MemberCanBePrivate.Global
+		
 		public void DeregisterNode(CompAir node)
 		{
 			Nodes.Remove(node);
 			node.ConnectedNet = null;
 		}
-		/*
-		public void PushHeat(float e)
-		{
-			if(Nodes.Count == 1)
-				Temperature += e / Nodes.Count;
-			else
-				Temperature += e * 2 / Nodes.Count;
-		}*/
+
 		public void MergeIntoNet(AirNet newNet)
 		{
 			foreach (var current in new List<CompAir>(Nodes))
@@ -79,12 +69,14 @@ namespace RedistHeat
 		}
 		public void SplitNetAt(CompAir node)
 		{
-			//Must check inside for underneath pipe
 			foreach (var current in GenAdj.CardinalDirectionsAndInside)
 			{
 				var compAir = AirNetGrid.AirNodeAt(node.Position + current) as CompAir;
 				if (compAir == null || compAir.ConnectedNet != this)
+					//There is no net to split, or it is already done.
 					continue;
+				
+				//Make a new AirNet, starting from compAir.
 				ContiguousNodes(compAir);
 			}
 		}
@@ -92,18 +84,21 @@ namespace RedistHeat
 		{
 			var connectedNet = root.ConnectedNet;
 			connectedNet.DeregisterNode(root);
-			var airNet = new AirNet(root);
+			//Make a new.
+			var rootAirNet = new AirNet(root);
 
 			//Should check inside?
-			foreach (var current in GenAdj.CardinalDirectionsAndInside)
+			foreach (var current in GenAdj.CardinalDirections)//AndInside)
 			{
 				var compAir = AirNetGrid.AirNodeAt(root.Position + current) as CompAir;
 				if (compAir != null && compAir.ConnectedNet == connectedNet)
 				{
-					ContiguousNodes(compAir).MergeIntoNet(airNet);
+					//Child node will make a new net of its own, and it will be merged into this.
+					ContiguousNodes(compAir).MergeIntoNet(rootAirNet);
 				}
 			}
-			return airNet;
+
+			return rootAirNet;
 		}
 	}
 }

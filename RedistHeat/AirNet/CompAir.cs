@@ -19,6 +19,13 @@ namespace RedistHeat
 				ConnectedNet = new AirNet(new List<CompAir> { this });
 			}
 		}
+
+		public override void PostDeSpawn()
+		{
+			base.PostDeSpawn();
+			ConnectedNet.SplitNetAt(this);
+		}
+
 		public override string CompInspectStringExtra()
 		{
 			var str = new StringBuilder();
@@ -29,7 +36,7 @@ namespace RedistHeat
 			str.Append(StaticSet.StringNetworkID + ": ");
 			str.Append(ConnectedNet.NetId + " / ");
 			str.Append(StaticSet.StringNetworkTemperature + ": ");
-			str.Append(Mathf.Round(ConnectedNet.Temperature).ToStringTemperature("F0"));
+			str.Append(Mathf.Round(ConnectedNet.NetTemperature).ToStringTemperature("F0"));
 
 			return str.ToString();
 		}

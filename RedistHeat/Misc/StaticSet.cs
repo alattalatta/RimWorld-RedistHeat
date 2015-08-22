@@ -35,15 +35,12 @@ namespace RedistHeat
 
 		public static readonly Texture2D UIRefreshID = ContentFinder<Texture2D>.Get("UI/Commands/TryReconnect", true);
 
-		public static readonly Texture2D UILock = ContentFinder<Texture2D>.Get("UI/Commands/Lock", true);
+		public static readonly Texture2D UILock = ContentFinder<Texture2D>.Get("UI/Commands/Forbidden", true);
 
 		public static void WipeExistingPipe(IntVec3 pos)
 		{
-			foreach (var current in Find.ThingGrid.ThingsAt(pos).ToList())
-			{
-				if (current.def.defName == "RedistHeat_DuctPipe")
-					current.Destroy(DestroyMode.Cancel);
-			}
+			var pipe = Find.ThingGrid.ThingsAt(pos).ToList().Find(s => s.def.defName == "RedistHeat_DuctPipe");
+			pipe.Destroy(DestroyMode.Cancel);
 		}
 	}
 }

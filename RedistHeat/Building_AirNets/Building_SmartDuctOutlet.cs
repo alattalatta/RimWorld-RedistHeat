@@ -6,7 +6,7 @@ namespace RedistHeat
 	{
 		protected override bool Validate()
 		{
-			return (base.Validate() && ValidateTemp(RoomNorth.Temperature, CompAir.ConnectedNet.Temperature));
+			return (base.Validate() && ValidateTemp(RoomNorth.Temperature, CompAir.ConnectedNet.NetTemperature));
 		}
 		private bool ValidateTemp(float roomTemp, float netTemp)
 		{

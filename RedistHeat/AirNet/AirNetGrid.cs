@@ -3,16 +3,15 @@ using Verse;
 
 namespace RedistHeat
 {
+	/// <summary>
+	/// Manages map-wide air node grid.
+	/// </summary>
 	public static class AirNetGrid
 	{
-		private static List<CompAirBase>[] _netGrid;
+		private static readonly CompAirBase[] NetGrid;
 		static AirNetGrid()
 		{
-			_netGrid = new List<CompAirBase>[CellIndices.NumGridCells];
-			for (var i = 0; i < CellIndices.NumGridCells; i++)
-			{
-				_netGrid[i] = new List<CompAirBase>();
-			}
+			NetGrid = new CompAirBase[CellIndices.NumGridCells];
 		}
 
 		#region Node management
@@ -27,9 +26,7 @@ namespace RedistHeat
 			else
 			{
 				var index = CellIndices.CellToIndex(comp.Position);
-				if (_netGrid[index] == null)
-					_netGrid[index] = new List<CompAirBase>();
-				_netGrid[index].Add(comp);
+				NetGrid[index] = comp;
 			}
 			AirNetManager.NotifyDrawerForGridUpdate(comp.Position);
 		}
@@ -44,9 +41,9 @@ namespace RedistHeat
 			else
 			{
 				var index = CellIndices.CellToIndex(comp.Position);
-				if (_netGrid[index].Contains(comp))
+				if (NetGrid[index] == comp)
 				{
-					_netGrid[index].Remove(comp);
+					NetGrid[index] = null;
 				}
 			}
 			AirNetManager.NotifyDrawerForGridUpdate(comp.Position);
@@ -55,23 +52,12 @@ namespace RedistHeat
 
 		#region Finders
 
-		private static List<CompAirBase> AirNodeListAt(IntVec3 pos)
+		public static CompAirBase AirNodeAt(IntVec3 pos)
 		{
-			List<CompAirBase> result;
-			if (!pos.InBounds())
-			{
-				Log.Error("Got ThingsListAt out of bounds: " + pos);
-				result = new List<CompAirBase>();
-			}
-			else
-			{
-				result = _netGrid[CellIndices.CellToIndex(pos)];
-			}
-			return result;
-		}
-		public static CompAirBase AirNodeAt(IntVec3 c)
-		{
-			return AirNodeListAt(c).Find(s => true);
+			if (pos.InBounds()) return NetGrid[CellIndices.CellToIndex(pos)];
+
+			Log.Error("Got ThingsListAt out of bounds: " + pos);
+			return null;
 		}
 		#endregion //#region Finders
 	}

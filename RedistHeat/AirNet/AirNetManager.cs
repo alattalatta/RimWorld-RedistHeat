@@ -2,7 +2,7 @@
 
 namespace RedistHeat
 {
-	class AirNetManager
+	public static class AirNetManager
 	{
 
 		//Overlay drawer update

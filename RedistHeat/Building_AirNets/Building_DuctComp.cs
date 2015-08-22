@@ -7,8 +7,8 @@ namespace RedistHeat
 {
 	public class BuildingDuctComp : Building_TempControl
 	{
-		private const float EqualizationRate = 0.33f;
-		private bool isLocked;
+		private const float EqualizationRate = 0.67f;
+		private bool _isLocked;
 		
 		protected CompAirTrader CompAir;
 		protected Room RoomNorth;
@@ -23,12 +23,10 @@ namespace RedistHeat
 		public override void ExposeData()
 		{
 			base.ExposeData();
-			Scribe_Values.LookValue(ref isLocked, "isLocked", false);
+			Scribe_Values.LookValue(ref _isLocked, "isLocked", false);
 		}
 		public override void TickRare()
 		{
-			//base.Tick();
-
 			if (!Validate())
 				return;
 
@@ -39,13 +37,11 @@ namespace RedistHeat
 				tempEq = RoomNorth.Temperature;
 			else
 			{
-				tempEq = (RoomNorth.Temperature * RoomNorth.CellCount + CompAir.ConnectedNet.Temperature * CompAir.ConnectedNet.Nodes.Count)
+				tempEq = (RoomNorth.Temperature * RoomNorth.CellCount + CompAir.ConnectedNet.NetTemperature * CompAir.ConnectedNet.Nodes.Count)
 					/ (RoomNorth.CellCount + CompAir.ConnectedNet.Nodes.Count);
 			}
 
-			//compAir.connectedNet.PushHeat((roomNorth.Temperature - compAir.connectedNet.Temperature) * compAir.props.energyPerSecond);
-
-			CompAir.ExchangeHeatNet(tempEq, EqualizationRate);
+			CompAir.ExchangeHeatWithNet(tempEq, EqualizationRate);
 			if (!RoomNorth.UsesOutdoorTemperature)
 				ExchangeHeat(RoomNorth, tempEq, EqualizationRate);
 		}
@@ -62,13 +58,13 @@ namespace RedistHeat
 		protected virtual bool Validate()
 		{
 			if (RoomNorth == null) return false;
-			return !isLocked;
+			return !_isLocked;
 		}
 
 		public override void Draw()
 		{
 			base.Draw();
-			if (isLocked)
+			if (_isLocked)
 				OverlayDrawer.DrawOverlay(this, OverlayTypes.ForbiddenBig);
 		}
 		public override IEnumerable<Gizmo> GetGizmos()
@@ -85,8 +81,8 @@ namespace RedistHeat
 				hotKey = KeyBindingDefOf.CommandItemForbid,
 				icon = StaticSet.UILock,
 				groupKey = 912515,
-				isActive = () => isLocked,
-				toggleAction = () => isLocked = !isLocked
+				isActive = () => _isLocked,
+				toggleAction = () => _isLocked = !_isLocked
 			};
 			yield return l;
 		}
