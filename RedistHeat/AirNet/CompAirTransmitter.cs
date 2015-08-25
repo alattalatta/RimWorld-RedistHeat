@@ -1,6 +1,6 @@
 ﻿namespace RedistHeat
 {
-	public class CompAirTransmitter : CompAir
-	{
-	}
+    public class CompAirTransmitter : CompAir
+    {
+    }
 }

@@ -2,11 +2,11 @@
 
 namespace RedistHeat
 {
-	public class CompAirIntersection : CompAirBase
-	{
-		public override void CompPrintForPowerGrid(SectionLayer layer)
-		{
-			AirOverlayMat.LinkedOverlayGraphic.Print(layer, parent);
-		}
-	}
+    public class CompAirIntersection : CompAirBase
+    {
+        public override void CompPrintForPowerGrid( SectionLayer layer )
+        {
+            AirOverlayMat.LinkedOverlayGraphic.Print( layer, parent );
+        }
+    }
 }
