@@ -5,86 +5,106 @@ using Verse;
 
 namespace RedistHeat
 {
-	public class BuildingDuctComp : Building_TempControl
-	{
-		private const float EqualizationRate = 0.85f;
-		private bool _isLocked;
-		
-		protected CompAirTrader CompAir;
-		protected Room RoomNorth;
+    public class BuildingDuctComp : Building_TempControl
+    {
+        private const float EqualizationRate = 0.85f;
+        private bool isLocked;
 
-		public override void SpawnSetup()
-		{
-			base.SpawnSetup();
-			CompAir = GetComp<CompAirTrader>();
-			RoomNorth = (Position + IntVec3.North.RotatedBy(Rotation)).GetRoom();
-			Common.WipeExistingPipe(Position);
-		}
-		public override void ExposeData()
-		{
-			base.ExposeData();
-			Scribe_Values.LookValue(ref _isLocked, "isLocked", false);
-		}
-		public override void TickRare()
-		{
-			if (!Validate())
-				return;
+        protected CompAirTrader compAir;
+        protected Room roomNorth;
 
-			RoomNorth = (Position + IntVec3.North.RotatedBy(Rotation)).GetRoom();
+        public override void SpawnSetup()
+        {
+            base.SpawnSetup();
+            compAir = GetComp< CompAirTrader >();
+            roomNorth = (Position + IntVec3.North.RotatedBy( Rotation )).GetRoom();
+            Common.WipeExistingPipe( Position );
+        }
 
-			float tempEq;
-			if (RoomNorth.UsesOutdoorTemperature)
-				tempEq = RoomNorth.Temperature;
-			else
-			{
-				tempEq = (RoomNorth.Temperature * RoomNorth.CellCount + CompAir.ConnectedNet.NetTemperature * CompAir.ConnectedNet.Nodes.Count)
-					/ (RoomNorth.CellCount + CompAir.ConnectedNet.Nodes.Count);
-			}
+        public override void ExposeData()
+        {
+            base.ExposeData();
+            Scribe_Values.LookValue( ref isLocked, "isLocked", false );
+        }
 
-			CompAir.ExchangeHeatWithNet(tempEq, EqualizationRate);
-			if (!RoomNorth.UsesOutdoorTemperature)
-				ExchangeHeat(RoomNorth, tempEq, EqualizationRate);
-		}
+        public override void TickRare()
+        {
+            if ( !Validate() )
+            {
+                return;
+            }
 
-		private static void ExchangeHeat(Room r, float targetTemp, float rate)
-		{
-			var tempDiff = Mathf.Abs(r.Temperature - targetTemp);
-			var tempRated = tempDiff * rate;
-			if (targetTemp < r.Temperature)
-				r.Temperature = Mathf.Max(targetTemp, r.Temperature - tempRated);
-			else if (targetTemp > r.Temperature)
-				r.Temperature = Mathf.Min(targetTemp, r.Temperature + tempRated);
-		}
-		protected virtual bool Validate()
-		{
-			if (RoomNorth == null) return false;
-			return !_isLocked;
-		}
+            roomNorth = (Position + IntVec3.North.RotatedBy( Rotation )).GetRoom();
 
-		public override void Draw()
-		{
-			base.Draw();
-			if (_isLocked)
-				OverlayDrawer.DrawOverlay(this, OverlayTypes.ForbiddenBig);
-		}
-		public override IEnumerable<Gizmo> GetGizmos()
-		{
-			foreach (var g in base.GetGizmos())
-			{
-				yield return g;
-			}
+            float tempEq;
+            if ( roomNorth.UsesOutdoorTemperature )
+            {
+                tempEq = roomNorth.Temperature;
+            }
+            else
+            {
+                tempEq = (roomNorth.Temperature*roomNorth.CellCount +
+                          compAir.connectedNet.NetTemperature*compAir.connectedNet.nodes.Count)
+                         /(roomNorth.CellCount + compAir.connectedNet.nodes.Count);
+            }
 
-			var l = new Command_Toggle
-			{
-				defaultLabel = StaticSet.StringUILockLabel,
-				defaultDesc = StaticSet.StringUILockDesc,
-				hotKey = KeyBindingDefOf.CommandItemForbid,
-				icon = StaticSet.UILock,
-				groupKey = 912515,
-				isActive = () => _isLocked,
-				toggleAction = () => _isLocked = !_isLocked
-			};
-			yield return l;
-		}
-	}
+            compAir.ExchangeHeatWithNet( tempEq, EqualizationRate );
+            if ( !roomNorth.UsesOutdoorTemperature )
+            {
+                ExchangeHeat( roomNorth, tempEq, EqualizationRate );
+            }
+        }
+
+        private static void ExchangeHeat( Room r, float targetTemp, float rate )
+        {
+            var tempDiff = Mathf.Abs( r.Temperature - targetTemp );
+            var tempRated = tempDiff*rate;
+            if ( targetTemp < r.Temperature )
+            {
+                r.Temperature = Mathf.Max( targetTemp, r.Temperature - tempRated );
+            }
+            else if ( targetTemp > r.Temperature )
+            {
+                r.Temperature = Mathf.Min( targetTemp, r.Temperature + tempRated );
+            }
+        }
+
+        protected virtual bool Validate()
+        {
+            if ( roomNorth == null )
+            {
+                return false;
+            }
+            return !isLocked;
+        }
+
+        public override void Draw()
+        {
+            base.Draw();
+            if ( isLocked )
+            {
+                OverlayDrawer.DrawOverlay( this, OverlayTypes.ForbiddenBig );
+            }
+        }
+
+        public override IEnumerable< Gizmo > GetGizmos()
+        {
+            foreach ( var g in base.GetGizmos() )
+            {
+                yield return g;
+            }
+
+            var l = new Command_Toggle
+            {
+                defaultLabel = StaticSet.StringUILockLabel,
+                defaultDesc = StaticSet.StringUILockDesc,
+                hotKey = KeyBindingDefOf.CommandItemForbid,
+                icon = StaticSet.UILock,
+                groupKey = 912515,
+                isActive = () => isLocked,
+                toggleAction = () => isLocked = !isLocked
+            };
+            yield return l;
+        }
+    }
 }

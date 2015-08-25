@@ -4,59 +4,69 @@ using Verse;
 
 namespace RedistHeat
 {
-	public class BuildingDuctPipe : Building
-	{
-		private CompAirTransmitter _compAir;
-		private GraphicLinkedAirTransmitter _graphicLinked;
+    public class BuildingDuctPipe : Building
+    {
+        private CompAirTransmitter compAir;
+        private GraphicLinkedAirTransmitter graphicLinked;
 
-		public override Graphic Graphic
-		{
-			get
-			{
-				if (_graphicLinked?.MatSingle != null) return _graphicLinked;
-				
-				GetGraphic();
-				if (_graphicLinked?.MatSingle != null) return _graphicLinked;
+        public override Graphic Graphic
+        {
+            get
+            {
+                if ( graphicLinked?.MatSingle != null )
+                {
+                    return graphicLinked;
+                }
 
-				return def.graphic;
-			}
-		}
-		public override void SpawnSetup()
-		{
-			base.SpawnSetup();
-			GetGraphic();
-			_compAir = GetComp<CompAirTransmitter>();
-		}
+                GetGraphic();
+                if ( graphicLinked?.MatSingle != null )
+                {
+                    return graphicLinked;
+                }
 
-		public override void DeSpawn()
-		{
-			base.DeSpawn();
-		}
+                return def.graphic;
+            }
+        }
 
-		public override IEnumerable<Gizmo> GetGizmos()
-		{
-			foreach (var g in base.GetGizmos())
-			{
-				yield return g;
-			}
+        public override void SpawnSetup()
+        {
+            base.SpawnSetup();
+            GetGraphic();
+            compAir = GetComp< CompAirTransmitter >();
+        }
 
-			var l = new Command_Action
-			{
-				defaultLabel = StaticSet.StringUIRefreshIDLabel,
-				defaultDesc = StaticSet.StringUIRefreshIDDesc,
-				hotKey = KeyBindingDefOf.CommandTogglePower,
-				icon = StaticSet.UIRefreshID,
-				action = () => _compAir.TryConnectTo()
-			};
-			yield return l;
-		}
+        public override void DeSpawn()
+        {
+            base.DeSpawn();
+        }
 
-		private void GetGraphic()
-		{
-			if (_graphicLinked != null && _graphicLinked.MatSingle != null) return;
+        public override IEnumerable< Gizmo > GetGizmos()
+        {
+            foreach ( var g in base.GetGizmos() )
+            {
+                yield return g;
+            }
 
-			var graphicSingle = GraphicDatabase.Get<Graphic_Single>(def.graphicData.texPath);
-			_graphicLinked = new GraphicLinkedAirTransmitter(graphicSingle);
-		}
-	}
+            var l = new Command_Action
+            {
+                defaultLabel = StaticSet.StringUIRefreshIDLabel,
+                defaultDesc = StaticSet.StringUIRefreshIDDesc,
+                hotKey = KeyBindingDefOf.CommandTogglePower,
+                icon = StaticSet.UIRefreshID,
+                action = () => compAir.TryConnectTo()
+            };
+            yield return l;
+        }
+
+        private void GetGraphic()
+        {
+            if ( graphicLinked != null && graphicLinked.MatSingle != null )
+            {
+                return;
+            }
+
+            var graphicSingle = GraphicDatabase.Get< Graphic_Single >( def.graphicData.texPath );
+            graphicLinked = new GraphicLinkedAirTransmitter( graphicSingle );
+        }
+    }
 }
