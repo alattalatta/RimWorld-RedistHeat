@@ -6,12 +6,12 @@ namespace RedistHeat
 	{
 		public void ExchangeHeatWithNet(float tempEq, float rate)
 		{
-			var tempDiff = Mathf.Abs(ConnectedNet.NetTemperature - tempEq);
+			var tempDiff = Mathf.Abs(connectedNet.NetTemperature - tempEq);
 			var tempRated = tempDiff * rate * props.energyPerSecond;
-			if (tempEq < ConnectedNet.NetTemperature)
-				ConnectedNet.NetTemperature = Mathf.Max(tempEq, ConnectedNet.NetTemperature - tempRated);
-			else if (tempEq > ConnectedNet.NetTemperature)
-				ConnectedNet.NetTemperature = Mathf.Min(tempEq, ConnectedNet.NetTemperature + tempRated);
+			if (tempEq < connectedNet.NetTemperature)
+				connectedNet.NetTemperature = Mathf.Max(tempEq, connectedNet.NetTemperature - tempRated);
+			else if (tempEq > connectedNet.NetTemperature)
+				connectedNet.NetTemperature = Mathf.Min(tempEq, connectedNet.NetTemperature + tempRated);
 		}
 	}
 }

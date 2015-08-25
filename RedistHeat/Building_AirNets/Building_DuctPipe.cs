@@ -6,17 +6,17 @@ namespace RedistHeat
 {
 	public class BuildingDuctPipe : Building
 	{
-		private CompAirTransmitter _compAir;
-		private GraphicLinkedAirTransmitter _graphicLinked;
+		private CompAirTransmitter compAir;
+		private GraphicLinkedAirTransmitter graphicLinked;
 
 		public override Graphic Graphic
 		{
 			get
 			{
-				if (_graphicLinked?.MatSingle != null) return _graphicLinked;
+				if (graphicLinked?.MatSingle != null) return graphicLinked;
 				
 				GetGraphic();
-				if (_graphicLinked?.MatSingle != null) return _graphicLinked;
+				if (graphicLinked?.MatSingle != null) return graphicLinked;
 
 				return def.graphic;
 			}
@@ -25,7 +25,7 @@ namespace RedistHeat
 		{
 			base.SpawnSetup();
 			GetGraphic();
-			_compAir = GetComp<CompAirTransmitter>();
+			compAir = GetComp<CompAirTransmitter>();
 		}
 
 		public override void DeSpawn()
@@ -46,17 +46,17 @@ namespace RedistHeat
 				defaultDesc = StaticSet.StringUIRefreshIDDesc,
 				hotKey = KeyBindingDefOf.CommandTogglePower,
 				icon = StaticSet.UIRefreshID,
-				action = () => _compAir.TryConnectTo()
+				action = () => compAir.TryConnectTo()
 			};
 			yield return l;
 		}
 
 		private void GetGraphic()
 		{
-			if (_graphicLinked != null && _graphicLinked.MatSingle != null) return;
+			if (graphicLinked != null && graphicLinked.MatSingle != null) return;
 
 			var graphicSingle = GraphicDatabase.Get<Graphic_Single>(def.graphicData.texPath);
-			_graphicLinked = new GraphicLinkedAirTransmitter(graphicSingle);
+			graphicLinked = new GraphicLinkedAirTransmitter(graphicSingle);
 		}
 	}
 }

@@ -9,18 +9,18 @@ namespace RedistHeat
 {
 	public class CompAirController : CompAirTrader
 	{
-		public float TargetTemperature = 21f;
+		public float targetTemperature = 21f;
 
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
-			Scribe_Values.LookValue(ref TargetTemperature, "targetTemperature", 0f);
+			Scribe_Values.LookValue(ref targetTemperature, "targetTemperature", 0f);
 		}
 		public override string CompInspectStringExtra()
 		{
 			var str = new StringBuilder();
 			str.Append(StaticSet.StringTargetTemperature + ": ");
-			str.AppendLine(TargetTemperature.ToStringTemperature("F0"));
+			str.AppendLine(targetTemperature.ToStringTemperature("F0"));
 
 			str.Append(base.CompInspectStringExtra());
 			return str.ToString();
@@ -55,7 +55,7 @@ namespace RedistHeat
 				defaultLabel = "CommandResetTemp".Translate(),
 				defaultDesc = "CommandResetTempDesc".Translate(),
 				icon = StaticSet.UITempReset,
-				action = () => TargetTemperature = 21f
+				action = () => targetTemperature = 21f
 			};
 			yield return s;
 
@@ -84,13 +84,13 @@ namespace RedistHeat
 				SoundDefOf.AmountIncrement.PlayOneShotOnCamera();
 			else
 				SoundDefOf.AmountDecrement.PlayOneShotOnCamera();
-			TargetTemperature += offset;
-			TargetTemperature = Mathf.Clamp(TargetTemperature, -270f, 2000f);
+			targetTemperature += offset;
+			targetTemperature = Mathf.Clamp(targetTemperature, -270f, 2000f);
 			ThrowCurrentTemperatureText();
 		}
 		private void ThrowCurrentTemperatureText()
 		{
-			MoteThrower.ThrowText(parent.TrueCenter() + new Vector3(0.5f, 0f, 0.5f), TargetTemperature.ToStringTemperature("F0"), Color.white);
+			MoteThrower.ThrowText(parent.TrueCenter() + new Vector3(0.5f, 0f, 0.5f), targetTemperature.ToStringTemperature("F0"), Color.white);
 		}
 	}
 }

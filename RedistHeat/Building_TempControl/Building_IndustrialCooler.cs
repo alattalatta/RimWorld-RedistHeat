@@ -132,7 +132,7 @@ namespace RedistHeat
 			var list2 = new List<BuildingExhaustPort>();
 			foreach (var finder in list)
 			{
-				if (finder.IsAvailable)
+				if (finder.isAvailable)
 				{
 					list2.Add(finder);
 				}

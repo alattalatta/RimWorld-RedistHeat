@@ -9,12 +9,12 @@ namespace RedistHeat
 		{
 			base.SpawnSetup();
 			compPowerTrader = GetComp<CompPowerTrader>();
-			RoomNorth = (Position + IntVec3.North.RotatedBy(Rotation)).GetRoom();
-			RoomSouth = (Position + IntVec3.South.RotatedBy(Rotation)).GetRoom();
+			roomNorth = (Position + IntVec3.North.RotatedBy(Rotation)).GetRoom();
+			roomSouth = (Position + IntVec3.South.RotatedBy(Rotation)).GetRoom();
 		}
 		protected override bool Validate()
 		{
-			return (base.Validate() && compPowerTrader.PowerOn && ValidateTemp(RoomNorth.Temperature, RoomSouth.Temperature));
+			return (base.Validate() && compPowerTrader.PowerOn && ValidateTemp(roomNorth.Temperature, roomSouth.Temperature));
 		}
 		private bool ValidateTemp(float controlled, float other)
 		{

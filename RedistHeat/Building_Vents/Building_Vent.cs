@@ -10,7 +10,7 @@ namespace RedistHeat
 		private const float EqualizationRate = 0.25f;
 		private bool isLocked;
 
-		protected Room RoomNorth, RoomSouth;
+		protected Room roomNorth, roomSouth;
 
 		public override void ExposeData()
 		{
@@ -24,37 +24,37 @@ namespace RedistHeat
 				return;
 			}
 
-			RoomNorth = (Position + IntVec3.North.RotatedBy(Rotation)).GetRoom();
-			if (RoomNorth == null)
+			roomNorth = (Position + IntVec3.North.RotatedBy(Rotation)).GetRoom();
+			if (roomNorth == null)
 			{
 				return;
 			}
-			RoomSouth = (Position + IntVec3.South.RotatedBy(Rotation)).GetRoom();
-			if (RoomSouth == null)
+			roomSouth = (Position + IntVec3.South.RotatedBy(Rotation)).GetRoom();
+			if (roomSouth == null)
 			{
 				return;
 			}
 
-			if (RoomNorth == RoomSouth || (RoomNorth.UsesOutdoorTemperature && RoomSouth.UsesOutdoorTemperature))
+			if (roomNorth == roomSouth || (roomNorth.UsesOutdoorTemperature && roomSouth.UsesOutdoorTemperature))
 			{
 				return;
 			}
 
 			float tempEq;
-			if (RoomNorth.UsesOutdoorTemperature)
-				tempEq = RoomNorth.Temperature;
-			else if (RoomSouth.UsesOutdoorTemperature)
-				tempEq = RoomSouth.Temperature;
+			if (roomNorth.UsesOutdoorTemperature)
+				tempEq = roomNorth.Temperature;
+			else if (roomSouth.UsesOutdoorTemperature)
+				tempEq = roomSouth.Temperature;
 			else
 			{
-				tempEq = (RoomNorth.Temperature * RoomNorth.CellCount + RoomSouth.Temperature * RoomSouth.CellCount)
-					/ (RoomNorth.CellCount + RoomSouth.CellCount);
+				tempEq = (roomNorth.Temperature * roomNorth.CellCount + roomSouth.Temperature * roomSouth.CellCount)
+					/ (roomNorth.CellCount + roomSouth.CellCount);
 			}
 
-			if(!RoomNorth.UsesOutdoorTemperature)
-				ExchangeHeat(RoomNorth, tempEq, EqualizationRate);
-			if(!RoomSouth.UsesOutdoorTemperature)
-				ExchangeHeat(RoomSouth, tempEq, EqualizationRate);
+			if(!roomNorth.UsesOutdoorTemperature)
+				ExchangeHeat(roomNorth, tempEq, EqualizationRate);
+			if(!roomSouth.UsesOutdoorTemperature)
+				ExchangeHeat(roomSouth, tempEq, EqualizationRate);
 			
 		}
 

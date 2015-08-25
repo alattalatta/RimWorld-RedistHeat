@@ -8,42 +8,42 @@ namespace RedistHeat
 	public class BuildingDuctComp : Building_TempControl
 	{
 		private const float EqualizationRate = 0.85f;
-		private bool _isLocked;
+		private bool isLocked;
 		
-		protected CompAirTrader CompAir;
-		protected Room RoomNorth;
+		protected CompAirTrader compAir;
+		protected Room roomNorth;
 
 		public override void SpawnSetup()
 		{
 			base.SpawnSetup();
-			CompAir = GetComp<CompAirTrader>();
-			RoomNorth = (Position + IntVec3.North.RotatedBy(Rotation)).GetRoom();
+			compAir = GetComp<CompAirTrader>();
+			roomNorth = (Position + IntVec3.North.RotatedBy(Rotation)).GetRoom();
 			Common.WipeExistingPipe(Position);
 		}
 		public override void ExposeData()
 		{
 			base.ExposeData();
-			Scribe_Values.LookValue(ref _isLocked, "isLocked", false);
+			Scribe_Values.LookValue(ref isLocked, "isLocked", false);
 		}
 		public override void TickRare()
 		{
 			if (!Validate())
 				return;
 
-			RoomNorth = (Position + IntVec3.North.RotatedBy(Rotation)).GetRoom();
+			roomNorth = (Position + IntVec3.North.RotatedBy(Rotation)).GetRoom();
 
 			float tempEq;
-			if (RoomNorth.UsesOutdoorTemperature)
-				tempEq = RoomNorth.Temperature;
+			if (roomNorth.UsesOutdoorTemperature)
+				tempEq = roomNorth.Temperature;
 			else
 			{
-				tempEq = (RoomNorth.Temperature * RoomNorth.CellCount + CompAir.ConnectedNet.NetTemperature * CompAir.ConnectedNet.Nodes.Count)
-					/ (RoomNorth.CellCount + CompAir.ConnectedNet.Nodes.Count);
+				tempEq = (roomNorth.Temperature * roomNorth.CellCount + compAir.connectedNet.NetTemperature * compAir.connectedNet.nodes.Count)
+					/ (roomNorth.CellCount + compAir.connectedNet.nodes.Count);
 			}
 
-			CompAir.ExchangeHeatWithNet(tempEq, EqualizationRate);
-			if (!RoomNorth.UsesOutdoorTemperature)
-				ExchangeHeat(RoomNorth, tempEq, EqualizationRate);
+			compAir.ExchangeHeatWithNet(tempEq, EqualizationRate);
+			if (!roomNorth.UsesOutdoorTemperature)
+				ExchangeHeat(roomNorth, tempEq, EqualizationRate);
 		}
 
 		private static void ExchangeHeat(Room r, float targetTemp, float rate)
@@ -57,14 +57,14 @@ namespace RedistHeat
 		}
 		protected virtual bool Validate()
 		{
-			if (RoomNorth == null) return false;
-			return !_isLocked;
+			if (roomNorth == null) return false;
+			return !isLocked;
 		}
 
 		public override void Draw()
 		{
 			base.Draw();
-			if (_isLocked)
+			if (isLocked)
 				OverlayDrawer.DrawOverlay(this, OverlayTypes.ForbiddenBig);
 		}
 		public override IEnumerable<Gizmo> GetGizmos()
@@ -81,8 +81,8 @@ namespace RedistHeat
 				hotKey = KeyBindingDefOf.CommandItemForbid,
 				icon = StaticSet.UILock,
 				groupKey = 912515,
-				isActive = () => _isLocked,
-				toggleAction = () => _isLocked = !_isLocked
+				isActive = () => isLocked,
+				toggleAction = () => isLocked = !isLocked
 			};
 			yield return l;
 		}

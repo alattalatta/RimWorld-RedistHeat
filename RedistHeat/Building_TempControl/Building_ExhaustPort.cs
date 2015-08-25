@@ -8,7 +8,7 @@ namespace RedistHeat
 	{
 		public IntVec3 VecNorth { get; private set; }
 		public IntVec3 VecSouth { get; private set; }
-		public bool IsAvailable;
+		public bool isAvailable;
 
 		private BuildingIndustrialCooler neighCooler;
 
@@ -25,12 +25,12 @@ namespace RedistHeat
 			neighCooler = AdjacentCooler();
 			if (compPowerTrader.PowerOn && neighCooler != null && !VecNorth.Impassable())
 			{
-				IsAvailable = true;
+				isAvailable = true;
 				compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption;
 			}
 			else
 			{
-				IsAvailable = false;
+				isAvailable = false;
 				compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption * 0.1f;
 			}
 		}
@@ -40,7 +40,7 @@ namespace RedistHeat
 			str.AppendLine(base.GetInspectString());
 			str.Append(StaticSet.StringState + " ");
 
-			str.Append(IsAvailable ? StaticSet.StringWorking : StaticSet.StringNotWorking);
+			str.Append(isAvailable ? StaticSet.StringWorking : StaticSet.StringNotWorking);
 
 			return str.ToString();
 		}
