@@ -49,7 +49,7 @@ namespace RedistHeat
                     }
                 }
 
-                if ( compAir.IsLayerOf( NetLayer.Upper ) )
+                else if ( compAir.IsLayerOf( NetLayer.Upper ) )
                 {
                     var upperTransmitter = neighCell.GetAirTransmitter( NetLayer.Upper );
                     if ( upperTransmitter != null && !upperTransmitter.def.graphicData.Linked )

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
@@ -15,23 +16,21 @@ namespace RedistHeat
 
             TransmitterShader = ShaderDatabase.MetaOverlay;
 
-            var graphicLower = GraphicDatabase.Get< Graphic_Single >( "Things/Special/AirPipeOverlayUpper", TransmitterShader );
-            var graphicUpper = GraphicDatabase.Get< Graphic_Single >( "Things/Special/AirPipeOverlayLower", TransmitterShader );
+            var graphicLower = GraphicDatabase.Get< Graphic_Single >( "Things/Special/AirPipeOverlayLower", TransmitterShader );
+            var graphicUpper = GraphicDatabase.Get< Graphic_Single >( "Things/Special/AirPipeOverlayUpper", TransmitterShader );
             LinkedOverlayGraphic[(int) NetLayer.Lower] = new Grahpic_LinkedAirPipeOverlay( graphicLower );
             LinkedOverlayGraphic[(int) NetLayer.Upper] = new Grahpic_LinkedAirPipeOverlay( graphicUpper );
             graphicLower.MatSingle.renderQueue = 3800;
             graphicUpper.MatSingle.renderQueue = 4000;
         }
 
-        public static IEnumerable<Graphic> GetLayeredOverlayGraphics( CompAir compAir )
+        public static Graphic GetLayeredOverlayGraphic( CompAir compAir )
         {
-            var graphics = new List< Graphic >();
             if ( compAir.IsLayerOf( NetLayer.Lower ) )
-                graphics.Add( LinkedOverlayGraphic[(int) NetLayer.Lower] );
+                return LinkedOverlayGraphic[(int) NetLayer.Lower];
             if ( compAir.IsLayerOf( NetLayer.Upper ) )
-                graphics.Add( LinkedOverlayGraphic[(int) NetLayer.Upper] );
-
-            return graphics;
+                return LinkedOverlayGraphic[(int) NetLayer.Upper];
+            throw new ArgumentOutOfRangeException(nameof( compAir ), "LT-RH: compAir has no valid net layer!");
         }
     }
 }

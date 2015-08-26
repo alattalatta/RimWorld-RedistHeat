@@ -8,20 +8,12 @@ namespace RedistHeat
 {
     public class CompAir : ThingComp
     {
-        public AirNet []connectedNet = new AirNet[Common.NetLayerCount()];
+        public AirNet connectedNet;
         public NetLayer currentLayer = NetLayer.Lower;
 
         public virtual bool IsLayerOf( NetLayer ly )
         {
             return currentLayer == ly;
-        }
-
-        public virtual void ResetAirVars()
-        {
-            for(var i = 0; i < Common.NetLayerCount(); i++)
-                connectedNet[i] = null;
-
-            currentLayer = NetLayer.Lower;
         }
 
         public override void PostSpawnSetup()
@@ -38,22 +30,19 @@ namespace RedistHeat
 
         public override void CompPrintForPowerGrid( SectionLayer layer )
         {
-            foreach(var current in AirOverlayMat.GetLayeredOverlayGraphics( this ))
-                current.Print( layer, parent );
+            AirOverlayMat.GetLayeredOverlayGraphic( this ).Print( layer, parent );
         }
 
         public override string CompInspectStringExtra()
         {
+            OverlayDrawHandler.DrawPowerGridOverlayThisFrame();
             var result = new StringBuilder();
-            if ( connectedNet[(int) NetLayer.Lower] == null )
+            result.Append( ResourceBank.CurrentConnectionChannel.Translate(currentLayer.ToStringTranslated()) );
+
+            result.Append(ResourceBank.CurrentConnectedNetTemp);
+            if ( connectedNet != null )
             {
-                result.Append( ResourceBank.StringLowerNetTemperature + ": " );
-                result.Append( Mathf.Round( connectedNet[(int) NetLayer.Lower].NetTemperature).ToStringTemperature( "F0" ) );
-            }
-            if ( connectedNet[(int)NetLayer.Upper] == null )
-            {
-                result.Append(ResourceBank.StringUpperNetTemperature + ": ");
-                result.Append( Mathf.Round( connectedNet[(int) NetLayer.Upper].NetTemperature ).ToStringTemperature( "F0" ) );
+                result.Append( Mathf.Round( connectedNet.NetTemperature).ToStringTemperature( "F0" ) );
             }
 
             return result.ToString();
@@ -61,21 +50,19 @@ namespace RedistHeat
 
         public override IEnumerable< Command > CompGetGizmosExtra()
         {
+            var iconTex = currentLayer == NetLayer.Lower ? ResourceBank.UILower : ResourceBank.UIUpper;
             var com = new Command_Action()
             {
-                defaultLabel  = ResourceBank.StringCycleLayerLabel,
-                defaultDesc   = ResourceBank.StringCycleLayerDesc,
-                icon          = Texture2D.blackTexture,
-                activateSound = SoundDef.Named( "DesignatePlaceBuilding" ),
+                defaultLabel  = ResourceBank.CycleLayerLabel,
+                defaultDesc   = ResourceBank.CycleLayerDesc,
+                icon          = iconTex,
+                activateSound = SoundDef.Named( "DesignateMine" ),
                 hotKey        = KeyBindingDefOf.CommandColonistDraft,
                 action        = () =>
                 {
                     var oldLayer = currentLayer;
-                    var nextLayerInt = (int)oldLayer + 1;
-                    if ( nextLayerInt == Common.NetLayerCount() )
-                        nextLayerInt = 0;
-
-                    currentLayer = (NetLayer) nextLayerInt;
+                    currentLayer = currentLayer == NetLayer.Lower ? NetLayer.Upper : NetLayer.Lower;
+                    MoteThrower.ThrowText( parent.Position.ToVector3Shifted(), ResourceBank.CycleLayerMote.Translate(currentLayer.ToStringTranslated()) );
                     AirNetManager.NotifyCompLayerChange( this, oldLayer );
                 }
             };

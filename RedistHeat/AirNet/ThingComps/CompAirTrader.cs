@@ -6,17 +6,15 @@ namespace RedistHeat
     {
         public void ExchangeHeatWithNets( float tempEq, float rate )
         {
-            var targNet = connectedNet[(int) currentLayer];
-
-            var tempDiff = Mathf.Abs( targNet.NetTemperature - tempEq );
+            var tempDiff = Mathf.Abs( connectedNet.NetTemperature - tempEq );
             var tempRated = tempDiff*rate*props.energyPerSecond;
-            if ( tempEq < targNet.NetTemperature )
+            if ( tempEq < connectedNet.NetTemperature )
             {
-                targNet.NetTemperature = Mathf.Max( tempEq, targNet.NetTemperature - tempRated );
+                connectedNet.NetTemperature = Mathf.Max( tempEq, connectedNet.NetTemperature - tempRated );
             }
-            else if ( tempEq > targNet.NetTemperature )
+            else if ( tempEq > connectedNet.NetTemperature )
             {
-                targNet.NetTemperature = Mathf.Min( tempEq, targNet.NetTemperature + tempRated );
+                connectedNet.NetTemperature = Mathf.Min( tempEq, connectedNet.NetTemperature + tempRated );
             }
         }
     }

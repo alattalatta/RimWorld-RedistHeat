@@ -34,7 +34,7 @@ namespace RedistHeat
                 return;
             }
 
-            var sourceNet = compAir.connectedNet[(int) compAir.currentLayer];
+            var connectedNet = compAir.connectedNet;
             roomNorth = (Position + IntVec3.North.RotatedBy( Rotation )).GetRoom();
 
             float tempEq;
@@ -45,8 +45,8 @@ namespace RedistHeat
             else
             {
                 tempEq = (roomNorth.Temperature*roomNorth.CellCount +
-                          sourceNet.NetTemperature*sourceNet.nodes.Count)
-                         /(roomNorth.CellCount + sourceNet.nodes.Count);
+                          connectedNet.NetTemperature*connectedNet.nodes.Count)
+                         /(roomNorth.CellCount + connectedNet.nodes.Count);
             }
 
             compAir.ExchangeHeatWithNets( tempEq, EqualizationRate );

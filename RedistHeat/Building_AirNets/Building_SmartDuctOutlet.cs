@@ -4,8 +4,7 @@
     {
         protected override bool Validate()
         {
-            var sourceNet = compAir.connectedNet[(int) compAir.currentLayer];
-            return (base.Validate() && ValidateTemp( roomNorth.Temperature, sourceNet.NetTemperature ));
+            return (base.Validate() && ValidateTemp( roomNorth.Temperature, compAir.connectedNet.NetTemperature ));
         }
 
         private bool ValidateTemp( float roomTemp, float netTemp )

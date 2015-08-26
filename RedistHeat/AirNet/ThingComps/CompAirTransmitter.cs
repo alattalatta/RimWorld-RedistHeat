@@ -30,7 +30,7 @@ namespace RedistHeat
 
         public override IEnumerable< Command > CompGetGizmosExtra()
         {
-            return null;
+            yield break;
         }
     }
 }

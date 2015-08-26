@@ -15,6 +15,10 @@ namespace RedistHeat
         {
             return Enum.GetValues(typeof(NetLayer)).Length;
         }
+        public static string ToStringTranslated( this NetLayer layer )
+        {
+            return ("RedistHeat_" + layer + "ChannelTranslated").Translate();
+        }
         public static void WipeExistingPipe( IntVec3 pos )
         {
             var pipe =

@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>D:\1\RimWorld906Win\Mods\LT_RedistHeat\Assemblies\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -26,7 +26,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>D:\1\RimWorld906Win\Mods\LT_RedistHeat\Assemblies\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -51,8 +51,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AirNetGraphic\Graphic_LinkedAirTransmitter.cs" />
-    <Compile Include="AirNetGraphic\Graphic_LinkedAirTransmitterOverlay.cs" />
+    <Compile Include="AirNetGraphic\Graphic_LinkedAirPipe.cs" />
+    <Compile Include="AirNetGraphic\Graphic_LinkedAirPipeOverlay.cs" />
     <Compile Include="AirNetGraphic\AirOverlayMat.cs" />
     <Compile Include="AirNet\AirNetMaker.cs" />
     <Compile Include="AirNet\AirNetManager.cs" />

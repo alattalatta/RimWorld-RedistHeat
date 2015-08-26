@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using Verse;
 
@@ -6,6 +7,9 @@ namespace RedistHeat
 {
     public class AirNet
     {
+        private static int debugIdNext;
+        public readonly int debugId;
+
         private float netTemperature;
 
         public readonly List< CompAir > nodes = new List< CompAir >();
@@ -29,6 +33,12 @@ namespace RedistHeat
             foreach ( var current in newNodes )
             {
                 RegisterNode( current );
+                current.connectedNet = this;
+            }
+
+            checked
+            {
+                debugId = debugIdNext++;
             }
         }
 
@@ -54,6 +64,13 @@ namespace RedistHeat
         public void DeregisterNode( CompAir node )
         {
             nodes.Remove( node );
+        }
+
+        public override string ToString()
+        {
+            var result = new StringBuilder();
+            result.Append( "AirNet " ).Append( debugId ).Append( " (nodes count: " ).Append( nodes.Count ).Append( ", layer " ).Append( Layer ).Append( ")" );
+            return result.ToString();
         }
 
         /*

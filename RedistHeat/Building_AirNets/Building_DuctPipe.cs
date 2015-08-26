@@ -44,11 +44,6 @@ namespace RedistHeat
             }
         }
 
-        public override void DeSpawn()
-        {
-            base.DeSpawn();
-        }
-
         /*
         public override IEnumerable< Gizmo > GetGizmos()
         {
@@ -70,7 +65,7 @@ namespace RedistHeat
 
         private void GetGraphic()
         {
-            if ( graphicLinked != null && graphicLinked.MatSingle != null )
+            if ( graphicLinked?.MatSingle != null )
             {
                 return;
             }
