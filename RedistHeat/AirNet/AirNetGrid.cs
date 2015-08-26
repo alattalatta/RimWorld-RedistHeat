@@ -6,6 +6,21 @@ namespace RedistHeat
     {
         private static AirNet[][] netGrid;
 
+        static AirNetGrid()
+        {
+            var layerCount = Common.NetLayerCount();
+            netGrid = new AirNet[layerCount][];
+
+            for ( var i = 0; i < layerCount; i++ )
+            {
+                netGrid[i] = new AirNet[CellIndices.NumGridCells];
+            }
+
+            if(Prefs.LogVerbose)
+                Log.Message( "LT-RH: Initialized NetGrid." );
+        }
+
+        /*
         public static void Reinit()
         {
             var layerCount = Common.NetLayerCount();
@@ -15,7 +30,7 @@ namespace RedistHeat
             {
                 netGrid[i] = new AirNet[CellIndices.NumGridCells];
             }
-        }
+        }*/
 
         public static AirNet NetAt( IntVec3 pos, NetLayer layer )
         {

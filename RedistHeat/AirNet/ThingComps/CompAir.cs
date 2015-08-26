@@ -28,6 +28,12 @@ namespace RedistHeat
             AirNetManager.NotifyCompDespawn( this );
         }
 
+        public override void PostExposeData()
+        {
+            base.PostExposeData();
+            Scribe_Values.LookValue( ref currentLayer, "currentLayer", NetLayer.Lower );
+        }
+
         public override void CompPrintForPowerGrid( SectionLayer layer )
         {
             AirOverlayMat.GetLayeredOverlayGraphic( this ).Print( layer, parent );
@@ -43,6 +49,9 @@ namespace RedistHeat
             if ( connectedNet != null )
             {
                 result.Append( Mathf.Round( connectedNet.NetTemperature).ToStringTemperature( "F0" ) );
+
+                if ( Prefs.LogVerbose )
+                    result.AppendLine().Append( "Debug ID: " ).Append( connectedNet.debugId );
             }
 
             return result.ToString();
@@ -72,34 +81,5 @@ namespace RedistHeat
 
             yield return com;
         }
-
-        /*
-        public void TryConnectTo()
-        {
-            //Must check inside for underneath pipe
-            foreach ( var c in GenAdj.CardinalDirectionsAndInside )
-            {
-                var compAir = AirNetGrid.NetAt( c + Position ) as CompAir;
-                if ( compAir == null || compAir.connectedNet == null )
-                {
-                    continue;
-                }
-
-                ConnectToNet( compAir.connectedNet );
-            }
-        }
-
-        private void ConnectToNet( AirNet net )
-        {
-            if ( connectedNet == null )
-            {
-                net.RegisterNode( this );
-            }
-            else
-            {
-                connectedNet.MergeIntoNet( net );
-            }
-        }
-        */
     }
 }

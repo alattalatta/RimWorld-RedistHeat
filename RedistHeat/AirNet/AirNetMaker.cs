@@ -72,7 +72,7 @@ namespace RedistHeat
         {
             var temp = temperature ?? GenTemperature.OutdoorTemp;
 
-            return new AirNet( ContiguousAirBuildings( root, layer ), layer, temp );
+            return new AirNet( ContiguousAirBuildings( root, layer ), layer, temp, root.Position );
         }
     }
 }

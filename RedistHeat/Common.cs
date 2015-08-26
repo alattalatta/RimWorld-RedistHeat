@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Linq.Expressions;
 using Verse;
 
 namespace RedistHeat
@@ -27,6 +28,5 @@ namespace RedistHeat
 
             pipe?.Destroy( DestroyMode.Kill );
         }
-        
     }
 }

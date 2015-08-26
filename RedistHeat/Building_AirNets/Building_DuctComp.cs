@@ -13,6 +13,8 @@ namespace RedistHeat
         protected CompAirTrader compAir;
         protected Room roomNorth;
 
+        public override string LabelBase => base.LabelBase + " (" + compAir.currentLayer.ToString().ToLower() + ")";
+
         public override void SpawnSetup()
         {
             base.SpawnSetup();

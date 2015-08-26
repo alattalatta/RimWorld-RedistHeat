@@ -1,33 +1,51 @@
 ﻿
+using System.Diagnostics;
 using Verse;
 
 namespace RedistHeat
 {
     public class AirNetTicker : MapComponent
     {
-        private bool ready;
+        public bool doneInit;
 
         public override void MapComponentUpdate()
         {
-            if ( !ready )
-            {
-                return;
-            }
-
+            if(!doneInit)
+                Initialize();
+#if DEBUG
+            //Log.Message( "Updating." );
+#endif
             AirNetManager.AirNetsUpdate();
             AirNetManager.UpdateMapDrawer();
         }
 
         public override void MapComponentTick()
         {
-            if ( Find.TickManager.TicksGame < 2 )
-            {
-                AirNetGrid.Reinit();
-                AirNetManager.Reinit();
-                Log.Message( "LT-RH: Initialized RedistHeat." );
-                ready = true;
-            }
+            if(!doneInit)
+                Initialize();
+
             AirNetManager.AirNetsTick();
+        }
+
+        private void Initialize()
+        {
+            var watch = new Stopwatch();
+
+            
+            watch.Start();
+            /*
+            //AirNetGrid.Reinit();
+            //AirNetManager.Reinit();
+            var elapsed = watch.ElapsedMilliseconds;
+
+            Log.Message("LT-RH: " + elapsed + "ms: Initialized RedistHeat.");*/
+
+            AirNetManager.Reload();
+            var elapsed = watch.ElapsedMilliseconds;
+
+            Log.Message( "LT-RH: " + elapsed + "ms: Reloaded NetManager.");
+            doneInit = true;
+            watch.Reset();
         }
     }
 }

@@ -16,7 +16,27 @@ namespace RedistHeat
         //Pending graphic updates
         private static List< IntVec3 > updatees;
 
-        public static void Reinit()
+        static AirNetManager()
+        {
+            var layerCount = Common.NetLayerCount();
+            allNets = new List<AirNet>[layerCount];
+            newComps = new List<CompAir>[layerCount];
+            oldComps = new List<CompAir>[layerCount];
+
+            updatees = new List<IntVec3>();
+
+            for ( var i = 0; i < layerCount; i++ )
+            {
+                allNets[i] = new List<AirNet>();
+                newComps[i] = new List<CompAir>();
+                oldComps[i] = new List<CompAir>();
+            }
+
+            if(Prefs.LogVerbose)
+                Log.Message( "LT-RH: Initialized NetManager." );
+        }
+
+        /*public static void Reinit()
         {
             var layerCount = Common.NetLayerCount();
             allNets = new List< AirNet >[layerCount];
@@ -31,6 +51,19 @@ namespace RedistHeat
                 newComps[i] = new List< CompAir >();
                 oldComps[i] = new List< CompAir >();
             }
+        }*/
+
+        public static void Reload()
+        {
+            foreach ( var current in Find.Map.listerBuildings.allBuildingsColonist )
+            {
+                var compAir = current.TryGetComp< CompAir >();
+                if ( compAir != null )
+                {
+                    newComps[(int) compAir.currentLayer].Add( compAir );
+                    updatees.Add( current.Position );
+                }
+            }
         }
 
         public static void NotifyCompSpawn( CompAir compAir )
@@ -38,15 +71,15 @@ namespace RedistHeat
             if ( compAir.IsLayerOf( NetLayer.Lower ) )
             {
 #if DEBUG
-                Log.Message( compAir + " spawned at " + compAir.parent.Position + ", layer " + NetLayer.Lower );
+                //Log.Message(compAir + " spawned at " + compAir.parent.Position + ", layer " + NetLayer.Lower);
 #endif
                 newComps[(int) NetLayer.Lower].Add( compAir );
             }
 
-            if ( compAir.IsLayerOf( NetLayer.Upper ) )
+            else if ( compAir.IsLayerOf( NetLayer.Upper ) )
             {
 #if DEBUG
-                Log.Message( compAir + " spawned at " + compAir.parent.Position + ", layer " + NetLayer.Upper );
+                //Log.Message( compAir + " spawned at " + compAir.parent.Position + ", layer " + NetLayer.Upper );
 #endif
                 newComps[(int) NetLayer.Upper].Add( compAir );
             }
@@ -59,7 +92,7 @@ namespace RedistHeat
             if ( compAir.IsLayerOf( NetLayer.Lower ) )
             {
 #if DEBUG
-                Log.Message( compAir + " despawned at " + compAir.parent.Position + ", layer " + NetLayer.Lower );
+                //Log.Message( compAir + " despawned at " + compAir.parent.Position + ", layer " + NetLayer.Lower );
 #endif
                 oldComps[(int) NetLayer.Lower].Add( compAir );
             }
@@ -67,7 +100,7 @@ namespace RedistHeat
             if ( compAir.IsLayerOf( NetLayer.Upper ) )
             {
 #if DEBUG
-                Log.Message( compAir + " despawned at " + compAir.parent.Position + ", layer " + NetLayer.Upper );
+                //Log.Message( compAir + " despawned at " + compAir.parent.Position + ", layer " + NetLayer.Upper );
 #endif
                 oldComps[(int) NetLayer.Upper].Add( compAir );
             }
@@ -88,7 +121,7 @@ namespace RedistHeat
             newComps[(int) compAir.currentLayer].Add( compAir );
 
 #if DEBUG
-            Log.Message( compAir + " changed layer to " + compAir.currentLayer );
+            //Log.Message( compAir + " changed layer to " + compAir.currentLayer );
 #endif
             AddToGraphicUpdateList( compAir );
         }
@@ -131,6 +164,7 @@ namespace RedistHeat
                 if ( !newComps.Any() && !oldComps.Any() )
                     continue;
 
+                //I'm not sure if this works or not
                 float? beforeMergeTemperature = null;
                 //Deregister the whole net that should be merged (deregister adjacent AirNet)
                 foreach ( var current in newComps[layerInt] )
@@ -147,17 +181,14 @@ namespace RedistHeat
 
                         if ( oldNet != null && beforeMergeTemperature == null )
                         {
-                            if ( beforeMergeTemperature == null )
-                            {
-                                beforeMergeTemperature = oldNet.NetTemperature;
-                            }
-
+                            beforeMergeTemperature = oldNet.NetTemperature;
                             DeregisterAirNet( oldNet );
                         }
                     }
                 }
 
 
+                //I'm not sure if this works or not
                 float? beforeSplitTemperature = null;
                 //Deregister comps marked as old
                 foreach ( var current in oldComps[layerInt] )
@@ -244,7 +275,7 @@ namespace RedistHeat
             }
 
 #if DEBUG
-            Log.Message( "Updated drawer." );
+            //Log.Message( "Updated drawer." );
 #endif
             foreach ( var current in updatees )
             {
