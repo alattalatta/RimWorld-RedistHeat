@@ -9,7 +9,7 @@ namespace RedistHeat
     {
         private const float EqualizationRate = 0.85f;
         private bool isLocked;
-
+        
         protected CompAirTrader compAir;
         protected Room roomNorth;
 
@@ -76,7 +76,7 @@ namespace RedistHeat
             {
                 return false;
             }
-            return !isLocked;
+            return !isLocked && compPowerTrader.PowerOn;
         }
 
         public override void Draw()
@@ -97,8 +97,8 @@ namespace RedistHeat
 
             var l = new Command_Toggle
             {
-                defaultLabel = ResourceBank.StringUILockLabel,
-                defaultDesc = ResourceBank.StringUILockDesc,
+                defaultLabel = ResourceBank.StringToggleAirflowLabel,
+                defaultDesc = ResourceBank.StringToggleAirflowDesc,
                 hotKey = KeyBindingDefOf.CommandItemForbid,
                 icon = ResourceBank.UILock,
                 groupKey = 912515,

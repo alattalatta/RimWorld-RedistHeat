@@ -15,8 +15,8 @@ namespace RedistHeat
 
             TransmitterShader = ShaderDatabase.MetaOverlay;
 
-            var graphicLower = GraphicDatabase.Get< Graphic_Single >( "Things/Specia/AirTransmitterOverlayUpper", TransmitterShader );
-            var graphicUpper = GraphicDatabase.Get< Graphic_Single >( "Things/Special/AirTransmitterOverlayLower", TransmitterShader );
+            var graphicLower = GraphicDatabase.Get< Graphic_Single >( "Things/Special/AirPipeOverlayUpper", TransmitterShader );
+            var graphicUpper = GraphicDatabase.Get< Graphic_Single >( "Things/Special/AirPipeOverlayLower", TransmitterShader );
             LinkedOverlayGraphic[(int) NetLayer.Lower] = new Grahpic_LinkedAirPipeOverlay( graphicLower );
             LinkedOverlayGraphic[(int) NetLayer.Upper] = new Grahpic_LinkedAirPipeOverlay( graphicUpper );
             graphicLower.MatSingle.renderQueue = 3800;

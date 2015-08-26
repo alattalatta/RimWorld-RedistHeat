@@ -42,7 +42,7 @@ namespace RedistHeat
         {
             var str = new StringBuilder();
             str.AppendLine( base.GetInspectString() );
-            str.Append( ResourceBank.StringState + " " );
+            str.Append( ResourceBank.StringState + ": " );
 
             str.Append( isAvailable ? ResourceBank.StringWorking : ResourceBank.StringNotWorking );
 

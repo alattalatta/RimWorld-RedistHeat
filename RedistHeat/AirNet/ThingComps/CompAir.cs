@@ -63,10 +63,12 @@ namespace RedistHeat
         {
             var com = new Command_Action()
             {
-                defaultLabel = "RedistHeat_CycleLayerLabel",
-                defaultDesc = "RedistHeat_CycleLayerDesc",
-                icon = Texture2D.blackTexture,
-                action = () =>
+                defaultLabel  = ResourceBank.StringCycleLayerLabel,
+                defaultDesc   = ResourceBank.StringCycleLayerDesc,
+                icon          = Texture2D.blackTexture,
+                activateSound = SoundDef.Named( "DesignatePlaceBuilding" ),
+                hotKey        = KeyBindingDefOf.CommandColonistDraft,
+                action        = () =>
                 {
                     var oldLayer = currentLayer;
                     var nextLayerInt = (int)oldLayer + 1;
@@ -75,9 +77,7 @@ namespace RedistHeat
 
                     currentLayer = (NetLayer) nextLayerInt;
                     AirNetManager.NotifyCompLayerChange( this, oldLayer );
-                },
-                activateSound = SoundDef.Named( "DesignatePlaceBuilding" ),
-                hotKey        = KeyBindingDefOf.CommandColonistDraft
+                }
             };
 
             foreach ( var current in base.CompGetGizmosExtra() )

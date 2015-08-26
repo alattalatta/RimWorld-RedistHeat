@@ -7,16 +7,18 @@ namespace RedistHeat
 {
     public static class ResourceBank
     {
-        public static string StringTargetTemperature    = "TargetTemperature".Translate();
+        // ===== AirNet.xml ===== //
+        public static string StringLowerNetTemperature  = "RedistHeat_LowerNetTemperature".Translate();
+        public static string StringUpperNetTemperature  = "RedistHeat_UpperNetTemperature".Translate();
+        public static string StringCycleLayerLabel      = "RedistHeat_CycleLayerLabel".Translate();
+        public static string StringCycleLayerDesc       = "RedistHeat_CycleLayerDesc".Translate();
+        
+        // ===== TempControl.xml ===== //
         public static string StringState                = "RedistHeat_State".Translate();
-
         public static string StringWorking              = "RedistHeat_Working".Translate();
         public static string StringNotWorking           = "RedistHeat_NotWorking".Translate();
 
         public static string StringWorkingDucts         = "RedistHeat_WorkingDucts".Translate();
-        
-        public static string StringLowerNetTemperature  = "RedistHeat_LowerNetTemperature".Translate();
-        public static string StringUpperNetTemperature  = "RedistHeat_UpperNetTemperature".Translate();
 
         public static string StringExposeDuct           = "RedistHeat_MustExposeDuct".Translate();
         public static string StringExposeBoth           = "MustPlaceVentWithFreeSpaces".Translate();
@@ -24,16 +26,10 @@ namespace RedistHeat
         public static string StringExposeCold           = "RedistHeat_MustExposeColdSide".Translate();
         public static string StringAttachToCooler       = "RedistHeat_MustPlaceBackSideOnCooler".Translate();
 
-        public static string StringUIRefreshIDLabel     = "RedistHeat_CommandRefreshID".Translate();
-        public static string StringUIRefreshIDDesc      = "RedistHeat_CommandRefreshIDDesc".Translate();
-        public static string StringUILockLabel          = "RedistHeat_CommandToggleLock".Translate();
-        public static string StringUILockDesc           = "RedistHeat_CommandToggleLockDesc".Translate();
-
-        public static readonly Texture2D UITempRaise    = ContentFinder< Texture2D >.Get( "UI/Commands/TempRaise", true );
-        public static readonly Texture2D UITempReset    = ContentFinder< Texture2D >.Get( "UI/Commands/TempReset", true );
-        public static readonly Texture2D UITempLower    = ContentFinder< Texture2D >.Get( "UI/Commands/TempLower", true );
-
-        public static readonly Texture2D UIRefreshID    = ContentFinder< Texture2D >.Get( "UI/Commands/TryReconnect", true );
+        // ==== Vent.xml ==== //
+        
+        public static string StringToggleAirflowLabel   = "RedistHeat_CommandToggleLockLabel".Translate();
+        public static string StringToggleAirflowDesc    = "RedistHeat_CommandToggleLockDesc".Translate();
 
         public static readonly Texture2D UILock         = ContentFinder< Texture2D >.Get( "UI/Commands/Forbidden", true );
     }

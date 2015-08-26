@@ -103,8 +103,8 @@ namespace RedistHeat
 
             var l = new Command_Toggle
             {
-                defaultLabel = ResourceBank.StringUILockLabel,
-                defaultDesc = ResourceBank.StringUILockDesc,
+                defaultLabel = ResourceBank.StringToggleAirflowLabel,
+                defaultDesc = ResourceBank.StringToggleAirflowDesc,
                 hotKey = KeyBindingDefOf.CommandItemForbid,
                 icon = ResourceBank.UILock,
                 groupKey = 912515,
