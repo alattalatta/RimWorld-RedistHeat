@@ -5,13 +5,15 @@ using Verse;
 
 namespace RedistHeat
 {
-    public class BuildingDuctComp : Building_TempControl
+    public class Building_DuctComp : Building_TempControl
     {
         private const float EqualizationRate = 0.85f;
         private bool isLocked;
-
+        
         protected CompAirTrader compAir;
         protected Room roomNorth;
+
+        public override string LabelBase => base.LabelBase + " (" + compAir.currentLayer.ToString().ToLower() + ")";
 
         public override void SpawnSetup()
         {
@@ -34,6 +36,7 @@ namespace RedistHeat
                 return;
             }
 
+            var connectedNet = compAir.connectedNet;
             roomNorth = (Position + IntVec3.North.RotatedBy( Rotation )).GetRoom();
 
             float tempEq;
@@ -44,11 +47,11 @@ namespace RedistHeat
             else
             {
                 tempEq = (roomNorth.Temperature*roomNorth.CellCount +
-                          compAir.connectedNet.NetTemperature*compAir.connectedNet.nodes.Count)
-                         /(roomNorth.CellCount + compAir.connectedNet.nodes.Count);
+                          connectedNet.NetTemperature*connectedNet.nodes.Count)
+                         /(roomNorth.CellCount + connectedNet.nodes.Count);
             }
 
-            compAir.ExchangeHeatWithNet( tempEq, EqualizationRate );
+            compAir.ExchangeHeatWithNets( tempEq, EqualizationRate );
             if ( !roomNorth.UsesOutdoorTemperature )
             {
                 ExchangeHeat( roomNorth, tempEq, EqualizationRate );
@@ -75,7 +78,7 @@ namespace RedistHeat
             {
                 return false;
             }
-            return !isLocked;
+            return !isLocked && compPowerTrader.PowerOn;
         }
 
         public override void Draw()
@@ -96,10 +99,10 @@ namespace RedistHeat
 
             var l = new Command_Toggle
             {
-                defaultLabel = StaticSet.StringUILockLabel,
-                defaultDesc = StaticSet.StringUILockDesc,
+                defaultLabel = ResourceBank.StringToggleAirflowLabel,
+                defaultDesc = ResourceBank.StringToggleAirflowDesc,
                 hotKey = KeyBindingDefOf.CommandItemForbid,
-                icon = StaticSet.UILock,
+                icon = ResourceBank.UILock,
                 groupKey = 912515,
                 isActive = () => isLocked,
                 toggleAction = () => isLocked = !isLocked

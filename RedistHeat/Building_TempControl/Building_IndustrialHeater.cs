@@ -4,7 +4,7 @@ using Verse;
 
 namespace RedistHeat
 {
-    public class BuildingIndustrialHeater : Building_TempControl
+    public class Building_IndustrialHeater : Building_TempControl
     {
         private int ticksUntilSpray = 6;
         private int sprayTicksLeft;

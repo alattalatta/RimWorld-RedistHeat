@@ -4,7 +4,7 @@ namespace RedistHeat
 {
     public class CompAirTrader : CompAir
     {
-        public void ExchangeHeatWithNet( float tempEq, float rate )
+        public void ExchangeHeatWithNets( float tempEq, float rate )
         {
             var tempDiff = Mathf.Abs( connectedNet.NetTemperature - tempEq );
             var tempRated = tempDiff*rate*props.energyPerSecond;

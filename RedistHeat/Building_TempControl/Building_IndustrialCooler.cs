@@ -6,15 +6,12 @@ using Verse;
 
 namespace RedistHeat
 {
-    public class BuildingIndustrialCooler : Building_TempControl
+    public class Building_IndustrialCooler : Building_TempControl
     {
         private IntVec3 vecSouth, vecSouthEast;
-        private List< BuildingExhaustPort > neighDucts;
+        private List< Building_ExhaustPort > neighDucts;
 
-        private float Energy
-        {
-            get { return compTempControl.props.energyPerSecond; }
-        }
+        private float Energy => compTempControl.props.energyPerSecond;
 
         private bool isWorking;
 
@@ -64,11 +61,11 @@ namespace RedistHeat
             str.Append( base.GetInspectString() );
             if ( neighDucts != null )
             {
-                str.Append( StaticSet.StringWorkingDucts + ": " + neighDucts.Count );
+                str.Append( ResourceBank.StringWorkingDucts + ": " + neighDucts.Count );
             }
             else
             {
-                str.Append( StaticSet.StringWorkingDucts + ": 0" );
+                str.Append( ResourceBank.StringWorkingDucts + ": 0" );
             }
             return str.ToString();
         }
@@ -128,12 +125,12 @@ namespace RedistHeat
             }
         }
 
-        private List< BuildingExhaustPort > AdjacentDucts()
+        private List< Building_ExhaustPort > AdjacentDucts()
         {
-            var list = new List< BuildingExhaustPort >();
+            var list = new List< Building_ExhaustPort >();
             foreach ( var c in GenAdj.CellsAdjacentCardinal( this ) )
             {
-                var finder = Find.ThingGrid.ThingAt< BuildingExhaustPort >( c );
+                var finder = Find.ThingGrid.ThingAt< Building_ExhaustPort >( c );
                 if ( finder != null )
                 {
                     list.Add( finder );
@@ -142,9 +139,9 @@ namespace RedistHeat
             return list;
         }
 
-        private static List< BuildingExhaustPort > GetAvailableDucts( IEnumerable< BuildingExhaustPort > list )
+        private static List< Building_ExhaustPort > GetAvailableDucts( IEnumerable< Building_ExhaustPort > list )
         {
-            var list2 = new List< BuildingExhaustPort >();
+            var list2 = new List< Building_ExhaustPort >();
             foreach ( var finder in list )
             {
                 if ( finder.isAvailable )

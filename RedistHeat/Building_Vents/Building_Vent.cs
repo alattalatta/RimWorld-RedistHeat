@@ -5,7 +5,7 @@ using Verse;
 
 namespace RedistHeat
 {
-    public class BuildingVent : Building_TempControl
+    public class Building_Vent : Building_TempControl
     {
         private const float EqualizationRate = 0.25f;
         private bool isLocked;
@@ -103,10 +103,10 @@ namespace RedistHeat
 
             var l = new Command_Toggle
             {
-                defaultLabel = StaticSet.StringUILockLabel,
-                defaultDesc = StaticSet.StringUILockDesc,
+                defaultLabel = ResourceBank.StringToggleAirflowLabel,
+                defaultDesc = ResourceBank.StringToggleAirflowDesc,
                 hotKey = KeyBindingDefOf.CommandItemForbid,
-                icon = StaticSet.UILock,
+                icon = ResourceBank.UILock,
                 groupKey = 912515,
                 isActive = () => isLocked,
                 toggleAction = () => isLocked = !isLocked

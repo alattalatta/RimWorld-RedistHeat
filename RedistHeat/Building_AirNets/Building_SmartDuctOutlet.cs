@@ -1,8 +1,6 @@
-﻿using Verse;
-
-namespace RedistHeat
+﻿namespace RedistHeat
 {
-    public class BuildingSmartDuctOutlet : BuildingDuctComp
+    public class Building_SmartDuctOutlet : Building_DuctComp
     {
         protected override bool Validate()
         {

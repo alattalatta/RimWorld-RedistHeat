@@ -1,70 +1,82 @@
-﻿using System.Collections.Generic;
-using Verse;
+﻿using Verse;
 
 namespace RedistHeat
 {
-    /// <summary>
-    /// Manages map-wide air node grid.
-    /// </summary>
     public static class AirNetGrid
     {
-        private static readonly CompAirBase[] NetGrid;
+        private static AirNet[][] netGrid;
 
         static AirNetGrid()
         {
-            NetGrid = new CompAirBase[CellIndices.NumGridCells];
-        }
+            var layerCount = Common.NetLayerCount();
+            netGrid = new AirNet[layerCount][];
 
-        #region Finder
-
-        public static CompAirBase AirNodeAt( IntVec3 pos )
-        {
-            if ( pos.InBounds() )
+            for ( var i = 0; i < layerCount; i++ )
             {
-                return NetGrid[CellIndices.CellToIndex( pos )];
+                netGrid[i] = new AirNet[CellIndices.NumGridCells];
             }
 
-            Log.Error( "LT-RH: Tried to get AirNode out of bounds: " + pos );
+            if(Prefs.LogVerbose)
+                Log.Message( "LT-RH: Initialized NetGrid." );
+        }
+
+        /*
+        public static void Reinit()
+        {
+            var layerCount = Common.NetLayerCount();
+            netGrid = new AirNet[layerCount][];
+
+            for ( var i = 0; i < layerCount; i++ )
+            {
+                netGrid[i] = new AirNet[CellIndices.NumGridCells];
+            }
+        }*/
+
+        public static AirNet NetAt( IntVec3 pos, NetLayer layer )
+        {
+            return netGrid[(int)layer][CellIndices.CellToIndex( pos )];
+        }
+
+        public static Building GetAirTransmitter( this IntVec3 loc, NetLayer layer )
+        {
+            foreach ( var current in Find.ThingGrid.ThingsListAt( loc ) )
+            {
+                var compAir = current.TryGetComp< CompAir >();
+                if ( compAir == null )
+                    continue;
+
+                if ( compAir.IsLayerOf( layer ) )
+                    return (Building) current;
+            }
             return null;
         }
 
-        #endregion
-
-        #region Node management
-
-        //Register Base
-        public static void Register( CompAirBase comp )
+        public static void NotifyNetCreated( AirNet newNet )
         {
-            if ( !comp.Position.InBounds() )
+            foreach ( var node in newNet.nodes )
             {
-                Log.Warning( comp + " tried to register out of bounds at " + comp.Position + ". Destroying." );
-                comp.parent.Destroy();
-                return;
-            }
-
-            var index = CellIndices.CellToIndex( comp.Position );
-            NetGrid[index] = comp;
-            AirNetManager.NotifyDrawerForGridUpdate( comp.Position );
-        }
-
-        //Deregister Base
-        public static void Deregister( CompAirBase comp )
-        {
-            if ( !comp.Position.InBounds() )
-            {
-                Log.Error( comp + " tried to de-register out of bounds at " + comp.Position );
-            }
-            else
-            {
-                var index = CellIndices.CellToIndex( comp.Position );
-                if ( NetGrid[index] == comp )
+                //For every cell occupied by a node
+                var occupiedRect = node.parent.OccupiedRect();
+                foreach ( var current in occupiedRect )
                 {
-                    NetGrid[index] = null;
+                    //Register the cell as the new net
+                    netGrid[newNet.LayerInt][CellIndices.CellToIndex( current )] = newNet;
                 }
             }
-            AirNetManager.NotifyDrawerForGridUpdate( comp.Position );
         }
 
-        #endregion //#region Node management
+        public static void NotifyNetDeregistered( AirNet oldNet )
+        {
+            foreach ( var node in oldNet.nodes )
+            {
+                //For every cell occupied by a node
+                var occupiedRect = node.parent.OccupiedRect();
+                foreach ( var current in occupiedRect )
+                {
+                    //Delete the cell's registered net
+                    netGrid[oldNet.LayerInt][CellIndices.CellToIndex( current )] = null;
+                }
+            }
+        }
     }
 }

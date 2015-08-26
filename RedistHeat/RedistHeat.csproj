@@ -14,19 +14,20 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+    <DebugType>none</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>D:\1\RimWorld906Win\Mods\LT_RedistHeat\Assemblies\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
+    <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>D:\1\RimWorld906Win\Mods\LT_RedistHeat\Assemblies\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -38,6 +39,7 @@
     <Reference Include="Assembly-CSharp, Version=0.12.5707.29311, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>D:\1\RimWorld906Win\RimWorld906Win_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -48,20 +50,20 @@
     <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>D:\1\RimWorld906Win\RimWorld906Win_Data\Managed\UnityEngine.dll</HintPath>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AirNetGraphic\Graphic_LinkedAirTransmitter.cs" />
-    <Compile Include="AirNetGraphic\Graphic_LinkedAirTransmitterOverlay.cs" />
+    <Compile Include="AirNetGraphic\Graphic_LinkedAirPipe.cs" />
+    <Compile Include="AirNetGraphic\Graphic_LinkedAirPipeOverlay.cs" />
     <Compile Include="AirNetGraphic\AirOverlayMat.cs" />
+    <Compile Include="AirNet\AirNetMaker.cs" />
     <Compile Include="AirNet\AirNetManager.cs" />
-    <Compile Include="AirNet\CompAirBase.cs" />
-    <Compile Include="AirNet\CompAirIntersection.cs" />
-    <Compile Include="AirNet\CompAirController.cs" />
+    <Compile Include="AirNet\CompProperties\CompAirTransmitterProperties.cs" />
     <Compile Include="Building_AirNets\Building_DuctComp.cs" />
-    <Compile Include="Building_AirNets\Building_DuctIntersection.cs" />
     <Compile Include="Building_AirNets\Building_DuctPipe.cs" />
     <Compile Include="Common.cs" />
+    <Compile Include="MapComponent\AirNetTicker.cs" />
     <Compile Include="Misc\ThingDef_AirNet.cs" />
     <Compile Include="Building_Vents\Building_ActiveVent.cs" />
     <Compile Include="Building_AirNets\Building_SmartDuctOutlet.cs" />
@@ -69,12 +71,12 @@
     <Compile Include="Building_TempControl\Building_IndustrialCooler.cs" />
     <Compile Include="Building_TempControl\Building_IndustrialHeater.cs" />
     <Compile Include="Building_Vents\Building_Vent.cs" />
-    <Compile Include="AirNet\CompAir.cs" />
-    <Compile Include="AirNet\CompAirTransmitter.cs" />
-    <Compile Include="AirNet\CompAirTrader.cs" />
+    <Compile Include="AirNet\ThingComps\CompAir.cs" />
+    <Compile Include="AirNet\ThingComps\CompAirTransmitter.cs" />
+    <Compile Include="AirNet\ThingComps\CompAirTrader.cs" />
     <Compile Include="AirNet\AirNetGrid.cs" />
     <Compile Include="AirNet\AirNet.cs" />
-    <Compile Include="Misc\StaticSet.cs" />
+    <Compile Include="Misc\ResourceBank.cs" />
     <Compile Include="PlaceWorkers\PlaceWorker_DuctIntersection.cs" />
     <Compile Include="PlaceWorkers\PlaceWorker_DuctCompNorth.cs" />
     <Compile Include="PlaceWorkers\PlaceWorker_ExhaustPort.cs" />
