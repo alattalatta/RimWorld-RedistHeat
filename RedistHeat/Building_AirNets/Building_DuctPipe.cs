@@ -1,13 +1,12 @@
-﻿using System.Collections.Generic;
-using RimWorld;
-using Verse;
+﻿using Verse;
 
 namespace RedistHeat
 {
-    public class BuildingDuctPipe : Building
+    public class Building_DuctPipe : Building
     {
+        private NetLayer layer;
         private CompAirTransmitter compAir;
-        private GraphicLinkedAirTransmitter graphicLinked;
+        private Graphic_LinkedAirPipe graphicLinked;
 
         public override Graphic Graphic
         {
@@ -33,6 +32,16 @@ namespace RedistHeat
             base.SpawnSetup();
             GetGraphic();
             compAir = GetComp< CompAirTransmitter >();
+            var compProps = compAir.props as CompAirTransmitterProperties;
+            if ( compProps == null )
+            {
+                layer = NetLayer.Lower;
+                Log.Error( "LT-RH: compProps is null!" );
+            }
+            else
+            {
+                layer = compProps.layer;
+            }
         }
 
         public override void DeSpawn()
@@ -40,6 +49,7 @@ namespace RedistHeat
             base.DeSpawn();
         }
 
+        /*
         public override IEnumerable< Gizmo > GetGizmos()
         {
             foreach ( var g in base.GetGizmos() )
@@ -49,14 +59,14 @@ namespace RedistHeat
 
             var l = new Command_Action
             {
-                defaultLabel = StaticSet.StringUIRefreshIDLabel,
-                defaultDesc = StaticSet.StringUIRefreshIDDesc,
+                defaultLabel = ResourceBank.StringUIRefreshIDLabel,
+                defaultDesc = ResourceBank.StringUIRefreshIDDesc,
                 hotKey = KeyBindingDefOf.CommandTogglePower,
-                icon = StaticSet.UIRefreshID,
+                icon = ResourceBank.UIRefreshID,
                 action = () => compAir.TryConnectTo()
             };
             yield return l;
-        }
+        }*/
 
         private void GetGraphic()
         {
@@ -66,7 +76,7 @@ namespace RedistHeat
             }
 
             var graphicSingle = GraphicDatabase.Get< Graphic_Single >( def.graphicData.texPath );
-            graphicLinked = new GraphicLinkedAirTransmitter( graphicSingle );
+            graphicLinked = new Graphic_LinkedAirPipe( graphicSingle );
         }
     }
 }

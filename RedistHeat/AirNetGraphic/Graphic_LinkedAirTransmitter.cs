@@ -3,38 +3,62 @@ using Verse;
 
 namespace RedistHeat
 {
-    public class GraphicLinkedAirTransmitter : Graphic_Linked
+    public class Graphic_LinkedAirPipe : Graphic_Linked
     {
-        public GraphicLinkedAirTransmitter( Graphic subGraphic )
+        public Graphic_LinkedAirPipe( Graphic subGraphic )
             : base( subGraphic )
         {
         }
 
         public override bool ShouldLinkWith( IntVec3 c, Thing parent )
         {
-            return c.InBounds() && AirNetGrid.AirNodeAt( c ) != null;
+            var compAir = parent.TryGetComp< CompAir >();
+            if ( compAir == null )
+                return false;
+
+            var lowerFlag = AirNetGrid.NetAt( c, NetLayer.Lower ) != null && compAir.IsLayerOf( NetLayer.Lower );
+            var upperFlag = AirNetGrid.NetAt( c, NetLayer.Upper ) != null && compAir.IsLayerOf( NetLayer.Upper );
+
+            return c.InBounds() && (lowerFlag || upperFlag);
         }
 
-        public override void Print( SectionLayer layer, Thing thing )
+        public override void Print( SectionLayer layer, Thing parent )
         {
-            base.Print( layer, thing );
+            base.Print( layer, parent );
+            var compAir = parent.TryGetComp< CompAir >();
+            if ( compAir == null )
+                return;
+            
             for ( var i = 0; i < 4; i++ )
             {
-                var neighCell = thing.Position + GenAdj.CardinalDirections[i];
+                var neighCell = parent.Position + GenAdj.CardinalDirections[i];
                 if ( !neighCell.InBounds() )
                 {
                     continue;
                 }
 
-                var transmitter = AirNetGrid.AirNodeAt( neighCell );
-                if ( transmitter == null || transmitter.parent.def.graphicData.Linked )
+                Material mat;
+                if ( compAir.IsLayerOf( NetLayer.Lower ) )
                 {
-                    continue;
+                    var lowerTransmitter = neighCell.GetAirTransmitter( NetLayer.Lower );
+                    if ( lowerTransmitter != null && !lowerTransmitter.def.graphicData.Linked )
+                    {
+                        mat = LinkedDrawMatFrom(parent, neighCell);
+                        Printer_Plane.PrintPlane(layer, neighCell.ToVector3ShiftedWithAltitude(parent.def.Altitude),
+                            Vector2.one, mat, 0f);
+                    }
                 }
 
-                var mat = LinkedDrawMatFrom( thing, neighCell );
-                Printer_Plane.PrintPlane( layer, neighCell.ToVector3ShiftedWithAltitude( thing.def.Altitude ),
-                    Vector2.one, mat, 0f );
+                if ( compAir.IsLayerOf( NetLayer.Upper ) )
+                {
+                    var upperTransmitter = neighCell.GetAirTransmitter( NetLayer.Upper );
+                    if ( upperTransmitter != null && !upperTransmitter.def.graphicData.Linked )
+                    {
+                        mat = LinkedDrawMatFrom(parent, neighCell);
+                        Printer_Plane.PrintPlane(layer, neighCell.ToVector3ShiftedWithAltitude(parent.def.Altitude),
+                            Vector2.one, mat, 0f);
+                    }
+                }
             }
         }
     }

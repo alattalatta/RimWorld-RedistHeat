@@ -1,30 +1,25 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Verse;
 
 namespace RedistHeat
 {
+    public enum NetLayer
+    {
+        Upper,
+        Lower
+    }
     public static class Common
     {
-        public static void DebugLog( string str )
+        public static int NetLayerCount()
         {
-            if ( Prefs.DevMode && Prefs.LogVerbose )
-            {
-                Log.Message( str );
-            }
+            return Enum.GetValues(typeof(NetLayer)).Length;
         }
-
-        public static void DebugWarn( string str )
-        {
-            if ( Prefs.DevMode && Prefs.LogVerbose )
-            {
-                Log.Warning( str );
-            }
-        }
-
         public static void WipeExistingPipe( IntVec3 pos )
         {
             var pipe = Find.ThingGrid.ThingsAt( pos ).ToList().Find( s => s.def.defName == "RedistHeat_DuctPipe" );
             pipe?.Destroy( DestroyMode.Kill );
         }
+        
     }
 }

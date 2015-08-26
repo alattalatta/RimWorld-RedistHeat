@@ -4,13 +4,13 @@ using Verse;
 
 namespace RedistHeat
 {
-    public class BuildingExhaustPort : Building_TempControl
+    public class Building_ExhaustPort : Building_TempControl
     {
         public IntVec3 VecNorth { get; private set; }
         public IntVec3 VecSouth { get; private set; }
         public bool isAvailable;
 
-        private BuildingIndustrialCooler neighCooler;
+        private Building_IndustrialCooler neighCooler;
 
         public override void SpawnSetup()
         {
@@ -42,16 +42,16 @@ namespace RedistHeat
         {
             var str = new StringBuilder();
             str.AppendLine( base.GetInspectString() );
-            str.Append( StaticSet.StringState + " " );
+            str.Append( ResourceBank.StringState + " " );
 
-            str.Append( isAvailable ? StaticSet.StringWorking : StaticSet.StringNotWorking );
+            str.Append( isAvailable ? ResourceBank.StringWorking : ResourceBank.StringNotWorking );
 
             return str.ToString();
         }
 
-        private BuildingIndustrialCooler AdjacentCooler()
+        private Building_IndustrialCooler AdjacentCooler()
         {
-            var finder = Find.ThingGrid.ThingAt< BuildingIndustrialCooler >( VecSouth );
+            var finder = Find.ThingGrid.ThingAt< Building_IndustrialCooler >( VecSouth );
             return finder;
         }
     }

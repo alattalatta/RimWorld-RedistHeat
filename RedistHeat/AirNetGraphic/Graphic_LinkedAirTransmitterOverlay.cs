@@ -3,30 +3,33 @@ using Verse;
 
 namespace RedistHeat
 {
-    public class GraphicLinkedAirTransmitterOverlay : Graphic_Linked
+    public class Grahpic_LinkedAirPipeOverlay : Graphic_Linked
     {
-        public GraphicLinkedAirTransmitterOverlay( Graphic subGraphic )
+        public Grahpic_LinkedAirPipeOverlay( Graphic subGraphic )
             : base( subGraphic )
         {
         }
 
         public override bool ShouldLinkWith( IntVec3 c, Thing parent )
         {
-            return c.InBounds() && AirNetGrid.AirNodeAt( c ) != null;
+            var compAir = parent.TryGetComp< CompAir >();
+            if ( compAir == null )
+                return false;
+
+            var lowerFlag = AirNetGrid.NetAt( c, NetLayer.Lower ) != null && compAir.IsLayerOf( NetLayer.Lower );
+            var upperFlag = AirNetGrid.NetAt( c, NetLayer.Upper ) != null && compAir.IsLayerOf( NetLayer.Upper );
+
+            return c.InBounds() && (lowerFlag || upperFlag);
         }
 
         public override void Print( SectionLayer layer, Thing parent )
         {
-            var intRect = parent.OccupiedRect();
-            for ( var i = intRect.minZ; i <= intRect.maxZ; i++ )
+            var occupiedRect = parent.OccupiedRect();
+            foreach ( var current in occupiedRect )
             {
-                for ( var j = intRect.minX; j <= intRect.maxX; j++ )
-                {
-                    var cell = new IntVec3( j, 0, i );
-                    var center = cell.ToVector3ShiftedWithAltitude( AltitudeLayer.WorldDataOverlay );
-                    Printer_Plane.PrintPlane( layer, center, new Vector2( 1f, 1f ), LinkedDrawMatFrom( parent, cell ),
-                        0f );
-                }
+                var center = current.ToVector3ShiftedWithAltitude( AltitudeLayer.WorldDataOverlay );
+                Printer_Plane.PrintPlane(layer, center, new Vector2(1f, 1f), LinkedDrawMatFrom(parent, current),
+                    0f);
             }
         }
     }

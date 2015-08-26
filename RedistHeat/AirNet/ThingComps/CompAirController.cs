@@ -20,7 +20,7 @@ namespace RedistHeat
         public override string CompInspectStringExtra()
         {
             var str = new StringBuilder();
-            str.Append( StaticSet.StringTargetTemperature + ": " );
+            str.Append( ResourceBank.StringTargetTemperature + ": " );
             str.AppendLine( targetTemperature.ToStringTemperature( "F0" ) );
 
             str.Append( base.CompInspectStringExtra() );
@@ -38,7 +38,7 @@ namespace RedistHeat
             {
                 defaultLabel = (-10f).ToStringTemperature( "F0" ),
                 defaultDesc = "CommandLowerTempDesc".Translate(),
-                icon = StaticSet.UITempLower,
+                icon = ResourceBank.UITempLower,
                 action = () => ChangeTargetTemp( -10f )
             };
             yield return l2;
@@ -47,7 +47,7 @@ namespace RedistHeat
             {
                 defaultLabel = (-1f).ToStringTemperature( "F0" ),
                 defaultDesc = "CommandLowerTempDesc".Translate(),
-                icon = StaticSet.UITempLower,
+                icon = ResourceBank.UITempLower,
                 action = () => ChangeTargetTemp( -1f )
             };
             yield return l1;
@@ -56,7 +56,7 @@ namespace RedistHeat
             {
                 defaultLabel = "CommandResetTemp".Translate(),
                 defaultDesc = "CommandResetTempDesc".Translate(),
-                icon = StaticSet.UITempReset,
+                icon = ResourceBank.UITempReset,
                 action = () => targetTemperature = 21f
             };
             yield return s;
@@ -65,7 +65,7 @@ namespace RedistHeat
             {
                 defaultLabel = (1f).ToStringTemperature( "F0" ),
                 defaultDesc = "CommandRaiseTempDesc".Translate(),
-                icon = StaticSet.UITempRaise,
+                icon = ResourceBank.UITempRaise,
                 action = () => ChangeTargetTemp( 1f )
             };
             yield return r1;
@@ -74,7 +74,7 @@ namespace RedistHeat
             {
                 defaultLabel = (10f).ToStringTemperature( "F0" ),
                 defaultDesc = "CommandRaiseTempDesc".Translate(),
-                icon = StaticSet.UITempRaise,
+                icon = ResourceBank.UITempRaise,
                 action = () => ChangeTargetTemp( 10f )
             };
             yield return r2;

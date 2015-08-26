@@ -6,6 +6,7 @@ using Verse;
 
 namespace RedistHeat
 {
+    /*
     public class BuildingDuctIntersection : Building
     {
         private readonly IntVec3[] vec = new IntVec3[4];
@@ -26,7 +27,7 @@ namespace RedistHeat
             var cardinals = new CompAir[4];
             for ( var i = 0; i < 4; i++ )
             {
-                cardinals[i] = AirNetGrid.AirNodeAt( vec[i] ) as CompAir;
+                cardinals[i] = AirNetGrid.NetAt( vec[i] ) as CompAir;
             }
             //Split: North and South
             if ( cardinals[0] != null && cardinals[2] != null )
@@ -61,10 +62,10 @@ namespace RedistHeat
 
             var l = new Command_Action
             {
-                defaultLabel = StaticSet.StringUIRefreshIDLabel,
-                defaultDesc = StaticSet.StringUIRefreshIDDesc,
+                defaultLabel = ResourceBank.StringUIRefreshIDLabel,
+                defaultDesc = ResourceBank.StringUIRefreshIDDesc,
                 hotKey = KeyBindingDefOf.CommandTogglePower,
-                icon = StaticSet.UIRefreshID,
+                icon = ResourceBank.UIRefreshID,
                 action = () => MakeConnection()
             };
             yield return l;
@@ -75,7 +76,7 @@ namespace RedistHeat
             var cardinals = new CompAir[4];
             for ( var i = 0; i < 4; i++ )
             {
-                cardinals[i] = AirNetGrid.AirNodeAt( vec[i] ) as CompAir;
+                cardinals[i] = AirNetGrid.NetAt( vec[i] ) as CompAir;
             }
             //Start: North and South
             if ( cardinals[0] != null && cardinals[2] != null )
@@ -119,5 +120,5 @@ namespace RedistHeat
         {
             compAirSource.connectedNet.MergeIntoNet( compAirTarget.connectedNet );
         }
-    }
+    }*/
 }

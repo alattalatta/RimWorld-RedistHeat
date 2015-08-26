@@ -5,7 +5,7 @@ using Verse;
 
 namespace RedistHeat
 {
-    public class PlaceWorkerExhaustPort : PlaceWorker
+    public class PlaceWorker_ExhaustPort : PlaceWorker
     {
         public override void DrawGhost( ThingDef def, IntVec3 center, Rot4 rot )
         {
@@ -29,13 +29,13 @@ namespace RedistHeat
             }
             if ( vecNorth.Impassable() )
             {
-                return StaticSet.StringExposeHot;
+                return ResourceBank.StringExposeHot;
             }
 
             var edifice = vecSouth.GetEdifice();
             if ( edifice == null || edifice.def != ThingDef.Named( "RedistHeat_IndustrialCooler" ) )
             {
-                return StaticSet.StringAttachToCooler;
+                return ResourceBank.StringAttachToCooler;
             }
 
             return true;

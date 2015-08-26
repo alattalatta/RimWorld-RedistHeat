@@ -5,7 +5,7 @@ using Verse;
 
 namespace RedistHeat
 {
-    public class PlaceWorkerActiveVent : PlaceWorker
+    public class PlaceWorker_ActiveVent : PlaceWorker
     {
         public override void DrawGhost( ThingDef def, IntVec3 center, Rot4 rot )
         {
@@ -44,7 +44,7 @@ namespace RedistHeat
             }
             if ( vecNorth.Impassable() || vecSouth.Impassable() )
             {
-                return StaticSet.StringExposeBoth;
+                return ResourceBank.StringExposeBoth;
             }
             return true;
         }

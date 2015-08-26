@@ -3,7 +3,7 @@ using Verse;
 
 namespace RedistHeat
 {
-    public class BuildingActiveVent : BuildingVent
+    public class Building_ActiveVent : Building_Vent
     {
         public override void SpawnSetup()
         {
