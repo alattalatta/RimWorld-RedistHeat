@@ -8,15 +8,15 @@ namespace RedistHeat
 {
     public class AirNet
     {
-        private static int debugIdNext;
+        public CompAir root;
         public readonly int debugId;
 
-        private IntVec3 root;
+        private static int debugIdNext;
 
-        private float netTemperature;
 
         public readonly List< CompAir > nodes = new List< CompAir >();
 
+        private float netTemperature;
         public float NetTemperature
         {
             get { return netTemperature; }
@@ -28,7 +28,7 @@ namespace RedistHeat
 
         #region Constructors
 
-        public AirNet( IEnumerable< CompAir > newNodes, NetLayer layer, float temperature, IntVec3 root )
+        public AirNet( IEnumerable< CompAir > newNodes, NetLayer layer, float temperature, CompAir root )
         {
             Layer = layer;
             netTemperature = temperature;
@@ -80,7 +80,7 @@ namespace RedistHeat
                   .Append( ", layer " )
                   .Append( Layer )
                   .Append( ", root " )
-                  .Append( root )
+                  .Append( root.parent.Position )
                   .Append( ")" );
             return result.ToString();
         }

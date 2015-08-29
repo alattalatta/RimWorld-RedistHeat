@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Verse;
 
 namespace RedistHeat
 {
