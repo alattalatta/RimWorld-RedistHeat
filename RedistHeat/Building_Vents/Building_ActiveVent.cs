@@ -15,6 +15,9 @@ namespace RedistHeat
 
         protected override bool Validate()
         {
+            if ( roomNorth == null || roomSouth == null || compPowerTrader == null)
+                return false;
+
             return (base.Validate() && compPowerTrader.PowerOn &&
                     ValidateTemp( roomNorth.Temperature, roomSouth.Temperature ));
         }

@@ -8,8 +8,9 @@ namespace RedistHeat
 {
     public static class AirNetManager
     {
+        public static List< AirNet >[] allNets;
+
         //Pending comps
-        private static List< AirNet >[] allNets;
         private static List< CompAir >[] newComps;
         private static List< CompAir >[] oldComps;
 
@@ -128,21 +129,19 @@ namespace RedistHeat
 
         public static void RegisterAirNet( AirNet newNet )
         {
-#if DEBUG
-            Log.Message( "Created net " + newNet );
-#endif
-
             allNets[newNet.LayerInt].Add( newNet );
+#if DEBUG
+            Log.Message("Created net " + newNet + ". " + newNet.Layer + " net count: " + allNets[newNet.LayerInt].Count);
+#endif
             AirNetGrid.NotifyNetCreated( newNet );
         }
 
         public static void DeregisterAirNet( AirNet oldNet )
         {
-#if DEBUG
-            Log.Message( "Deleted net " + oldNet );
-#endif
-
             allNets[oldNet.LayerInt].Remove( oldNet );
+#if DEBUG
+            Log.Message("Deleted net " + oldNet + ". " + oldNet.Layer + " net count: " + allNets[oldNet.LayerInt].Count);
+#endif
             AirNetGrid.NotifyNetDeregistered( oldNet );
         }
 
@@ -163,9 +162,7 @@ namespace RedistHeat
             {
                 if ( !newComps.Any() && !oldComps.Any() )
                     continue;
-
-                //I'm not sure if this works or not
-                float? beforeMergeTemperature = null;
+                
                 //Deregister the whole net that should be merged (deregister adjacent AirNet)
                 foreach ( var current in newComps[layerInt] )
                 {
@@ -179,17 +176,14 @@ namespace RedistHeat
 
                         var oldNet = AirNetGrid.NetAt( adjPos, (NetLayer) layerInt );
 
-                        if ( oldNet != null && beforeMergeTemperature == null )
+                        if ( oldNet != null)
                         {
-                            beforeMergeTemperature = oldNet.NetTemperature;
                             DeregisterAirNet( oldNet );
                         }
                     }
                 }
 
-
-                //I'm not sure if this works or not
-                float? beforeSplitTemperature = null;
+                
                 //Deregister comps marked as old
                 foreach ( var current in oldComps[layerInt] )
                 {
@@ -197,10 +191,6 @@ namespace RedistHeat
 
                     if ( oldNet != null )
                     {
-                        if ( beforeSplitTemperature == null )
-                        {
-                            beforeSplitTemperature = oldNet.NetTemperature;
-                        }
                         DeregisterAirNet( oldNet );
                     }
                 }
@@ -213,7 +203,7 @@ namespace RedistHeat
                     {
                         RegisterAirNet( AirNetMaker.NewAirNetStartingFrom( (Building) current.parent,
                                                                            (NetLayer) layerInt,
-                                                                           beforeMergeTemperature ) );
+                                                                           GenTemperature.OutdoorTemp ) );
                     }
                 }
 
@@ -231,7 +221,7 @@ namespace RedistHeat
                         if ( airNode != null )
                         {
                             RegisterAirNet( AirNetMaker.NewAirNetStartingFrom( airNode, (NetLayer) layerInt,
-                                                                               beforeSplitTemperature ) );
+                                                                               GenTemperature.OutdoorTemp) );
                         }
                     }
                 }

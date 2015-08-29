@@ -17,7 +17,7 @@
     <DebugSymbols>false</DebugSymbols>
     <DebugType>none</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>D:\1\RimWorld906Win\Mods\LT_RedistHeat\Assemblies\</OutputPath>
+    <OutputPath>D:\1\RimWorld911Win\Mods\LT_RedistHeat\Assemblies\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -27,7 +27,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>D:\1\RimWorld906Win\Mods\LT_RedistHeat\Assemblies\</OutputPath>
+    <OutputPath>D:\1\RimWorld911Win\Mods\LT_RedistHeat\Assemblies\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -36,9 +36,8 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Assembly-CSharp, Version=0.12.5707.29311, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>D:\1\RimWorld906Win\RimWorld906Win_Data\Managed\Assembly-CSharp.dll</HintPath>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>D:\1\RimWorld911Win\RimWorld911Win_Data\Managed\Assembly-CSharp.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -47,9 +46,8 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>D:\1\RimWorld906Win\RimWorld906Win_Data\Managed\UnityEngine.dll</HintPath>
+    <Reference Include="UnityEngine">
+      <HintPath>D:\1\RimWorld911Win\RimWorld911Win_Data\Managed\UnityEngine.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>
@@ -78,7 +76,7 @@
     <Compile Include="AirNet\AirNet.cs" />
     <Compile Include="Misc\ResourceBank.cs" />
     <Compile Include="PlaceWorkers\PlaceWorker_DuctIntersection.cs" />
-    <Compile Include="PlaceWorkers\PlaceWorker_DuctCompNorth.cs" />
+    <Compile Include="PlaceWorkers\PlaceWorker_DuctComp.cs" />
     <Compile Include="PlaceWorkers\PlaceWorker_ExhaustPort.cs" />
     <Compile Include="PlaceWorkers\PlaceWorker_IndustrialCooler.cs" />
     <Compile Include="PlaceWorkers\PlaceWorker_ActiveVent.cs" />
