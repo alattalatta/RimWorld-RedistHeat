@@ -75,8 +75,6 @@ namespace RedistHeat
         private void Initialize()
         {
             var watch = new Stopwatch();
-
-
             watch.Start();
 
             AirNetManager.Reload();
@@ -93,6 +91,9 @@ namespace RedistHeat
 
         private void RestoreTemperature()
         {
+            var watch = new Stopwatch();
+            watch.Start();
+
             foreach ( var channel in AirNetManager.allNets )
             {
                 foreach ( var current in channel )
@@ -123,7 +124,15 @@ namespace RedistHeat
                     }
                 }
             }
+
+            var elapsed = watch.ElapsedMilliseconds;
+            if ( Prefs.LogVerbose )
+            {
+                Log.Message("LT-RH: " + elapsed + "ms: Restored saved data.");
+            }
+
             doneLoad = true;
+            watch.Reset();
         }
     }
 }

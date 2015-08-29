@@ -5,7 +5,7 @@ using Verse;
 
 namespace RedistHeat
 {
-    public class PlaceWorker_DuctCompNorth : PlaceWorker
+    public class PlaceWorker_DuctComp : PlaceWorker
     {
         public override void DrawGhost( ThingDef def, IntVec3 center, Rot4 rot )
         {
