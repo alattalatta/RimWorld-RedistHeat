@@ -1,7 +1,9 @@
 ﻿
 
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using Verse;
 
 namespace RedistHeat
@@ -10,16 +12,16 @@ namespace RedistHeat
     {
         public ThingWithComps rootBuilding;
         public float netTemperature;
-        public bool done = false;
+        public bool done;
 
-        public void ExposeData()
+
+        public void                         ExposeData()
         {
             Scribe_Values.LookValue( ref netTemperature, "netTemperature", -270 );
             Scribe_References.LookReference( ref rootBuilding, "rootBuilding" );
         }
     }
-
-    //TODO rename to AirNetManager
+    
     public class AirNetTicker : MapComponent
     {
         private bool doneInit;
@@ -27,25 +29,24 @@ namespace RedistHeat
 
         private List< NetSaver > savers = new List< NetSaver >();
 
-        public override void MapComponentUpdate()
+
+        public override void                MapComponentUpdate()
         {
             if ( !doneInit )
             {
                 Initialize();
             }
-#if DEBUG
-            //Log.Message( "Updating." );
-#endif
             AirNetManager.AirNetsUpdate();
             AirNetManager.UpdateMapDrawer();
 
-            if ( !doneLoad )
+            if ( doneInit && !doneLoad )
             {
                 RestoreTemperature();
             }
         }
 
-        public override void MapComponentTick()
+
+        public override void                MapComponentTick()
         {
             if ( !doneInit )
             {
@@ -55,24 +56,28 @@ namespace RedistHeat
             AirNetManager.AirNetsTick();
         }
 
-        public override void ExposeData()
+
+        public override void                ExposeData()
         {
-            foreach ( var channel in AirNetManager.allNets )
+            if ( Scribe.mode != LoadSaveMode.LoadingVars && Scribe.mode != LoadSaveMode.Saving )
+                return;
+            
+            savers.Clear();
+
+            foreach ( var current in AirNetManager.allNets.SelectMany( channel => channel ) )
             {
-                foreach ( var current in channel )
+                savers.Add( new NetSaver()
                 {
-                    savers.Add( new NetSaver()
-                    {
-                        netTemperature = current.NetTemperature,
-                        rootBuilding = current.root.parent
-                    } );
-                }
+                    netTemperature = current.NetTemperature,
+                    rootBuilding = current.root.parent
+                } );
             }
 
             Scribe_Collections.LookList( ref savers, "savers", LookMode.Deep );
         }
 
-        private void Initialize()
+
+        private void                        Initialize()
         {
             var watch = new Stopwatch();
             watch.Start();
@@ -89,37 +94,44 @@ namespace RedistHeat
             watch.Reset();
         }
 
-        private void RestoreTemperature()
+
+        private void                        RestoreTemperature()
         {
+            if ( savers == null )
+            {
+#if DEBUG
+                Log.Message( "LT-RH: save list is null. ");
+#endif
+                doneLoad = true;
+                return;
+            }
+
             var watch = new Stopwatch();
             watch.Start();
 
-            foreach ( var channel in AirNetManager.allNets )
+
+            for ( var i = 0; i < Common.NetLayerCount(); i++ )
             {
+                var channel = AirNetManager.allNets[i];
+
                 foreach ( var current in channel )
                 {
-#if DEBUG
-                    Log.Message( "LT-RH: LOOK: Looking for save with root " + current.root.parent );
-#endif
-                    foreach ( var save in savers )
+                    foreach ( var save in savers.Where( s => !s.done ) )
                     {
-#if DEBUG
-                        Log.Message( "LT-RH: SAVE: Looking at save with root " + save.rootBuilding + ", temperature " +
-                                     save.netTemperature );
-#endif
-                        if ( save.done )
+                        try
                         {
-                            continue;
-                        }
+                            if ( !current.nodes.Exists( s => s.parent.GetHashCode() == save.rootBuilding.GetHashCode() ) )
+                            {
+                                continue;
+                            }
 
-                        if ( current.nodes.Exists( s => s.parent.GetHashCode() == save.rootBuilding.GetHashCode() ) )
-                        {
-#if DEBUG
-                            Log.Message( "Found matching one. Restoring." );
-#endif
                             current.NetTemperature = save.netTemperature;
                             save.done = true;
                             break;
+                        }
+                        catch ( Exception e )
+                        {
+                            Log.ErrorOnce( "LT-RH: Exception occured while loading.\n" + e, 13395831 );
                         }
                     }
                 }

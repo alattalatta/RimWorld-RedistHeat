@@ -37,23 +37,6 @@ namespace RedistHeat
                 Log.Message( "LT-RH: Initialized NetManager." );
         }
 
-        /*public static void Reinit()
-        {
-            var layerCount = Common.NetLayerCount();
-            allNets = new List< AirNet >[layerCount];
-            newComps = new List< CompAir >[layerCount];
-            oldComps = new List< CompAir >[layerCount];
-
-            updatees = new List< IntVec3 >();
-
-            for ( var i = 0; i < layerCount; i++ )
-            {
-                allNets[i] = new List< AirNet >();
-                newComps[i] = new List< CompAir >();
-                oldComps[i] = new List< CompAir >();
-            }
-        }*/
-
         public static void Reload()
         {
             foreach ( var current in Find.Map.listerBuildings.allBuildingsColonist )
@@ -196,7 +179,7 @@ namespace RedistHeat
                 }
 
 
-                //Making a new, merged net
+                //Make a new, merged net
                 foreach ( var current in newComps[layerInt] )
                 {
                     if ( AirNetGrid.NetAt( current.parent.Position, (NetLayer) layerInt ) == null )

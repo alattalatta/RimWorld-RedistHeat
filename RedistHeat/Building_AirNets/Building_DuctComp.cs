@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -19,7 +20,6 @@ namespace RedistHeat
         {
             base.SpawnSetup();
             compAir = GetComp< CompAirTrader >();
-            roomNorth = (Position + IntVec3.North.RotatedBy( Rotation )).GetRoom();
             Common.WipeExistingPipe( Position );
         }
 
@@ -31,6 +31,11 @@ namespace RedistHeat
 
         public override void TickRare()
         {
+            if ( roomNorth == null )
+            {
+                roomNorth = (Position + IntVec3.North.RotatedBy( Rotation )).GetRoom();
+            }
+
             if ( !Validate() )
             {
                 return;
@@ -38,7 +43,6 @@ namespace RedistHeat
 
             var connectedNet = compAir.connectedNet;
             roomNorth = (Position + IntVec3.North.RotatedBy( Rotation )).GetRoom();
-
             float tempEq;
             if ( roomNorth.UsesOutdoorTemperature )
             {
