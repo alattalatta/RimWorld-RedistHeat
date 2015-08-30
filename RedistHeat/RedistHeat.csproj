@@ -17,7 +17,7 @@
     <DebugSymbols>false</DebugSymbols>
     <DebugType>none</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>D:\1\RimWorld911Win\Mods\LT_RedistHeat\Assemblies\</OutputPath>
+    <OutputPath>D:\1\RimWorld914Win\Mods\LT_RedistHeat\Assemblies\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -27,7 +27,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>D:\1\RimWorld911Win\Mods\LT_RedistHeat\Assemblies\</OutputPath>
+    <OutputPath>D:\1\RimWorld914Win\Mods\LT_RedistHeat\Assemblies\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -37,7 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
-      <HintPath>D:\1\RimWorld911Win\RimWorld911Win_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <HintPath>D:\1\RimWorld914Win\RimWorld914Win_Data\Managed\Assembly-CSharp.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -47,7 +47,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="UnityEngine">
-      <HintPath>D:\1\RimWorld911Win\RimWorld911Win_Data\Managed\UnityEngine.dll</HintPath>
+      <HintPath>D:\1\RimWorld914Win\RimWorld914Win_Data\Managed\UnityEngine.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>
