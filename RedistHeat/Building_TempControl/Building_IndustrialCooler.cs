@@ -90,9 +90,9 @@ namespace RedistHeat
         {
             //Average of exhaust ports' room temperature
             float tempHotSum = 0;
-            foreach ( var finder in activeExhausts )
+            foreach ( var current in activeExhausts )
             {
-                tempHotSum += finder.VecNorth.GetTemperature();
+                tempHotSum += current.VecNorth.GetTemperature();
             }
             var tempHotAvg = tempHotSum/activeExhausts.Count;
 

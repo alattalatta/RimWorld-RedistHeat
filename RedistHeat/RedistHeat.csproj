@@ -58,6 +58,7 @@
     <Compile Include="AirNet\CompProperties\CompAirTransmitterProperties.cs" />
     <Compile Include="Building_AirNets\Building_DuctComp.cs" />
     <Compile Include="Building_AirNets\Building_DuctPipe.cs" />
+    <Compile Include="Class1.cs" />
     <Compile Include="Common.cs" />
     <Compile Include="MapComponent\AirNetTicker.cs" />
     <Compile Include="Misc\ThingDef_AirNet.cs" />
