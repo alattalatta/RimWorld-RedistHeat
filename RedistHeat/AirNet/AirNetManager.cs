@@ -54,17 +54,11 @@ namespace RedistHeat
         {
             if ( compAir.IsLayerOf( NetLayer.Lower ) )
             {
-#if DEBUG
-                //Log.Message(compAir + " spawned at " + compAir.parent.Position + ", layer " + NetLayer.Lower);
-#endif
                 newComps[(int) NetLayer.Lower].Add( compAir );
             }
 
             else if ( compAir.IsLayerOf( NetLayer.Upper ) )
             {
-#if DEBUG
-                //Log.Message( compAir + " spawned at " + compAir.parent.Position + ", layer " + NetLayer.Upper );
-#endif
                 newComps[(int) NetLayer.Upper].Add( compAir );
             }
 
@@ -75,17 +69,11 @@ namespace RedistHeat
         {
             if ( compAir.IsLayerOf( NetLayer.Lower ) )
             {
-#if DEBUG
-                //Log.Message( compAir + " despawned at " + compAir.parent.Position + ", layer " + NetLayer.Lower );
-#endif
                 oldComps[(int) NetLayer.Lower].Add( compAir );
             }
 
             if ( compAir.IsLayerOf( NetLayer.Upper ) )
             {
-#if DEBUG
-                //Log.Message( compAir + " despawned at " + compAir.parent.Position + ", layer " + NetLayer.Upper );
-#endif
                 oldComps[(int) NetLayer.Upper].Add( compAir );
             }
 
@@ -103,28 +91,19 @@ namespace RedistHeat
 
             oldComps[(int) oldLayer].Add( compAir );
             newComps[(int) compAir.currentLayer].Add( compAir );
-
-#if DEBUG
-            //Log.Message( compAir + " changed layer to " + compAir.currentLayer );
-#endif
+            
             AddToGraphicUpdateList( compAir );
         }
 
         public static void RegisterAirNet( AirNet newNet )
         {
             allNets[newNet.LayerInt].Add( newNet );
-#if DEBUG
-            Log.Message("Created net " + newNet + ". " + newNet.Layer + " net count: " + allNets[newNet.LayerInt].Count);
-#endif
             AirNetGrid.NotifyNetCreated( newNet );
         }
 
         public static void DeregisterAirNet( AirNet oldNet )
         {
             allNets[oldNet.LayerInt].Remove( oldNet );
-#if DEBUG
-            Log.Message("Deleted net " + oldNet + ". " + oldNet.Layer + " net count: " + allNets[oldNet.LayerInt].Count);
-#endif
             AirNetGrid.NotifyNetDeregistered( oldNet );
         }
 
@@ -246,16 +225,11 @@ namespace RedistHeat
             {
                 return;
             }
-
-#if DEBUG
-            //Log.Message( "Updated drawer." );
-#endif
             foreach ( var current in updatees )
             {
                 Find.MapDrawer.MapMeshDirty( current, MapMeshFlag.Things, true, false );
                 Find.MapDrawer.MapMeshDirty( current, MapMeshFlag.PowerGrid, true, false );
             }
-
             Find.MapDrawer.MapMeshDrawerUpdate_First();
             updatees.Clear();
         }

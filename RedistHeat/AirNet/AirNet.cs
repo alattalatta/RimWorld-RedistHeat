@@ -8,12 +8,10 @@ namespace RedistHeat
 {
     public class AirNet
     {
-        public CompAir root;
         public readonly int debugId;
-
         private static int debugIdNext;
 
-
+        public CompAir root;
         public readonly List< CompAir > nodes = new List< CompAir >();
 
         private float netTemperature;
@@ -26,7 +24,6 @@ namespace RedistHeat
         public NetLayer Layer { get; }
         public int LayerInt => (int) Layer;
 
-        #region Constructors
 
         public AirNet( IEnumerable< CompAir > newNodes, NetLayer layer, float temperature, CompAir root )
         {
@@ -45,8 +42,6 @@ namespace RedistHeat
             }
             this.root = root;
         }
-
-        #endregion
 
         public void AirNetTick()
         {

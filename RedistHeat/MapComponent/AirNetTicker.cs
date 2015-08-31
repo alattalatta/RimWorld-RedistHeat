@@ -1,6 +1,4 @@
-﻿
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -39,7 +37,7 @@ namespace RedistHeat
             AirNetManager.AirNetsUpdate();
             AirNetManager.UpdateMapDrawer();
 
-            if ( doneInit && !doneLoad )
+            if ( !doneLoad )
             {
                 RestoreTemperature();
             }
@@ -79,19 +77,14 @@ namespace RedistHeat
 
         private void                        Initialize()
         {
-            var watch = new Stopwatch();
-            watch.Start();
-
             AirNetManager.Reload();
-            var elapsed = watch.ElapsedMilliseconds;
 
             if ( Prefs.LogVerbose )
             {
-                Log.Message( "LT-RH: " + elapsed + "ms: Reloaded NetManager." );
+                Log.Message( "LT-RH: Reloaded NetManager." );
             }
 
             doneInit = true;
-            watch.Reset();
         }
 
 
@@ -99,16 +92,9 @@ namespace RedistHeat
         {
             if ( savers == null )
             {
-#if DEBUG
-                Log.Message( "LT-RH: save list is null. ");
-#endif
                 doneLoad = true;
                 return;
             }
-
-            var watch = new Stopwatch();
-            watch.Start();
-
 
             for ( var i = 0; i < Common.NetLayerCount(); i++ )
             {
@@ -136,15 +122,12 @@ namespace RedistHeat
                     }
                 }
             }
-
-            var elapsed = watch.ElapsedMilliseconds;
             if ( Prefs.LogVerbose )
             {
-                Log.Message("LT-RH: " + elapsed + "ms: Restored saved data.");
+                Log.Message("LT-RH: Restored saved data.");
             }
 
             doneLoad = true;
-            watch.Reset();
         }
     }
 }
