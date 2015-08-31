@@ -20,11 +20,10 @@ namespace RedistHeat
             {
                 isWorking = value;
 
-                if ( compPowerTrader == null )
+                if ( compPowerTrader == null || compTempControl == null )
                 {
                     return;
                 }
-
                 if ( isWorking )
                 {
                     compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption;

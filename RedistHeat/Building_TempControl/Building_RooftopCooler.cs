@@ -8,24 +8,46 @@ namespace RedistHeat
     {
         private Room room;
         private bool isWorking;
+        private bool WorkingState
+        {
+            set
+            {
+                isWorking = value;
+
+                if ( isWorking )
+                {
+                    compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption;
+                }
+                else
+                {
+                    compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption *
+                                                  compTempControl.props.lowPowerConsumptionFactor;
+                }
+
+                compTempControl.operatingAtHighPower = isWorking;
+            }
+        }
 
         private float Energy => compTempControl.props.energyPerSecond;
 
         public override void TickRare()
         {
             if ( Position.Impassable() )
+            {
+                WorkingState = false;
                 return;
+            }
             if ( room == null )
             {
                 room = Position.GetRoom();
-            }
-            if ( room == null )
-            {
-                isWorking = false;
-                return;
+                if ( room == null )
+                {
+                    WorkingState = false;
+                    return;
+                }
             }
 
-            isWorking = compPowerTrader.PowerOn && !Position.Impassable();
+            isWorking = compPowerTrader.PowerOn;
 
             if ( isWorking )
             {
@@ -44,7 +66,7 @@ namespace RedistHeat
         private void ControlTemperature()
         {
             //Average of exhaust ports' room temperature
-            float outdoorTemp = GenTemperature.OutdoorTemp;
+            var outdoorTemp = GenTemperature.OutdoorTemp;
 
             //Cooler's temperature
             var roomTemp = room.Temperature;
@@ -65,10 +87,6 @@ namespace RedistHeat
             var coldAir = GenTemperature.ControlTemperatureTempChange( Position, energyLimit,
                                                                        compTempControl.targetTemperature );
             isWorking = !Mathf.Approximately( coldAir, 0.0f );
-            if ( !isWorking )
-            {
-                return;
-            }
             room.Temperature += coldAir;
         }
     }

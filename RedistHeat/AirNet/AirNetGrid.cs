@@ -16,10 +16,9 @@ namespace RedistHeat
                 netGrid[i] = new AirNet[CellIndices.NumGridCells];
             }
 
-            if ( Prefs.LogVerbose )
-            {
-                Log.Message( "LT-RH: Initialized NetGrid." );
-            }
+#if DEBUG
+            Log.Message("LT-RH: Initialized AirNetGrid.");
+#endif
         }
 
         public static AirNet NetAt( IntVec3 pos, NetLayer layer )

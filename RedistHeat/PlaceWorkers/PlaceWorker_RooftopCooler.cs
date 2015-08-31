@@ -2,7 +2,7 @@
 using UnityEngine;
 using Verse;
 
-namespace RedistHeat.PlaceWorkers
+namespace RedistHeat
 {
     public class PlaceWorker_RooftopCooler : PlaceWorker
     {
@@ -25,7 +25,8 @@ namespace RedistHeat.PlaceWorkers
                     return ResourceBank.NotNearWithOther;
             }
 
-            if ( loc.GetRoof().isNatural )
+            var roof = loc.GetRoof();
+            if ( roof == null || loc.GetRoof().isNatural )
                 return ResourceBank.NeedConstructedRoof;
 
             return true;
