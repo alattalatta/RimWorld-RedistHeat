@@ -73,7 +73,6 @@
     <Compile Include="AirNet\AirNetGrid.cs" />
     <Compile Include="AirNet\AirNet.cs" />
     <Compile Include="Misc\ResourceBank.cs" />
-    <Compile Include="PlaceWorkers\PlaceWorker_DuctIntersection.cs" />
     <Compile Include="PlaceWorkers\PlaceWorker_DuctComp.cs" />
     <Compile Include="PlaceWorkers\PlaceWorker_ExhaustPort.cs" />
     <Compile Include="PlaceWorkers\PlaceWorker_IndustrialCooler.cs" />

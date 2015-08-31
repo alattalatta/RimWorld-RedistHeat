@@ -20,11 +20,10 @@ namespace RedistHeat
         public static string StringState              = "RedistHeat_State".Translate();
         public static string StringWorking            = "RedistHeat_Working".Translate();
         public static string StringNotWorking         = "RedistHeat_NotWorking".Translate();
-
         public static string StringWorkingDucts       = "RedistHeat_WorkingDucts".Translate();
 
         public static string StringExposeDuct         = "RedistHeat_MustExposeDuct".Translate();
-        public static string StringExposeBoth         = "MustPlaceVentWithFreeSpaces".Translate();
+        public static string StringExposeBoth         = "MustPlaceVentWithFreeSpaces".Translate(); // Core mod key text
         public static string StringExposeHot          = "RedistHeat_MustExposeHotSide".Translate();
         public static string StringExposeCold         = "RedistHeat_MustExposeColdSide".Translate();
         public static string StringAttachToCooler     = "RedistHeat_MustPlaceBackSideOnCooler".Translate();

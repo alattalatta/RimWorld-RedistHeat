@@ -23,7 +23,6 @@ namespace RedistHeat
             allNets = new List<AirNet>[layerCount];
             newComps = new List<CompAir>[layerCount];
             oldComps = new List<CompAir>[layerCount];
-
             updatees = new List<IntVec3>();
 
             for ( var i = 0; i < layerCount; i++ )
@@ -32,9 +31,6 @@ namespace RedistHeat
                 newComps[i] = new List<CompAir>();
                 oldComps[i] = new List<CompAir>();
             }
-
-            if(Prefs.LogVerbose)
-                Log.Message( "LT-RH: Initialized NetManager." );
         }
 
         public static void Reload()

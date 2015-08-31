@@ -8,123 +8,110 @@ namespace RedistHeat
 {
     public class NetSaver : IExposable
     {
-        public ThingWithComps rootBuilding;
-        public float netTemperature;
+        public ThingWithComps root;
+        public float netTemp;
         public bool done;
 
 
-        public void                         ExposeData()
+        public void ExposeData()
         {
-            Scribe_Values.LookValue( ref netTemperature, "netTemperature", -270 );
-            Scribe_References.LookReference( ref rootBuilding, "rootBuilding" );
+            // TODO Change save label to netTemp and root
+            Scribe_Values.LookValue(ref netTemp, "netTemperature", -270);
+            Scribe_References.LookReference(ref root, "rootBuilding");
         }
     }
-    
+
     public class AirNetTicker : MapComponent
     {
         private bool doneInit;
         private bool doneLoad;
 
-        private List< NetSaver > savers = new List< NetSaver >();
-
-
-        public override void                MapComponentUpdate()
+        private List<NetSaver> saves = new List<NetSaver>();
+        
+        public override void MapComponentUpdate()
         {
-            if ( !doneInit )
+            if (!doneInit)
             {
                 Initialize();
             }
             AirNetManager.AirNetsUpdate();
             AirNetManager.UpdateMapDrawer();
 
-            if ( !doneLoad )
+            if (!doneLoad)
             {
                 RestoreTemperature();
             }
         }
 
 
-        public override void                MapComponentTick()
+        public override void MapComponentTick()
         {
-            if ( !doneInit )
+            if (!doneInit)
             {
                 Initialize();
             }
-
             AirNetManager.AirNetsTick();
         }
 
 
-        public override void                ExposeData()
+        public override void ExposeData()
         {
-            if ( Scribe.mode != LoadSaveMode.LoadingVars && Scribe.mode != LoadSaveMode.Saving )
+            if (Scribe.mode != LoadSaveMode.LoadingVars && Scribe.mode != LoadSaveMode.Saving)
                 return;
-            
-            savers.Clear();
 
-            foreach ( var current in AirNetManager.allNets.SelectMany( channel => channel ) )
+            saves.Clear();
+
+            foreach (var current in AirNetManager.allNets.SelectMany(s => s))
             {
-                savers.Add( new NetSaver()
+                saves.Add(new NetSaver()
                 {
-                    netTemperature = current.NetTemperature,
-                    rootBuilding = current.root.parent
-                } );
+                    netTemp = current.NetTemperature,
+                    root = current.root.parent
+                });
             }
 
-            Scribe_Collections.LookList( ref savers, "savers", LookMode.Deep );
+            //TODO Change save label to saves
+            Scribe_Collections.LookList(ref saves, "savers", LookMode.Deep);
         }
 
 
-        private void                        Initialize()
+        private void Initialize()
         {
             AirNetManager.Reload();
-
-            if ( Prefs.LogVerbose )
-            {
-                Log.Message( "LT-RH: Reloaded NetManager." );
-            }
-
+            Log.Message( "LT-RH: Initialized RedistHeat." );
             doneInit = true;
         }
 
 
-        private void                        RestoreTemperature()
+        private void RestoreTemperature()
         {
-            if ( savers == null )
+            if ( saves == null )
             {
+                Log.Warning( "LT-RH: Save list is null!" );
                 doneLoad = true;
                 return;
             }
-
-            for ( var i = 0; i < Common.NetLayerCount(); i++ )
+            
+            foreach ( var current in AirNetManager.allNets.SelectMany( s => s ) )
             {
-                var channel = AirNetManager.allNets[i];
-
-                foreach ( var current in channel )
+                foreach ( var save in saves.Where( s => !s.done ) )
                 {
-                    foreach ( var save in savers.Where( s => !s.done ) )
+                    try
                     {
-                        try
+                        if (!current.nodes.Exists( s => s.parent.GetHashCode() == save.root.GetHashCode() ) )
                         {
-                            if ( !current.nodes.Exists( s => s.parent.GetHashCode() == save.rootBuilding.GetHashCode() ) )
-                            {
-                                continue;
-                            }
+                            continue;
+                        }
 
-                            current.NetTemperature = save.netTemperature;
-                            save.done = true;
-                            break;
-                        }
-                        catch ( Exception e )
-                        {
-                            Log.ErrorOnce( "LT-RH: Exception occured while loading.\n" + e, 13395831 );
-                        }
+                        current.NetTemperature = save.netTemp;
+                        save.done = true;
+                        break;
+                    }
+                    catch ( Exception e )
+                    {
+                        Log.ErrorOnce( "LT-RH: Exception occured while loading.\n" + e, 13395831 );
                     }
                 }
-            }
-            if ( Prefs.LogVerbose )
-            {
-                Log.Message("LT-RH: Restored saved data.");
             }
 
             doneLoad = true;
