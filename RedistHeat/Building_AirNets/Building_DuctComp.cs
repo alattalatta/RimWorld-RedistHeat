@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -9,9 +9,31 @@ namespace RedistHeat
     public class Building_DuctComp : Building_TempControl
     {
         private const float EqualizationRate = 0.85f;
+
         private bool isLocked;
-        
+        private bool isWorking;
+        private bool WorkingState
+        {
+            set
+            {
+                isWorking = value;
+
+                if ( isWorking )
+                {
+                    compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption;
+                }
+                else
+                {
+                    compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption *
+                                                  compTempControl.props.lowPowerConsumptionFactor;
+                }
+
+                compTempControl.operatingAtHighPower = isWorking;
+            }
+        }
+
         protected CompAirTrader compAir;
+        private IntVec3 vecNorth;
         protected Room roomNorth;
 
         public override string LabelBase => base.LabelBase + " (" + compAir.currentLayer.ToString().ToLower() + ")";
@@ -20,6 +42,8 @@ namespace RedistHeat
         {
             base.SpawnSetup();
             compAir = GetComp< CompAirTrader >();
+            vecNorth = Position + IntVec3.North.RotatedBy( Rotation );
+
             Common.WipeExistingPipe( Position );
         }
 
@@ -31,57 +55,67 @@ namespace RedistHeat
 
         public override void TickRare()
         {
+            if ( vecNorth.Impassable() )
+            {
+                WorkingState = false;
+                return;
+            }
+
             if ( roomNorth == null )
             {
-                roomNorth = (Position + IntVec3.North.RotatedBy( Rotation )).GetRoom();
+                roomNorth = vecNorth.GetRoom();
+                if ( roomNorth == null )
+                {
+                    WorkingState = false;
+                    return;
+                }
             }
 
             if ( !Validate() )
             {
+                WorkingState = false;
                 return;
             }
 
+            WorkingState = true;
+
             var connectedNet = compAir.connectedNet;
             roomNorth = (Position + IntVec3.North.RotatedBy( Rotation )).GetRoom();
-            float tempEq;
+            float targetTemp;
             if ( roomNorth.UsesOutdoorTemperature )
             {
-                tempEq = roomNorth.Temperature;
+                targetTemp = roomNorth.Temperature;
             }
             else
             {
-                tempEq = (roomNorth.Temperature*roomNorth.CellCount +
+                targetTemp = (roomNorth.Temperature*roomNorth.CellCount +
                           connectedNet.NetTemperature*connectedNet.nodes.Count)
                          /(roomNorth.CellCount + connectedNet.nodes.Count);
             }
 
-            compAir.ExchangeHeatWithNets( tempEq, EqualizationRate );
+            compAir.EqualizeWithNets( targetTemp, EqualizationRate );
             if ( !roomNorth.UsesOutdoorTemperature )
             {
-                ExchangeHeat( roomNorth, tempEq, EqualizationRate );
+                Equalize( roomNorth, targetTemp, EqualizationRate );
             }
         }
 
-        private static void ExchangeHeat( Room r, float targetTemp, float rate )
+        private static void Equalize( Room room, float targetTemp, float rate )
         {
-            var tempDiff = Mathf.Abs( r.Temperature - targetTemp );
+            var tempDiff = Mathf.Abs( room.Temperature - targetTemp );
             var tempRated = tempDiff*rate;
-            if ( targetTemp < r.Temperature )
+            if ( targetTemp < room.Temperature )
             {
-                r.Temperature = Mathf.Max( targetTemp, r.Temperature - tempRated );
+                room.Temperature = Mathf.Max( targetTemp, room.Temperature - tempRated );
             }
-            else if ( targetTemp > r.Temperature )
+            else if ( targetTemp > room.Temperature )
             {
-                r.Temperature = Mathf.Min( targetTemp, r.Temperature + tempRated );
+                room.Temperature = Mathf.Min( targetTemp, room.Temperature + tempRated );
             }
         }
 
         protected virtual bool Validate()
         {
-            if ( roomNorth == null )
-            {
-                return false;
-            }
             return !isLocked && compPowerTrader.PowerOn;
         }
 

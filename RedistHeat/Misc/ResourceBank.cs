@@ -22,11 +22,13 @@ namespace RedistHeat
         public static string StringNotWorking         = "RedistHeat_NotWorking".Translate();
         public static string StringWorkingDucts       = "RedistHeat_WorkingDucts".Translate();
 
-        public static string StringExposeDuct         = "RedistHeat_MustExposeDuct".Translate();
-        public static string StringExposeBoth         = "MustPlaceVentWithFreeSpaces".Translate(); // Core mod key text
-        public static string StringExposeHot          = "RedistHeat_MustExposeHotSide".Translate();
-        public static string StringExposeCold         = "RedistHeat_MustExposeColdSide".Translate();
-        public static string StringAttachToCooler     = "RedistHeat_MustPlaceBackSideOnCooler".Translate();
+        public static string ExposeHot                = "RedistHeat_MustExposeHotSide".Translate();
+        public static string ExposeDuct               = "RedistHeat_MustExposeDuct".Translate();
+        public static string ExposeBoth               = "MustPlaceVentWithFreeSpaces".Translate(); // Core mod key text
+        public static string ExposeCold               = "RedistHeat_MustExposeColdSide".Translate();
+        public static string AttachToCooler           = "RedistHeat_MustPlaceBackSideOnCooler".Translate();
+        public static string NotNearWithOther         = "RedistHeat_MustBeNotNearWithOther".Translate();
+        public static string NeedConstructedRoof      = "RedistHeat_NeedConstructedRoof".Translate();
 
         // ==== Vent.xml ==== //
         public static string StringToggleAirflowLabel = "RedistHeat_CommandToggleLockLabel".Translate();

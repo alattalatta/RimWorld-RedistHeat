@@ -8,6 +8,7 @@ namespace RedistHeat
     {
         public IntVec3 VecNorth { get; private set; }
         public IntVec3 VecSouth { get; private set; }
+
         public bool isAvailable;
 
         private Building_IndustrialCooler neighCooler;
@@ -45,10 +46,19 @@ namespace RedistHeat
             return str.ToString();
         }
 
+        public void PushHeat( float amount )
+        {
+            if ( VecNorth.UsesOutdoorTemperature() )
+            {
+                return;
+            }
+            GenTemperature.PushHeat(VecNorth, amount);
+        }
+
         private Building_IndustrialCooler AdjacentCooler()
         {
-            var finder = Find.ThingGrid.ThingAt< Building_IndustrialCooler >( VecSouth );
-            return finder;
+            var cooler = Find.ThingGrid.ThingAt< Building_IndustrialCooler >( VecSouth );
+            return cooler;
         }
     }
 }

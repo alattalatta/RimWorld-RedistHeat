@@ -2,17 +2,10 @@
 {
     public class Building_SmartDuctOutlet : Building_DuctComp
     {
-        private bool isWorking;
-
-        public override void TickRare()
-        {
-            base.TickRare();
-        }
 
         protected override bool Validate()
         {
-            isWorking = (base.Validate() && ValidateTemp( roomNorth.Temperature, compAir.connectedNet.NetTemperature ));
-            return isWorking;
+           return base.Validate() && ValidateTemp( roomNorth.Temperature, compAir.connectedNet.NetTemperature );
         }
 
         private bool ValidateTemp( float roomTemp, float netTemp )

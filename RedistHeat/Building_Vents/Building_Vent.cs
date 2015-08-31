@@ -8,9 +8,36 @@ namespace RedistHeat
     public class Building_Vent : Building_TempControl
     {
         private const float EqualizationRate = 0.25f;
-        private bool isLocked;
 
+        private IntVec3 vecNorth, vecSouth;
         protected Room roomNorth, roomSouth;
+
+        private bool isLocked;
+        private bool isWorking;
+        private bool WorkingState
+        {
+            set
+            {
+                isWorking = value;
+
+                if ( compPowerTrader == null )
+                {
+                    return;
+                }
+
+                if ( isWorking )
+                {
+                    compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption;
+                }
+                else
+                {
+                    compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption *
+                                                  compTempControl.props.lowPowerConsumptionFactor;
+                }
+
+                compTempControl.operatingAtHighPower = isWorking;
+            }
+        }
 
         public override void ExposeData()
         {
@@ -18,69 +45,78 @@ namespace RedistHeat
             Scribe_Values.LookValue( ref isLocked, "isLocked", false );
         }
 
+        public override void SpawnSetup()
+        {
+            base.SpawnSetup();
+            vecNorth = Position + IntVec3.North.RotatedBy( Rotation );
+            vecSouth = Position + IntVec3.South.RotatedBy( Rotation );
+        }
+
         public override void TickRare()
         {
-            if ( !Validate() )
+            if ( vecNorth.Impassable() || vecSouth.Impassable() )
             {
+                WorkingState = false;
                 return;
-            }
-
-            if ( roomNorth == null )
-            {
-                roomNorth = (Position + IntVec3.North.RotatedBy(Rotation)).GetRoom();
-            }
-            if ( roomSouth == null )
-            {
-                roomSouth = (Position + IntVec3.South.RotatedBy(Rotation)).GetRoom();
             }
 
             if ( roomNorth == null || roomSouth == null )
             {
-                return;
+                roomNorth = (Position + IntVec3.North.RotatedBy( Rotation )).GetRoom();
+                roomSouth = (Position + IntVec3.South.RotatedBy(Rotation)).GetRoom();
+
+                if ( roomNorth == null || roomSouth == null )
+                {
+                    WorkingState = false;
+                    return;
+                }
             }
 
-            if ( roomNorth == roomSouth || (roomNorth.UsesOutdoorTemperature && roomSouth.UsesOutdoorTemperature) )
+            if ( !Validate() || roomNorth == roomSouth || (roomNorth.UsesOutdoorTemperature && roomSouth.UsesOutdoorTemperature) )
             {
+                WorkingState = false;
                 return;
             }
 
-            float tempEq;
+            WorkingState = true;
+
+            float targetTemp;
             if ( roomNorth.UsesOutdoorTemperature )
             {
-                tempEq = roomNorth.Temperature;
+                targetTemp = roomNorth.Temperature;
             }
             else if ( roomSouth.UsesOutdoorTemperature )
             {
-                tempEq = roomSouth.Temperature;
+                targetTemp = roomSouth.Temperature;
             }
             else
             {
                 //Average temperature with cell counts in account
-                tempEq = (roomNorth.Temperature*roomNorth.CellCount + roomSouth.Temperature*roomSouth.CellCount)
-                         /(roomNorth.CellCount + roomSouth.CellCount);
+                targetTemp = (roomNorth.Temperature*roomNorth.CellCount + roomSouth.Temperature*roomSouth.CellCount) /
+                             (roomNorth.CellCount + roomSouth.CellCount);
             }
 
             if ( !roomNorth.UsesOutdoorTemperature )
             {
-                ExchangeHeat( roomNorth, tempEq, EqualizationRate );
+                Equalize( roomNorth, targetTemp, EqualizationRate );
             }
             if ( !roomSouth.UsesOutdoorTemperature )
             {
-                ExchangeHeat( roomSouth, tempEq, EqualizationRate );
+                Equalize( roomSouth, targetTemp, EqualizationRate );
             }
         }
 
-        private static void ExchangeHeat( Room r, float targetTemp, float rate )
+        private static void Equalize( Room room, float targetTemp, float rate )
         {
-            var tempDiff = Mathf.Abs( r.Temperature - targetTemp );
+            var tempDiff = Mathf.Abs( room.Temperature - targetTemp );
             var tempRated = tempDiff*rate;
-            if ( targetTemp < r.Temperature )
+            if ( targetTemp < room.Temperature )
             {
-                r.Temperature = Mathf.Max( targetTemp, r.Temperature - tempRated );
+                room.Temperature = Mathf.Max( targetTemp, room.Temperature - tempRated );
             }
-            else if ( targetTemp > r.Temperature )
+            else if ( targetTemp > room.Temperature )
             {
-                r.Temperature = Mathf.Min( targetTemp, r.Temperature + tempRated );
+                room.Temperature = Mathf.Min( targetTemp, room.Temperature + tempRated );
             }
         }
 

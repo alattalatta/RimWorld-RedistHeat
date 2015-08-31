@@ -9,13 +9,11 @@ namespace RedistHeat
         {
             base.SpawnSetup();
             compPowerTrader = GetComp< CompPowerTrader >();
-            roomNorth = (Position + IntVec3.North.RotatedBy( Rotation )).GetRoom();
-            roomSouth = (Position + IntVec3.South.RotatedBy( Rotation )).GetRoom();
         }
 
         protected override bool Validate()
         {
-            if ( roomNorth == null || roomSouth == null || compPowerTrader == null)
+            if ( compPowerTrader == null)
                 return false;
 
             return (base.Validate() && compPowerTrader.PowerOn &&
