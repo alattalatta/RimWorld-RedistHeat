@@ -25,13 +25,16 @@ namespace RedistHeat
                 return;
             }
 
-            roomNorth = (Position + IntVec3.North.RotatedBy( Rotation )).GetRoom();
             if ( roomNorth == null )
             {
-                return;
+                roomNorth = (Position + IntVec3.North.RotatedBy(Rotation)).GetRoom();
             }
-            roomSouth = (Position + IntVec3.South.RotatedBy( Rotation )).GetRoom();
             if ( roomSouth == null )
+            {
+                roomSouth = (Position + IntVec3.South.RotatedBy(Rotation)).GetRoom();
+            }
+
+            if ( roomNorth == null || roomSouth == null )
             {
                 return;
             }
@@ -52,6 +55,7 @@ namespace RedistHeat
             }
             else
             {
+                //Average temperature with cell counts in account
                 tempEq = (roomNorth.Temperature*roomNorth.CellCount + roomSouth.Temperature*roomSouth.CellCount)
                          /(roomNorth.CellCount + roomSouth.CellCount);
             }

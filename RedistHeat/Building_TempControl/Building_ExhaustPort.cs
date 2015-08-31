@@ -17,10 +17,6 @@ namespace RedistHeat
             base.SpawnSetup();
             VecNorth = Position + IntVec3.North.RotatedBy( Rotation );
             VecSouth = Position + IntVec3.South.RotatedBy( Rotation );
-            if ( (neighCooler = AdjacentCooler()) == null )
-            {
-                Log.Message( "no cooler found during SpawnSetup()." );
-            }
         }
 
         public override void TickRare()

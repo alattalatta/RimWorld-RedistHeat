@@ -24,10 +24,7 @@ namespace RedistHeat
                 {
                     closedSet.Add( current );
                 }
-
-                var tempSet = currentSet;
                 currentSet = openSet;
-                openSet = tempSet; //Why should do swapping?
                 openSet.Clear();
 
                 foreach ( var things in currentSet.SelectMany( openBuilding =>
