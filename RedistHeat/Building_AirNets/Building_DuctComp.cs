@@ -97,26 +97,13 @@ namespace RedistHeat
                          /(roomNorth.CellCount + connectedNet.nodes.Count);
             }
 
-            compAir.EqualizeWithNets( targetTemp, EqualizationRate );
+            compAir.EqualizeWithNet( targetTemp, EqualizationRate );
             if ( !roomNorth.UsesOutdoorTemperature )
             {
-                Equalize( roomNorth, targetTemp, EqualizationRate );
+                compAir.EqualizeWithRoom( roomNorth, targetTemp, EqualizationRate );
             }
         }
 
-        private static void Equalize( Room room, float targetTemp, float rate )
-        {
-            var tempDiff = Mathf.Abs( room.Temperature - targetTemp );
-            var tempRated = tempDiff*rate;
-            if ( targetTemp < room.Temperature )
-            {
-                room.Temperature = Mathf.Max( targetTemp, room.Temperature - tempRated );
-            }
-            else if ( targetTemp > room.Temperature )
-            {
-                room.Temperature = Mathf.Min( targetTemp, room.Temperature + tempRated );
-            }
-        }
 
         protected virtual bool Validate()
         {
