@@ -8,10 +8,16 @@ namespace RedistHeat
 {
     public class Building_DuctComp : Building_TempControl
     {
+        protected CompAirTrader compAir;
+        protected Room roomNorth;
+
         private const float EqualizationRate = 0.85f;
 
+        private IntVec3 vecNorth;
+        private float netTemp;
         private bool isLocked;
         private bool isWorking;
+
         private bool WorkingState
         {
             set
@@ -36,9 +42,6 @@ namespace RedistHeat
             }
         }
 
-        protected CompAirTrader compAir;
-        private IntVec3 vecNorth;
-        protected Room roomNorth;
 
         public override string LabelBase => base.LabelBase + " (" + compAir.currentLayer.ToString().ToLower() + ")";
 
@@ -55,10 +58,13 @@ namespace RedistHeat
         {
             base.ExposeData();
             Scribe_Values.LookValue( ref isLocked, "isLocked", false );
+            Scribe_Values.LookValue( ref netTemp, "netTemp", 0f );
         }
 
         public override void TickRare()
         {
+            netTemp = compAir.connectedNet.NetTemperature;
+
             if ( vecNorth.Impassable() )
             {
                 WorkingState = false;

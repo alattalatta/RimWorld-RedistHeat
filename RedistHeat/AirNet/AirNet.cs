@@ -10,8 +10,8 @@ namespace RedistHeat
     {
         public readonly int debugId;
         private static int debugIdNext;
+        private CompAir root;
 
-        public CompAir root;
         public readonly List< CompAir > nodes = new List< CompAir >();
 
         private float netTemperature;
