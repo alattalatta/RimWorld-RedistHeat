@@ -5,6 +5,8 @@ namespace RedistHeat
 {
     public class CompAirTrader : CompAir
     {
+        public int netTemp;
+
         public void EqualizeWithRoom( Room room, float targetTemp, float rate )
         {
             var tempDiff = Mathf.Abs( room.Temperature - targetTemp );
@@ -22,17 +24,26 @@ namespace RedistHeat
 
         public void EqualizeWithNet( float targetTemp, float rate )
         {
-            var tempDiff = Mathf.Abs( connectedNet.NetTemperature - targetTemp );
+            netTemp = (int) connectedNet.NetTemperature;
+
+            var tempDiff = Mathf.Abs( netTemp - targetTemp );
             var tempRated = tempDiff*rate*props.energyPerSecond;
 
             if ( targetTemp < connectedNet.NetTemperature )
             {
-                connectedNet.NetTemperature = Mathf.Max( targetTemp, connectedNet.NetTemperature - tempRated );
+                connectedNet.NetTemperature = Mathf.Max( targetTemp, netTemp - tempRated );
             }
             else if ( targetTemp > connectedNet.NetTemperature )
             {
-                connectedNet.NetTemperature = Mathf.Min( targetTemp, connectedNet.NetTemperature + tempRated );
+                connectedNet.NetTemperature = Mathf.Min( targetTemp, netTemp + tempRated );
             }
+        }
+
+        public override void PostExposeData()
+        {
+            base.PostExposeData();
+
+            Scribe_Values.LookValue( ref netTemp, "netTemp", 999 );
         }
     }
 }

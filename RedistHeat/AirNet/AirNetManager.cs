@@ -119,7 +119,7 @@ namespace RedistHeat
         public static void RegisterAirNet( AirNet newNet )
         {
 #if DEBUG
-            Log.Message("LT-RH: Registering net " + newNet);
+            Log.Message("LT-RH: Registering " + newNet);
 #endif
             allNets[newNet.LayerInt].Add( newNet );
             AirNetGrid.NotifyNetCreated( newNet );
@@ -128,7 +128,7 @@ namespace RedistHeat
         public static void DeregisterAirNet( AirNet oldNet )
         {
 #if DEBUG
-            Log.Message("LT-RH: Deregistering net " + oldNet);
+            Log.Message("LT-RH: Deregistering " + oldNet);
 #endif
             allNets[oldNet.LayerInt].Remove( oldNet );
             AirNetGrid.NotifyNetDeregistered( oldNet );
@@ -192,9 +192,7 @@ namespace RedistHeat
                     Log.Message("Merging.");
                     if ( AirNetGrid.NetAt( current.parent.Position, (NetLayer) layerInt ) == null )
                     {
-                        RegisterAirNet( AirNetMaker.NewAirNetStartingFrom( (Building) current.parent,
-                                                                           (NetLayer) layerInt,
-                                                                           GenTemperature.OutdoorTemp ) );
+                        RegisterAirNet( AirNetMaker.NewAirNetStartingFrom( (Building) current.parent, (NetLayer) layerInt ) );
                     }
                 }
 
@@ -212,8 +210,7 @@ namespace RedistHeat
                         var airNode = GetAirNodeAt( adjPos, (NetLayer) layerInt );
                         if ( airNode != null )
                         {
-                            RegisterAirNet( AirNetMaker.NewAirNetStartingFrom( airNode, (NetLayer) layerInt,
-                                                                               GenTemperature.OutdoorTemp) );
+                            RegisterAirNet( AirNetMaker.NewAirNetStartingFrom( airNode, (NetLayer) layerInt ) );
                         }
                     }
                 }
