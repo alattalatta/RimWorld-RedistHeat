@@ -57,20 +57,19 @@
     <Compile Include="AirNet\AirNetManager.cs" />
     <Compile Include="AirNet\CompProperties\CompAirTransmitterProperties.cs" />
     <Compile Include="Building_AirNets\Building_DuctComp.cs" />
+    <Compile Include="Building_AirNets\Building_DuctCooler.cs" />
     <Compile Include="Building_AirNets\Building_DuctPipe.cs" />
-    <Compile Include="Building_TempControl\Building_RooftopCooler.cs" />
-    <Compile Include="Common.cs" />
+    <Compile Include="Misc\Common.cs" />
     <Compile Include="MapComponent\AirNetTicker.cs" />
-    <Compile Include="Misc\ThingDef_AirNet.cs" />
     <Compile Include="Building_Vents\Building_ActiveVent.cs" />
     <Compile Include="Building_AirNets\Building_SmartDuctOutlet.cs" />
     <Compile Include="Building_TempControl\Building_ExhaustPort.cs" />
     <Compile Include="Building_TempControl\Building_IndustrialCooler.cs" />
     <Compile Include="Building_TempControl\Building_IndustrialHeater.cs" />
     <Compile Include="Building_Vents\Building_Vent.cs" />
-    <Compile Include="AirNet\ThingComps\CompAir.cs" />
-    <Compile Include="AirNet\ThingComps\CompAirTransmitter.cs" />
-    <Compile Include="AirNet\ThingComps\CompAirTrader.cs" />
+    <Compile Include="ThingComps\CompAir.cs" />
+    <Compile Include="ThingComps\CompAirTransmitter.cs" />
+    <Compile Include="ThingComps\CompAirTrader.cs" />
     <Compile Include="AirNet\AirNetGrid.cs" />
     <Compile Include="AirNet\AirNet.cs" />
     <Compile Include="Misc\ResourceBank.cs" />
@@ -78,7 +77,6 @@
     <Compile Include="PlaceWorkers\PlaceWorker_ExhaustPort.cs" />
     <Compile Include="PlaceWorkers\PlaceWorker_IndustrialCooler.cs" />
     <Compile Include="PlaceWorkers\PlaceWorker_ActiveVent.cs" />
-    <Compile Include="PlaceWorkers\PlaceWorker_RooftopCooler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

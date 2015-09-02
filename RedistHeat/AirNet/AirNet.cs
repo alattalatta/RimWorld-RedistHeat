@@ -25,11 +25,9 @@ namespace RedistHeat
         public int LayerInt => (int) Layer;
 
 
-        public AirNet( IEnumerable< CompAir > newNodes, NetLayer layer, float temperature, CompAir root )
+        public AirNet( IEnumerable< CompAir > newNodes, NetLayer layer, CompAir root )
         {
             Layer = layer;
-            netTemperature = temperature;
-
             foreach ( var current in newNodes )
             {
                 RegisterNode( current );
@@ -41,6 +39,16 @@ namespace RedistHeat
                 debugId = debugIdNext++;
             }
             this.root = root;
+
+            var intake = newNodes.Where( s => s is CompAirTrader )?.Cast<CompAirTrader>().ToList().Find( s => Mathf.Approximately( s.props.energyPerSecond, 1 ) );
+            if(intake == null || intake.netTemp == 999 )
+            {
+                NetTemperature = GenTemperature.OutdoorTemp;
+            }
+            else
+            {
+                NetTemperature = intake.netTemp;
+            }
         }
 
         public void AirNetTick()

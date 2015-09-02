@@ -12,7 +12,7 @@ namespace RedistHeat
     {
         private IntVec3 vecSouth, vecSouthEast;
         private Room roomSouth;
-        private List< Building_ExhaustPort > activeExhausts;
+        private List<Building_ExhaustPort> activeExhausts;
 
         private float Energy => compTempControl.props.energyPerSecond;
 
@@ -46,25 +46,7 @@ namespace RedistHeat
 
         public override void TickRare()
         {
-            if ( vecSouth.Impassable() || vecSouthEast.Impassable() )
-            {
-                WorkingState = false;
-                return;
-            }
-
-            if ( roomSouth == null )
-            {
-                roomSouth = vecSouth.GetRoom();
-                if ( roomSouth == null )
-                {
-                    WorkingState = false;
-                    return;
-                }
-            }
-            
-            activeExhausts = GetActiveExhausts();
-
-            if ( !compPowerTrader.PowerOn || activeExhausts.Count == 0 )
+            if( !Validate() )
             {
                 WorkingState = false;
                 return;
@@ -74,28 +56,33 @@ namespace RedistHeat
             ControlTemperature();
         }
 
-        public override string GetInspectString()
+        private bool Validate()
         {
-            var str = new StringBuilder();
-            str.Append( base.GetInspectString() )
-               .Append( ResourceBank.StringWorkingDucts )
-               .Append( ": ");
+            if ( vecSouth.Impassable() || vecSouthEast.Impassable() )
+            {
+                return false;
+            }
 
-            if ( activeExhausts != null )
+            roomSouth = vecSouth.GetRoom();
+            if ( roomSouth == null )
             {
-                str.Append( activeExhausts.Count );
+                return false;
             }
-            else
+
+            activeExhausts = GetActiveExhausts();
+
+            if ( !compPowerTrader.PowerOn || activeExhausts.Count == 0 )
             {
-                str.Append( "0" );
+                return false;
             }
-            return str.ToString();
+
+            return true;
         }
 
         private void ControlTemperature()
         {
             //Average of exhaust ports' room temperature
-            var tempHotAvg = activeExhausts.Sum( s => s.VecNorth.GetTemperature() )/activeExhausts.Count;
+            var tempHotAvg = activeExhausts.Sum( s => s.VecNorth.GetTemperature() ) / activeExhausts.Count;
 
             //Cooler's temperature
             var tempCold = roomSouth.Temperature;
@@ -106,13 +93,13 @@ namespace RedistHeat
                 tempDiff = tempHotAvg - 40f;
             }
 
-            var num2 = 1.0 - tempDiff*(1.0/130.0);
+            var num2 = 1.0 - tempDiff * (1.0 / 130.0);
             if ( num2 < 0.0 )
             {
                 num2 = 0.0f;
             }
 
-            var energyLimit = (float) (Energy*activeExhausts.Count*num2*4.16666650772095);
+            var energyLimit = (float)(Energy * activeExhausts.Count * num2 * 4.16666650772095);
             var coldAir = GenTemperature.ControlTemperatureTempChange( vecSouth, energyLimit, compTempControl.targetTemperature );
             isWorking = !Mathf.Approximately( coldAir, 0.0f );
             if ( !isWorking )
@@ -121,7 +108,7 @@ namespace RedistHeat
             }
             roomSouth.Temperature += coldAir;
 
-            var hotAir = (float) (-energyLimit*1.25/activeExhausts.Count);
+            var hotAir = (float)(-energyLimit * 1.25 / activeExhausts.Count);
 
             if ( Mathf.Approximately( hotAir, 0.0f ) )
             {
@@ -134,14 +121,32 @@ namespace RedistHeat
             }
         }
 
-        private List< Building_ExhaustPort > GetActiveExhausts()
+        private List<Building_ExhaustPort> GetActiveExhausts()
         {
             var origin = GenAdj.CellsAdjacentCardinal( this )
-                               .Select( s =>Find.ThingGrid.ThingAt< Building_ExhaustPort >( s ) )
+                               .Select( s => Find.ThingGrid.ThingAt<Building_ExhaustPort>( s ) )
                                .Where( thingAt => thingAt != null )
                                .ToList();
 
             return origin.Where( s => s.isAvailable ).ToList();
+        }
+
+        public override string GetInspectString()
+        {
+            var str = new StringBuilder();
+            str.Append( base.GetInspectString() )
+               .Append( ResourceBank.StringWorkingDucts )
+               .Append( ": " );
+
+            if ( activeExhausts != null )
+            {
+                str.Append( activeExhausts.Count );
+            }
+            else
+            {
+                str.Append( "0" );
+            }
+            return str.ToString();
         }
     }
 }

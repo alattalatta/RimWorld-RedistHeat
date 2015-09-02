@@ -68,11 +68,9 @@ namespace RedistHeat
                    select b.TryGetComp< CompAir >();
         }
 
-        public static AirNet NewAirNetStartingFrom( Building root, NetLayer layer, float? temperature )
+        public static AirNet NewAirNetStartingFrom( Building root, NetLayer layer )
         {
-            var temp = temperature ?? GenTemperature.OutdoorTemp;
-
-            return new AirNet( ContiguousAirBuildings( root, layer ), layer, temp, root.TryGetComp<CompAir>() );
+            return new AirNet( ContiguousAirBuildings( root, layer ), layer, root.TryGetComp<CompAir>() );
         }
     }
 }

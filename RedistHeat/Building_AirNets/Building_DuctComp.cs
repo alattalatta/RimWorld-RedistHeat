@@ -1,30 +1,29 @@
 ﻿using System.Collections.Generic;
-
 using RimWorld;
-using UnityEngine;
 using Verse;
 
 namespace RedistHeat
 {
     public class Building_DuctComp : Building_TempControl
     {
-        protected CompAirTrader compAir;
-        protected Room roomNorth;
-
         private const float EqualizationRate = 0.85f;
 
-        private IntVec3 vecNorth;
-        private float netTemp;
+        protected CompAirTrader compAir;
+        protected Room roomNorth;
+        protected IntVec3 vecNorth;
+
+        private int netTemp;
         private bool isLocked;
         private bool isWorking;
 
-        private bool WorkingState
+        protected bool WorkingState
         {
+            get { return isWorking; }
             set
             {
                 isWorking = value;
 
-                if ( compPowerTrader == null || compTempControl == null)
+                if ( compPowerTrader == null || compTempControl == null )
                 {
                     return;
                 }
@@ -34,7 +33,7 @@ namespace RedistHeat
                 }
                 else
                 {
-                    compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption *
+                    compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption*
                                                   compTempControl.props.lowPowerConsumptionFactor;
                 }
 
@@ -58,28 +57,16 @@ namespace RedistHeat
         {
             base.ExposeData();
             Scribe_Values.LookValue( ref isLocked, "isLocked", false );
-            Scribe_Values.LookValue( ref netTemp, "netTemp", 0f );
+            Scribe_Values.LookValue( ref netTemp, "netTemp", 999 );
         }
 
-        public override void TickRare()
+        public override void Tick()
         {
-            netTemp = compAir.connectedNet.NetTemperature;
-
-            if ( vecNorth.Impassable() )
+            if ( !this.IsHashIntervalTick( 250 ) )
             {
-                WorkingState = false;
                 return;
             }
-
-            if ( roomNorth == null )
-            {
-                roomNorth = vecNorth.GetRoom();
-                if ( roomNorth == null )
-                {
-                    WorkingState = false;
-                    return;
-                }
-            }
+            netTemp = (int)compAir.connectedNet.NetTemperature;
 
             if ( !Validate() )
             {
@@ -88,9 +75,30 @@ namespace RedistHeat
             }
 
             WorkingState = true;
+            Equalize();
+        }
 
-            var connectedNet = compAir.connectedNet;
-            roomNorth = (Position + IntVec3.North.RotatedBy( Rotation )).GetRoom();
+        /// <summary>
+        /// Base validater. Checks if vecNorth is passable, room is there, is building locked, and power is on.
+        /// </summary>
+        protected virtual bool Validate()
+        {
+            if ( vecNorth.Impassable() )
+            {
+                return false;
+            }
+
+            roomNorth = vecNorth.GetRoom();
+            if ( roomNorth == null )
+            {
+                return false;
+            }
+
+            return !isLocked && (compPowerTrader == null || compPowerTrader.PowerOn);
+        }
+
+        protected virtual void Equalize()
+        {
             float targetTemp;
             if ( roomNorth.UsesOutdoorTemperature )
             {
@@ -99,8 +107,8 @@ namespace RedistHeat
             else
             {
                 targetTemp = (roomNorth.Temperature*roomNorth.CellCount +
-                          connectedNet.NetTemperature*connectedNet.nodes.Count)
-                         /(roomNorth.CellCount + connectedNet.nodes.Count);
+                              compAir.connectedNet.NetTemperature*compAir.connectedNet.nodes.Count)
+                             /(roomNorth.CellCount + compAir.connectedNet.nodes.Count);
             }
 
             compAir.EqualizeWithNet( targetTemp, EqualizationRate );
@@ -108,12 +116,6 @@ namespace RedistHeat
             {
                 compAir.EqualizeWithRoom( roomNorth, targetTemp, EqualizationRate );
             }
-        }
-
-
-        protected virtual bool Validate()
-        {
-            return !isLocked && compPowerTrader.PowerOn;
         }
 
         public override void Draw()
