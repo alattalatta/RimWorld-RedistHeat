@@ -6,7 +6,7 @@ namespace RedistHeat
     {
         private static AirNet[][] netGrid;
 
-        static AirNetGrid()
+        public static void Reinit()
         {
             var layerCount = Common.NetLayerCount();
             netGrid = new AirNet[layerCount][];
@@ -15,7 +15,6 @@ namespace RedistHeat
             {
                 netGrid[i] = new AirNet[CellIndices.NumGridCells];
             }
-
 #if DEBUG
             Log.Message("LT-RH: Initialized AirNetGrid.");
 #endif

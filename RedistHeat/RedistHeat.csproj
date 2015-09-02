@@ -67,6 +67,7 @@
     <Compile Include="Building_TempControl\Building_IndustrialCooler.cs" />
     <Compile Include="Building_TempControl\Building_IndustrialHeater.cs" />
     <Compile Include="Building_Vents\Building_Vent.cs" />
+    <Compile Include="PlaceWorkers\PlaceWorker_DuctCooler.cs" />
     <Compile Include="ThingComps\CompAir.cs" />
     <Compile Include="ThingComps\CompAirTransmitter.cs" />
     <Compile Include="ThingComps\CompAirTrader.cs" />

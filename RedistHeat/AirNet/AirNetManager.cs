@@ -35,7 +35,7 @@ namespace RedistHeat
             }
         }
 
-        public static void Reload()
+        public static void Reinit()
         {
             for ( var i = 0; i < Common.NetLayerCount(); i++ )
             {

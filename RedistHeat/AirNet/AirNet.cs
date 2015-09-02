@@ -28,7 +28,9 @@ namespace RedistHeat
         public AirNet( IEnumerable< CompAir > newNodes, NetLayer layer, CompAir root )
         {
             Layer = layer;
-            foreach ( var current in newNodes )
+            var compAirs = newNodes as IList< CompAir > ?? newNodes.ToList();
+
+            foreach ( var current in compAirs )
             {
                 RegisterNode( current );
                 current.connectedNet = this;
@@ -40,8 +42,13 @@ namespace RedistHeat
             }
             this.root = root;
 
-            var intake = newNodes.Where( s => s is CompAirTrader )?.Cast<CompAirTrader>().ToList().Find( s => Mathf.Approximately( s.props.energyPerSecond, 1 ) );
-            if(intake == null || intake.netTemp == 999 )
+            var intake =
+                compAirs.Where( s => s is CompAirTrader )
+                        .Cast< CompAirTrader >()
+                        .ToList()
+                        .Find( s => Mathf.Approximately( s.props.energyPerSecond, 1 ) );
+
+            if ( intake == null || intake.netTemp == 999 )
             {
                 NetTemperature = GenTemperature.OutdoorTemp;
             }

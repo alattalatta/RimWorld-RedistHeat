@@ -11,8 +11,7 @@ namespace RedistHeat
         protected CompAirTrader compAir;
         protected Room roomNorth;
         protected IntVec3 vecNorth;
-
-        private int netTemp;
+        
         private bool isLocked;
         private bool isWorking;
 
@@ -57,7 +56,6 @@ namespace RedistHeat
         {
             base.ExposeData();
             Scribe_Values.LookValue( ref isLocked, "isLocked", false );
-            Scribe_Values.LookValue( ref netTemp, "netTemp", 999 );
         }
 
         public override void Tick()
@@ -66,7 +64,6 @@ namespace RedistHeat
             {
                 return;
             }
-            netTemp = (int)compAir.connectedNet.NetTemperature;
 
             if ( !Validate() )
             {

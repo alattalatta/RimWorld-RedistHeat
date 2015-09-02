@@ -39,7 +39,8 @@ namespace RedistHeat
 
         private void Initialize()
         {
-            AirNetManager.Reload();
+            AirNetGrid.Reinit();
+            AirNetManager.Reinit();
             Log.Message( "LT-RH: Initialized RedistHeat." );
             doneInit = true;
         }
