@@ -5,7 +5,10 @@
 
         protected override bool Validate()
         {
-           return base.Validate() && ValidateTemp( roomNorth.Temperature, compAir.connectedNet.NetTemperature );
+            if ( !base.Validate() )
+                return false;
+
+            return ValidateTemp( roomNorth.Temperature, compAir.connectedNet.NetTemperature );
         }
 
         private bool ValidateTemp( float roomTemp, float netTemp )

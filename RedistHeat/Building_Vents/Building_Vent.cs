@@ -59,16 +59,12 @@ namespace RedistHeat
                 return;
             }
 
+            roomNorth = (Position + IntVec3.North.RotatedBy( Rotation )).GetRoom();
+            roomSouth = (Position + IntVec3.South.RotatedBy( Rotation )).GetRoom();
             if ( roomNorth == null || roomSouth == null )
             {
-                roomNorth = (Position + IntVec3.North.RotatedBy( Rotation )).GetRoom();
-                roomSouth = (Position + IntVec3.South.RotatedBy(Rotation)).GetRoom();
-
-                if ( roomNorth == null || roomSouth == null )
-                {
-                    WorkingState = false;
-                    return;
-                }
+                WorkingState = false;
+                return;
             }
 
             if ( !Validate() || roomNorth == roomSouth || (roomNorth.UsesOutdoorTemperature && roomSouth.UsesOutdoorTemperature) )
@@ -91,7 +87,7 @@ namespace RedistHeat
             else
             {
                 //Average temperature with cell counts in account
-                targetTemp = (roomNorth.Temperature*roomNorth.CellCount + roomSouth.Temperature*roomSouth.CellCount) /
+                targetTemp = (roomNorth.Temperature * roomNorth.CellCount + roomSouth.Temperature * roomSouth.CellCount) /
                              (roomNorth.CellCount + roomSouth.CellCount);
             }
 
@@ -108,7 +104,7 @@ namespace RedistHeat
         private static void Equalize( Room room, float targetTemp, float rate )
         {
             var tempDiff = Mathf.Abs( room.Temperature - targetTemp );
-            var tempRated = tempDiff*rate;
+            var tempRated = tempDiff * rate;
             if ( targetTemp < room.Temperature )
             {
                 room.Temperature = Mathf.Max( targetTemp, room.Temperature - tempRated );
@@ -133,7 +129,7 @@ namespace RedistHeat
             }
         }
 
-        public override IEnumerable< Gizmo > GetGizmos()
+        public override IEnumerable<Gizmo> GetGizmos()
         {
             foreach ( var g in base.GetGizmos() )
             {

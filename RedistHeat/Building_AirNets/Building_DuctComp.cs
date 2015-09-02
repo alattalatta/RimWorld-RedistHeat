@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 
 using RimWorld;
-using UnityEngine;
 using Verse;
 
 namespace RedistHeat
@@ -10,15 +9,18 @@ namespace RedistHeat
     {
         private const float EqualizationRate = 0.85f;
 
-        private bool isLocked;
-        private bool isWorking;
-        private bool WorkingState
+        protected CompAirTrader compAir;
+        protected Room roomNorth;
+        protected IntVec3 vecNorth;
+
+        protected bool WorkingState
         {
+            get { return isWorking; }
             set
             {
                 isWorking = value;
 
-                if ( compPowerTrader == null || compTempControl == null)
+                if ( compPowerTrader == null || compTempControl == null )
                 {
                     return;
                 }
@@ -35,17 +37,16 @@ namespace RedistHeat
                 compTempControl.operatingAtHighPower = isWorking;
             }
         }
-
-        protected CompAirTrader compAir;
-        private IntVec3 vecNorth;
-        protected Room roomNorth;
+        
+        private bool isLocked;
+        private bool isWorking;
 
         public override string LabelBase => base.LabelBase + " (" + compAir.currentLayer.ToString().ToLower() + ")";
 
         public override void SpawnSetup()
         {
             base.SpawnSetup();
-            compAir = GetComp< CompAirTrader >();
+            compAir = GetComp<CompAirTrader>();
             vecNorth = Position + IntVec3.North.RotatedBy( Rotation );
 
             Common.WipeExistingPipe( Position );
@@ -57,22 +58,11 @@ namespace RedistHeat
             Scribe_Values.LookValue( ref isLocked, "isLocked", false );
         }
 
-        public override void TickRare()
+        public override void Tick()
         {
-            if ( vecNorth.Impassable() )
+            if ( !this.IsHashIntervalTick( 250 ) )
             {
-                WorkingState = false;
                 return;
-            }
-
-            if ( roomNorth == null )
-            {
-                roomNorth = vecNorth.GetRoom();
-                if ( roomNorth == null )
-                {
-                    WorkingState = false;
-                    return;
-                }
             }
 
             if ( !Validate() )
@@ -82,9 +72,30 @@ namespace RedistHeat
             }
 
             WorkingState = true;
+            Equalize();
+        }
 
-            var connectedNet = compAir.connectedNet;
-            roomNorth = (Position + IntVec3.North.RotatedBy( Rotation )).GetRoom();
+        /// <summary>
+        /// Base validater. Checks if vecNorth is passable, room is there, is building locked, and power is on.
+        /// </summary>
+        protected virtual bool Validate()
+        {
+            if ( vecNorth.Impassable() )
+            {
+                return false;
+            }
+
+            roomNorth = vecNorth.GetRoom();
+            if ( roomNorth == null )
+            {
+                return false;
+            }
+
+            return !isLocked && compPowerTrader.PowerOn;
+        }
+
+        protected virtual void Equalize()
+        {
             float targetTemp;
             if ( roomNorth.UsesOutdoorTemperature )
             {
@@ -92,9 +103,9 @@ namespace RedistHeat
             }
             else
             {
-                targetTemp = (roomNorth.Temperature*roomNorth.CellCount +
-                          connectedNet.NetTemperature*connectedNet.nodes.Count)
-                         /(roomNorth.CellCount + connectedNet.nodes.Count);
+                targetTemp = (roomNorth.Temperature * roomNorth.CellCount +
+                          compAir.connectedNet.NetTemperature * compAir.connectedNet.nodes.Count)
+                         / (roomNorth.CellCount + compAir.connectedNet.nodes.Count);
             }
 
             compAir.EqualizeWithNet( targetTemp, EqualizationRate );
@@ -102,12 +113,6 @@ namespace RedistHeat
             {
                 compAir.EqualizeWithRoom( roomNorth, targetTemp, EqualizationRate );
             }
-        }
-
-
-        protected virtual bool Validate()
-        {
-            return !isLocked && compPowerTrader.PowerOn;
         }
 
         public override void Draw()
@@ -119,7 +124,7 @@ namespace RedistHeat
             }
         }
 
-        public override IEnumerable< Gizmo > GetGizmos()
+        public override IEnumerable<Gizmo> GetGizmos()
         {
             foreach ( var g in base.GetGizmos() )
             {
