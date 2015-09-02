@@ -9,7 +9,7 @@ namespace RedistHeat
     {
         private const float EqualizationRate = 0.25f;
 
-        private IntVec3 vecNorth, vecSouth;
+        protected IntVec3 vecNorth, vecSouth;
         protected Room roomNorth, roomSouth;
 
         private bool isLocked;
@@ -53,21 +53,8 @@ namespace RedistHeat
 
         public override void TickRare()
         {
-            if ( vecNorth.Impassable() || vecSouth.Impassable() )
-            {
-                WorkingState = false;
-                return;
-            }
 
-            roomNorth = (Position + IntVec3.North.RotatedBy( Rotation )).GetRoom();
-            roomSouth = (Position + IntVec3.South.RotatedBy( Rotation )).GetRoom();
-            if ( roomNorth == null || roomSouth == null )
-            {
-                WorkingState = false;
-                return;
-            }
-
-            if ( !Validate() || roomNorth == roomSouth || (roomNorth.UsesOutdoorTemperature && roomSouth.UsesOutdoorTemperature) )
+            if ( !Validate() )
             {
                 WorkingState = false;
                 return;
@@ -117,6 +104,23 @@ namespace RedistHeat
 
         protected virtual bool Validate()
         {
+            if ( vecNorth.Impassable() || vecSouth.Impassable() )
+            {
+                return false;
+            }
+
+            roomNorth = (Position + IntVec3.North.RotatedBy( Rotation )).GetRoom();
+            roomSouth = (Position + IntVec3.South.RotatedBy( Rotation )).GetRoom();
+            if ( roomNorth == null || roomSouth == null || roomNorth == roomSouth)
+            {
+                return false;
+            }
+
+            if ( roomNorth.UsesOutdoorTemperature && roomSouth.UsesOutdoorTemperature )
+            {
+                return false;
+            }
+
             return !isLocked;
         }
 

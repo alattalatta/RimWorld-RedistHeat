@@ -91,7 +91,7 @@ namespace RedistHeat
                 return false;
             }
 
-            return !isLocked && compPowerTrader.PowerOn;
+            return !isLocked && (compPowerTrader == null || compPowerTrader.PowerOn);
         }
 
         protected virtual void Equalize()
