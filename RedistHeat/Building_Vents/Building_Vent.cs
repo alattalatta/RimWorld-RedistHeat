@@ -51,8 +51,13 @@ namespace RedistHeat
             vecSouth = Position + IntVec3.South.RotatedBy( Rotation );
         }
 
-        public override void TickRare()
+        public override void Tick()
         {
+            base.Tick();
+            if ( !this.IsHashIntervalTick( 250 ) )
+            {
+                return;
+            }
 
             if ( !Validate() )
             {
