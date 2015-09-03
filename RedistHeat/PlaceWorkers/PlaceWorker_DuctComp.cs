@@ -10,7 +10,12 @@ namespace RedistHeat
         public override void DrawGhost( ThingDef def, IntVec3 center, Rot4 rot )
         {
             var vecNorth = center + IntVec3.North.RotatedBy( rot );
-            GenDraw.DrawFieldEdges( new List< IntVec3 >() {vecNorth}, new Color( 1f, 0.7f, 0f, 0.5f ) );
+            if ( !vecNorth.InBounds() )
+            {
+                return;
+            }
+
+            GenDraw.DrawFieldEdges( new List< IntVec3 > {vecNorth}, new Color( 1f, 0.7f, 0f, 0.5f ) );
             var room = vecNorth.GetRoom();
             if ( room == null || room.UsesOutdoorTemperature )
             {
@@ -29,7 +34,7 @@ namespace RedistHeat
 
             if ( vecNorth.Impassable() )
             {
-                return ResourceBank.StringExposeDuct;
+                return ResourceBank.ExposeDuct;
             }
 
             return true;

@@ -11,6 +11,11 @@ namespace RedistHeat
         {
             var vecNorth = center + IntVec3.North.RotatedBy( rot );
             var vecSouth = center + IntVec3.South.RotatedBy( rot );
+            if ( !vecNorth.InBounds() || !vecSouth.InBounds() )
+            {
+                return;
+            }
+
             GenDraw.DrawFieldEdges( new List< IntVec3 >
             {
                 vecNorth
@@ -44,7 +49,7 @@ namespace RedistHeat
             }
             if ( vecNorth.Impassable() || vecSouth.Impassable() )
             {
-                return ResourceBank.StringExposeBoth;
+                return ResourceBank.ExposeBoth;
             }
             return true;
         }

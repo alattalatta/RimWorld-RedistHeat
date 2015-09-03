@@ -8,11 +8,9 @@ namespace RedistHeat
 {
     public class AirNet
     {
-        public CompAir root;
         public readonly int debugId;
-
         private static int debugIdNext;
-
+        private CompAir root;
 
         public readonly List< CompAir > nodes = new List< CompAir >();
 
@@ -26,14 +24,13 @@ namespace RedistHeat
         public NetLayer Layer { get; }
         public int LayerInt => (int) Layer;
 
-        #region Constructors
 
-        public AirNet( IEnumerable< CompAir > newNodes, NetLayer layer, float temperature, CompAir root )
+        public AirNet( IEnumerable< CompAir > newNodes, NetLayer layer, CompAir root )
         {
             Layer = layer;
-            netTemperature = temperature;
+            var compAirs = newNodes.ToList();
 
-            foreach ( var current in newNodes )
+            foreach ( var current in compAirs )
             {
                 RegisterNode( current );
                 current.connectedNet = this;
@@ -44,9 +41,25 @@ namespace RedistHeat
                 debugId = debugIdNext++;
             }
             this.root = root;
-        }
 
-        #endregion
+            var intake =
+                compAirs.Where( s => s.GetType() == typeof ( CompAirTrader ) )
+                        .Cast< CompAirTrader >()
+                        .ToList()
+                        .Find(
+                            s =>
+                                s.parent.def.defName == "RedistHeat_DuctIntake" ||
+                                s.parent.def.defName == "RedistHeat_DuctCooler" );
+
+            if ( intake == null || intake.netTemp == 999 )
+            {
+                NetTemperature = GenTemperature.OutdoorTemp;
+            }
+            else
+            {
+                NetTemperature = intake.netTemp;
+            }
+        }
 
         public void AirNetTick()
         {

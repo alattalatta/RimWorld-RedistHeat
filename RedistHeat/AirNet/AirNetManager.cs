@@ -17,13 +17,14 @@ namespace RedistHeat
         //Pending graphic updates
         private static List< IntVec3 > updatees;
 
+        private static bool isReady;
+
         static AirNetManager()
         {
             var layerCount = Common.NetLayerCount();
             allNets = new List<AirNet>[layerCount];
             newComps = new List<CompAir>[layerCount];
             oldComps = new List<CompAir>[layerCount];
-
             updatees = new List<IntVec3>();
 
             for ( var i = 0; i < layerCount; i++ )
@@ -32,13 +33,17 @@ namespace RedistHeat
                 newComps[i] = new List<CompAir>();
                 oldComps[i] = new List<CompAir>();
             }
-
-            if(Prefs.LogVerbose)
-                Log.Message( "LT-RH: Initialized NetManager." );
         }
 
-        public static void Reload()
+        public static void Reinit()
         {
+            for ( var i = 0; i < Common.NetLayerCount(); i++ )
+            {
+                allNets[i] = new List<AirNet>();
+                newComps[i] = new List<CompAir>();
+                oldComps[i] = new List<CompAir>();
+            }
+
             foreach ( var current in Find.Map.listerBuildings.allBuildingsColonist )
             {
                 var compAir = current.TryGetComp< CompAir >();
@@ -48,47 +53,51 @@ namespace RedistHeat
                     updatees.Add( current.Position );
                 }
             }
+#if DEBUG
+            Log.Message("LT-RH: Initialized AirNetManager.");
+#endif
+            isReady = true;
         }
 
         public static void NotifyCompSpawn( CompAir compAir )
         {
+            if ( !isReady )
+                return;
+
             if ( compAir.IsLayerOf( NetLayer.Lower ) )
             {
-#if DEBUG
-                //Log.Message(compAir + " spawned at " + compAir.parent.Position + ", layer " + NetLayer.Lower);
-#endif
                 newComps[(int) NetLayer.Lower].Add( compAir );
             }
 
             else if ( compAir.IsLayerOf( NetLayer.Upper ) )
             {
-#if DEBUG
-                //Log.Message( compAir + " spawned at " + compAir.parent.Position + ", layer " + NetLayer.Upper );
-#endif
                 newComps[(int) NetLayer.Upper].Add( compAir );
             }
+#if DEBUG
+            Log.Message("LT-RH: Spawning " + compAir.parent);
+#endif
 
             AddToGraphicUpdateList( compAir );
         }
 
         public static void NotifyCompDespawn( CompAir compAir )
         {
+            if ( !isReady )
+                return;
+
             if ( compAir.IsLayerOf( NetLayer.Lower ) )
             {
-#if DEBUG
-                //Log.Message( compAir + " despawned at " + compAir.parent.Position + ", layer " + NetLayer.Lower );
-#endif
                 oldComps[(int) NetLayer.Lower].Add( compAir );
             }
 
             if ( compAir.IsLayerOf( NetLayer.Upper ) )
             {
-#if DEBUG
-                //Log.Message( compAir + " despawned at " + compAir.parent.Position + ", layer " + NetLayer.Upper );
-#endif
                 oldComps[(int) NetLayer.Upper].Add( compAir );
             }
 
+#if DEBUG
+            Log.Message("LT-RH: Despawning " + compAir.parent);
+#endif
             AddToGraphicUpdateList( compAir );
         }
 
@@ -103,28 +112,25 @@ namespace RedistHeat
 
             oldComps[(int) oldLayer].Add( compAir );
             newComps[(int) compAir.currentLayer].Add( compAir );
-
-#if DEBUG
-            //Log.Message( compAir + " changed layer to " + compAir.currentLayer );
-#endif
+            
             AddToGraphicUpdateList( compAir );
         }
 
         public static void RegisterAirNet( AirNet newNet )
         {
-            allNets[newNet.LayerInt].Add( newNet );
 #if DEBUG
-            Log.Message("Created net " + newNet + ". " + newNet.Layer + " net count: " + allNets[newNet.LayerInt].Count);
+            Log.Message("LT-RH: Registering " + newNet);
 #endif
+            allNets[newNet.LayerInt].Add( newNet );
             AirNetGrid.NotifyNetCreated( newNet );
         }
 
         public static void DeregisterAirNet( AirNet oldNet )
         {
-            allNets[oldNet.LayerInt].Remove( oldNet );
 #if DEBUG
-            Log.Message("Deleted net " + oldNet + ". " + oldNet.Layer + " net count: " + allNets[oldNet.LayerInt].Count);
+            Log.Message("LT-RH: Deregistering " + oldNet);
 #endif
+            allNets[oldNet.LayerInt].Remove( oldNet );
             AirNetGrid.NotifyNetDeregistered( oldNet );
         }
 
@@ -143,12 +149,13 @@ namespace RedistHeat
         {
             for ( var layerInt = 0; layerInt < Common.NetLayerCount(); layerInt++ )
             {
-                if ( !newComps.Any() && !oldComps.Any() )
+                if ( !newComps[layerInt].Any() && !oldComps[layerInt].Any() )
                     continue;
                 
                 //Deregister the whole net that should be merged (deregister adjacent AirNet)
                 foreach ( var current in newComps[layerInt] )
                 {
+                    Log.Message("Cleaning.");
                     //Check for adjacent cells
                     foreach ( var adjPos in GenAdj.CellsAdjacentCardinal( current.parent ) )
                     {
@@ -166,10 +173,10 @@ namespace RedistHeat
                     }
                 }
 
-                
                 //Deregister comps marked as old
                 foreach ( var current in oldComps[layerInt] )
                 {
+                    Log.Message("Deleting.");
                     var oldNet = AirNetGrid.NetAt( current.parent.Position, (NetLayer) layerInt );
 
                     if ( oldNet != null )
@@ -182,17 +189,17 @@ namespace RedistHeat
                 //Make a new, merged net
                 foreach ( var current in newComps[layerInt] )
                 {
+                    Log.Message("Merging.");
                     if ( AirNetGrid.NetAt( current.parent.Position, (NetLayer) layerInt ) == null )
                     {
-                        RegisterAirNet( AirNetMaker.NewAirNetStartingFrom( (Building) current.parent,
-                                                                           (NetLayer) layerInt,
-                                                                           GenTemperature.OutdoorTemp ) );
+                        RegisterAirNet( AirNetMaker.NewAirNetStartingFrom( (Building) current.parent, (NetLayer) layerInt ) );
                     }
                 }
 
                 //Split nets
                 foreach ( var current in oldComps[layerInt] )
                 {
+                    Log.Message("Splitting.");
                     foreach ( var adjPos in GenAdj.CellsAdjacentCardinal( current.parent ) )
                     {
                         if ( !adjPos.InBounds() )
@@ -203,8 +210,7 @@ namespace RedistHeat
                         var airNode = GetAirNodeAt( adjPos, (NetLayer) layerInt );
                         if ( airNode != null )
                         {
-                            RegisterAirNet( AirNetMaker.NewAirNetStartingFrom( airNode, (NetLayer) layerInt,
-                                                                               GenTemperature.OutdoorTemp) );
+                            RegisterAirNet( AirNetMaker.NewAirNetStartingFrom( airNode, (NetLayer) layerInt ) );
                         }
                     }
                 }
@@ -246,16 +252,11 @@ namespace RedistHeat
             {
                 return;
             }
-
-#if DEBUG
-            //Log.Message( "Updated drawer." );
-#endif
             foreach ( var current in updatees )
             {
                 Find.MapDrawer.MapMeshDirty( current, MapMeshFlag.Things, true, false );
                 Find.MapDrawer.MapMeshDirty( current, MapMeshFlag.PowerGrid, true, false );
             }
-
             Find.MapDrawer.MapMeshDrawerUpdate_First();
             updatees.Clear();
         }

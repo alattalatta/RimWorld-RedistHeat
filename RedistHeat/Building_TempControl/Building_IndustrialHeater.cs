@@ -26,29 +26,24 @@ namespace RedistHeat
         private void ControlTemperature()
         {
             var temperature = Position.GetTemperature();
-            float powerMod;
+            float energyMod;
             if ( temperature < 20f )
             {
-                powerMod = 1f;
+                energyMod = 1f;
             }
             else
             {
-                if ( temperature > 120f )
-                {
-                    powerMod = 0f;
-                }
-                else
-                {
-                    powerMod = Mathf.InverseLerp( 120f, 20f, temperature );
-                }
+                energyMod = temperature > 120f
+                          ? 0f
+                          : Mathf.InverseLerp( 120f, 20f, temperature );
             }
-            var energyLimit = compTempControl.props.energyPerSecond*powerMod*4.16666651f;
-            var num2 = GenTemperature.ControlTemperatureTempChange( Position, energyLimit,
-                compTempControl.targetTemperature );
-            var flag = !Mathf.Approximately( num2, 0f );
-            if ( flag )
+            var energyLimit = compTempControl.props.energyPerSecond*energyMod*4.16666651f;
+            var hotAir = GenTemperature.ControlTemperatureTempChange( Position, energyLimit, compTempControl.targetTemperature );
+
+            var hotIsHot = !Mathf.Approximately( hotAir, 0f );
+            if ( hotIsHot )
             {
-                Position.GetRoom().Temperature += num2;
+                Position.GetRoom().Temperature += hotAir;
                 compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption;
             }
             else
@@ -56,7 +51,7 @@ namespace RedistHeat
                 compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption*
                                               compTempControl.props.lowPowerConsumptionFactor;
             }
-            compTempControl.operatingAtHighPower = flag;
+            compTempControl.operatingAtHighPower = hotIsHot;
         }
 
         private void SteamTick()
@@ -75,11 +70,7 @@ namespace RedistHeat
             }
             else
             {
-                ticksUntilSpray--;
-                if ( ticksUntilSpray <= 0 )
-                {
-                    sprayTicksLeft = Rand.RangeInclusive( 5, 10 );
-                }
+                sprayTicksLeft = Rand.RangeInclusive( 5, 10 );
             }
         }
     }

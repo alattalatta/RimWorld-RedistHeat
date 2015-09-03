@@ -1,22 +1,31 @@
-﻿using RimWorld;
+﻿using UnityEngine;
 using Verse;
 
 namespace RedistHeat
 {
     public class Building_ActiveVent : Building_Vent
     {
-        public override void SpawnSetup()
+        protected override void Equalize( Room room, float targetTemp, float rate )
         {
-            base.SpawnSetup();
-            compPowerTrader = GetComp< CompPowerTrader >();
-            roomNorth = (Position + IntVec3.North.RotatedBy( Rotation )).GetRoom();
-            roomSouth = (Position + IntVec3.South.RotatedBy( Rotation )).GetRoom();
+            var tempDiff = Mathf.Abs( room.Temperature - targetTemp );
+            var tempSet = compTempControl.targetTemperature;
+            var tempRated = tempDiff*rate;
+            if ( targetTemp < room.Temperature )
+            {
+                room.Temperature = Mathf.Max( targetTemp, room.Temperature - tempRated, tempSet );
+            }
+            else if ( targetTemp > room.Temperature )
+            {
+                room.Temperature = Mathf.Min( targetTemp, room.Temperature + tempRated, tempSet );
+            }
         }
 
         protected override bool Validate()
         {
-            if ( roomNorth == null || roomSouth == null || compPowerTrader == null)
-                return false;
+            if ( compPowerTrader == null )
+            {
+                return true;
+            }
 
             return (base.Validate() && compPowerTrader.PowerOn &&
                     ValidateTemp( roomNorth.Temperature, roomSouth.Temperature ));

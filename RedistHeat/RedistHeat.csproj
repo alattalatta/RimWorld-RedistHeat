@@ -37,7 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
-      <HintPath>D:\1\RimWorld914Win\RimWorld914Win_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <HintPath>..\Reference\Assembly-CSharp.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -47,40 +47,44 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="UnityEngine">
-      <HintPath>D:\1\RimWorld914Win\RimWorld914Win_Data\Managed\UnityEngine.dll</HintPath>
+      <HintPath>..\Reference\UnityEngine.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AirNetGraphic\Graphic_LinkedAirPipe.cs" />
-    <Compile Include="AirNetGraphic\Graphic_LinkedAirPipeOverlay.cs" />
-    <Compile Include="AirNetGraphic\AirOverlayMat.cs" />
+    <Compile Include="Graphics\Graphic_LinkedAirPipe.cs" />
+    <Compile Include="Graphics\Graphic_LinkedAirPipeOverlay.cs" />
+    <Compile Include="Graphics\AirOverlayMat.cs" />
     <Compile Include="AirNet\AirNetMaker.cs" />
     <Compile Include="AirNet\AirNetManager.cs" />
     <Compile Include="AirNet\CompProperties\CompAirTransmitterProperties.cs" />
     <Compile Include="Building_AirNets\Building_DuctComp.cs" />
+    <Compile Include="Building_AirNets\Building_DuctCooler.cs" />
     <Compile Include="Building_AirNets\Building_DuctPipe.cs" />
-    <Compile Include="Common.cs" />
+    <Compile Include="Misc\Common.cs" />
     <Compile Include="MapComponent\AirNetTicker.cs" />
-    <Compile Include="Misc\ThingDef_AirNet.cs" />
     <Compile Include="Building_Vents\Building_ActiveVent.cs" />
     <Compile Include="Building_AirNets\Building_SmartDuctOutlet.cs" />
     <Compile Include="Building_TempControl\Building_ExhaustPort.cs" />
     <Compile Include="Building_TempControl\Building_IndustrialCooler.cs" />
     <Compile Include="Building_TempControl\Building_IndustrialHeater.cs" />
     <Compile Include="Building_Vents\Building_Vent.cs" />
-    <Compile Include="AirNet\ThingComps\CompAir.cs" />
-    <Compile Include="AirNet\ThingComps\CompAirTransmitter.cs" />
-    <Compile Include="AirNet\ThingComps\CompAirTrader.cs" />
+    <Compile Include="PlaceWorkers\PlaceWorker_WallChecker.cs" />
+    <Compile Include="PlaceWorkers\PlaceWorker_DuctCooler.cs" />
+    <Compile Include="ThingComps\CompAir.cs" />
+    <Compile Include="ThingComps\CompAirTransmitter.cs" />
+    <Compile Include="ThingComps\CompAirTrader.cs" />
     <Compile Include="AirNet\AirNetGrid.cs" />
     <Compile Include="AirNet\AirNet.cs" />
     <Compile Include="Misc\ResourceBank.cs" />
-    <Compile Include="PlaceWorkers\PlaceWorker_DuctIntersection.cs" />
     <Compile Include="PlaceWorkers\PlaceWorker_DuctComp.cs" />
     <Compile Include="PlaceWorkers\PlaceWorker_ExhaustPort.cs" />
     <Compile Include="PlaceWorkers\PlaceWorker_IndustrialCooler.cs" />
     <Compile Include="PlaceWorkers\PlaceWorker_ActiveVent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\Reference\Assembly-CSharp.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -9,11 +11,31 @@ namespace RedistHeat
     public class Building_IndustrialCooler : Building_TempControl
     {
         private IntVec3 vecSouth, vecSouthEast;
-        private List< Building_ExhaustPort > neighDucts;
+        private Room roomSouth;
+        private List<Building_ExhaustPort> activeExhausts;
 
         private float Energy => compTempControl.props.energyPerSecond;
 
         private bool isWorking;
+        private bool WorkingState
+        {
+            set
+            {
+                isWorking = value;
+
+                if ( isWorking )
+                {
+                    compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption;
+                }
+                else
+                {
+                    compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption *
+                                                  compTempControl.props.lowPowerConsumptionFactor;
+                }
+
+                compTempControl.operatingAtHighPower = isWorking;
+            }
+        }
 
         public override void SpawnSetup()
         {
@@ -24,71 +46,46 @@ namespace RedistHeat
 
         public override void TickRare()
         {
-            if ( AdjacentDucts().Count == 0 )
+            if( !Validate() )
             {
-                isWorking = false;
+                WorkingState = false;
                 return;
             }
 
-            neighDucts = GetAvailableDucts( AdjacentDucts() );
-
-            if ( !compPowerTrader.PowerOn || vecSouth.Impassable() || vecSouthEast.Impassable() || neighDucts.Count == 0 )
-            {
-                isWorking = false;
-            }
-            else
-            {
-                isWorking = true;
-            }
-
-            if ( isWorking )
-            {
-                ControlTemperature();
-                compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption;
-            }
-            else
-            {
-                compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption*
-                                              compTempControl.props.lowPowerConsumptionFactor;
-            }
-
-            compTempControl.operatingAtHighPower = isWorking;
+            WorkingState = true;
+            ControlTemperature();
         }
 
-        public override string GetInspectString()
+        private bool Validate()
         {
-            var str = new StringBuilder();
-            str.Append( base.GetInspectString() );
-            if ( neighDucts != null )
+            if ( vecSouth.Impassable() || vecSouthEast.Impassable() )
             {
-                str.Append( ResourceBank.StringWorkingDucts + ": " + neighDucts.Count );
+                return false;
             }
-            else
+
+            roomSouth = vecSouth.GetRoom();
+            if ( roomSouth == null )
             {
-                str.Append( ResourceBank.StringWorkingDucts + ": 0" );
+                return false;
             }
-            return str.ToString();
+
+            activeExhausts = GetActiveExhausts();
+
+            if ( !compPowerTrader.PowerOn || activeExhausts.Count == 0 )
+            {
+                return false;
+            }
+
+            return true;
         }
 
         private void ControlTemperature()
         {
-            var room = vecSouth.GetRoom();
-            if ( room == null )
-            {
-                Log.Warning( "Tried to get northRoom of null." );
-                return;
-            }
-
             //Average of exhaust ports' room temperature
-            float tempHotSum = 0;
-            foreach ( var finder in neighDucts )
-            {
-                tempHotSum += finder.VecNorth.GetTemperature();
-            }
-            var tempHotAvg = tempHotSum/neighDucts.Count;
+            var tempHotAvg = activeExhausts.Sum( s => s.VecNorth.GetTemperature() ) / activeExhausts.Count;
 
             //Cooler's temperature
-            var tempCold = room.Temperature;
+            var tempCold = roomSouth.Temperature;
             var tempDiff = tempHotAvg - tempCold;
 
             if ( tempHotAvg - tempDiff > 40.0 )
@@ -96,60 +93,60 @@ namespace RedistHeat
                 tempDiff = tempHotAvg - 40f;
             }
 
-            var num2 = 1.0 - tempDiff*(1.0/130.0);
+            var num2 = 1.0 - tempDiff * (1.0 / 130.0);
             if ( num2 < 0.0 )
             {
                 num2 = 0.0f;
             }
 
-            var energyLimit = (float) (Energy*neighDucts.Count*num2*4.16666650772095);
-            var coldAir = GenTemperature.ControlTemperatureTempChange( vecSouth, energyLimit,
-                compTempControl.targetTemperature );
+            var energyLimit = (float)(Energy * activeExhausts.Count * num2 * 4.16666650772095);
+            var coldAir = GenTemperature.ControlTemperatureTempChange( vecSouth, energyLimit, compTempControl.targetTemperature );
             isWorking = !Mathf.Approximately( coldAir, 0.0f );
             if ( !isWorking )
             {
                 return;
             }
-            room.Temperature += coldAir;
+            roomSouth.Temperature += coldAir;
 
-            var hotAir = (float) (-energyLimit*1.25/neighDucts.Count);
+            var hotAir = (float)(-energyLimit * 1.25 / activeExhausts.Count);
 
             if ( Mathf.Approximately( hotAir, 0.0f ) )
             {
                 return;
             }
 
-            foreach ( var finder in neighDucts )
+            foreach ( var current in activeExhausts )
             {
-                GenTemperature.PushHeat( finder.VecNorth, hotAir );
+                current.PushHeat( hotAir );
             }
         }
 
-        private List< Building_ExhaustPort > AdjacentDucts()
+        private List<Building_ExhaustPort> GetActiveExhausts()
         {
-            var list = new List< Building_ExhaustPort >();
-            foreach ( var c in GenAdj.CellsAdjacentCardinal( this ) )
-            {
-                var finder = Find.ThingGrid.ThingAt< Building_ExhaustPort >( c );
-                if ( finder != null )
-                {
-                    list.Add( finder );
-                }
-            }
-            return list;
+            var origin = GenAdj.CellsAdjacentCardinal( this )
+                               .Select( s => Find.ThingGrid.ThingAt<Building_ExhaustPort>( s ) )
+                               .Where( thingAt => thingAt != null )
+                               .ToList();
+
+            return origin.Where( s => s.isAvailable ).ToList();
         }
 
-        private static List< Building_ExhaustPort > GetAvailableDucts( IEnumerable< Building_ExhaustPort > list )
+        public override string GetInspectString()
         {
-            var list2 = new List< Building_ExhaustPort >();
-            foreach ( var finder in list )
+            var str = new StringBuilder();
+            str.Append( base.GetInspectString() )
+               .Append( ResourceBank.StringWorkingDucts )
+               .Append( ": " );
+
+            if ( activeExhausts != null )
             {
-                if ( finder.isAvailable )
-                {
-                    list2.Add( finder );
-                }
+                str.Append( activeExhausts.Count );
             }
-            return list2;
+            else
+            {
+                str.Append( "0" );
+            }
+            return str.ToString();
         }
     }
 }

@@ -10,6 +10,11 @@ namespace RedistHeat
         {
             var vecSouth = center + IntVec3.South.RotatedBy( rot );
             var vecSouthEast = vecSouth + IntVec3.East.RotatedBy( rot );
+            if ( !vecSouth.InBounds() || !vecSouthEast.InBounds() )
+            {
+                return;
+            }
+
             GenDraw.DrawFieldEdges( new List< IntVec3 >() {vecSouth, vecSouthEast}, GenTemperature.ColorSpotCold );
             var room = vecSouth.GetRoom();
             if ( room == null || room.UsesOutdoorTemperature )
@@ -29,7 +34,7 @@ namespace RedistHeat
             }
             if ( vecSouth.Impassable() || vecSouthEast.Impassable() )
             {
-                return ResourceBank.StringExposeCold;
+                return ResourceBank.ExposeCold;
             }
             return true;
         }

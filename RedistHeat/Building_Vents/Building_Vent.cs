@@ -7,10 +7,36 @@ namespace RedistHeat
 {
     public class Building_Vent : Building_TempControl
     {
-        private const float EqualizationRate = 0.25f;
-        private bool isLocked;
+        private const float EqualizationRate = 0.28f;
 
+        protected IntVec3 vecNorth, vecSouth;
         protected Room roomNorth, roomSouth;
+
+        private bool isLocked;
+        private bool isWorking;
+        private bool WorkingState
+        {
+            set
+            {
+                isWorking = value;
+
+                if ( compPowerTrader == null || compTempControl == null )
+                {
+                    return;
+                }
+                if ( isWorking )
+                {
+                    compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption;
+                }
+                else
+                {
+                    compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption *
+                                                  compTempControl.props.lowPowerConsumptionFactor;
+                }
+
+                compTempControl.operatingAtHighPower = isWorking;
+            }
+        }
 
         public override void ExposeData()
         {
@@ -18,70 +44,88 @@ namespace RedistHeat
             Scribe_Values.LookValue( ref isLocked, "isLocked", false );
         }
 
-        public override void TickRare()
+        public override void SpawnSetup()
         {
+            base.SpawnSetup();
+            vecNorth = Position + IntVec3.North.RotatedBy( Rotation );
+            vecSouth = Position + IntVec3.South.RotatedBy( Rotation );
+        }
+
+        public override void Tick()
+        {
+            base.Tick();
+            if ( !this.IsHashIntervalTick( 250 ) )
+            {
+                return;
+            }
+
             if ( !Validate() )
             {
+                WorkingState = false;
                 return;
             }
 
-            roomNorth = (Position + IntVec3.North.RotatedBy( Rotation )).GetRoom();
-            if ( roomNorth == null )
-            {
-                return;
-            }
-            roomSouth = (Position + IntVec3.South.RotatedBy( Rotation )).GetRoom();
-            if ( roomSouth == null )
-            {
-                return;
-            }
+            WorkingState = true;
 
-            if ( roomNorth == roomSouth || (roomNorth.UsesOutdoorTemperature && roomSouth.UsesOutdoorTemperature) )
-            {
-                return;
-            }
-
-            float tempEq;
+            float targetTemp;
             if ( roomNorth.UsesOutdoorTemperature )
             {
-                tempEq = roomNorth.Temperature;
+                targetTemp = roomNorth.Temperature;
             }
             else if ( roomSouth.UsesOutdoorTemperature )
             {
-                tempEq = roomSouth.Temperature;
+                targetTemp = roomSouth.Temperature;
             }
             else
             {
-                tempEq = (roomNorth.Temperature*roomNorth.CellCount + roomSouth.Temperature*roomSouth.CellCount)
-                         /(roomNorth.CellCount + roomSouth.CellCount);
+                //Average temperature with cell counts in account
+                targetTemp = (roomNorth.Temperature * roomNorth.CellCount + roomSouth.Temperature * roomSouth.CellCount) /
+                             (roomNorth.CellCount + roomSouth.CellCount);
             }
 
             if ( !roomNorth.UsesOutdoorTemperature )
             {
-                ExchangeHeat( roomNorth, tempEq, EqualizationRate );
+                Equalize( roomNorth, targetTemp, EqualizationRate );
             }
             if ( !roomSouth.UsesOutdoorTemperature )
             {
-                ExchangeHeat( roomSouth, tempEq, EqualizationRate );
+                Equalize( roomSouth, targetTemp, EqualizationRate );
             }
         }
 
-        private static void ExchangeHeat( Room r, float targetTemp, float rate )
+        protected virtual void Equalize( Room room, float targetTemp, float rate )
         {
-            var tempDiff = Mathf.Abs( r.Temperature - targetTemp );
-            var tempRated = tempDiff*rate;
-            if ( targetTemp < r.Temperature )
+            var tempDiff = Mathf.Abs( room.Temperature - targetTemp );
+            var tempRated = tempDiff * rate;
+            if ( targetTemp < room.Temperature )
             {
-                r.Temperature = Mathf.Max( targetTemp, r.Temperature - tempRated );
+                room.Temperature = Mathf.Max( targetTemp, room.Temperature - tempRated );
             }
-            else if ( targetTemp > r.Temperature )
+            else if ( targetTemp > room.Temperature )
             {
-                r.Temperature = Mathf.Min( targetTemp, r.Temperature + tempRated );
+                room.Temperature = Mathf.Min( targetTemp, room.Temperature + tempRated );
             }
         }
 
         protected virtual bool Validate()
         {
+            if ( vecNorth.Impassable() || vecSouth.Impassable() )
+            {
+                return false;
+            }
+
+            roomNorth = (Position + IntVec3.North.RotatedBy( Rotation )).GetRoom();
+            roomSouth = (Position + IntVec3.South.RotatedBy( Rotation )).GetRoom();
+            if ( roomNorth == null || roomSouth == null || roomNorth == roomSouth)
+            {
+                return false;
+            }
+
+            if ( roomNorth.UsesOutdoorTemperature && roomSouth.UsesOutdoorTemperature )
+            {
+                return false;
+            }
+
             return !isLocked;
         }
 
@@ -94,7 +138,7 @@ namespace RedistHeat
             }
         }
 
-        public override IEnumerable< Gizmo > GetGizmos()
+        public override IEnumerable<Gizmo> GetGizmos()
         {
             foreach ( var g in base.GetGizmos() )
             {

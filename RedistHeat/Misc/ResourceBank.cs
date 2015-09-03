@@ -12,6 +12,7 @@ namespace RedistHeat
         public static string CurrentConnectedNetTemp  = "RedistHeat_CurrentConnectedNetTemp".Translate();
         public static string LowerNetTemperature      = "RedistHeat_LowerNetTemperature".Translate();
         public static string UpperNetTemperature      = "RedistHeat_UpperNetTemperature".Translate();
+        public static string WallAlreadyOccupied      = "RedistHeat_WallAlreadyOccupied".Translate();
         public static string CycleLayerLabel          = "RedistHeat_CycleLayerLabel".Translate();
         public static string CycleLayerDesc           = "RedistHeat_CycleLayerDesc".Translate();
         public static string CycleLayerMote           = "RedistHeat_CycleLayerMote";
@@ -20,14 +21,15 @@ namespace RedistHeat
         public static string StringState              = "RedistHeat_State".Translate();
         public static string StringWorking            = "RedistHeat_Working".Translate();
         public static string StringNotWorking         = "RedistHeat_NotWorking".Translate();
-
         public static string StringWorkingDucts       = "RedistHeat_WorkingDucts".Translate();
 
-        public static string StringExposeDuct         = "RedistHeat_MustExposeDuct".Translate();
-        public static string StringExposeBoth         = "MustPlaceVentWithFreeSpaces".Translate();
-        public static string StringExposeHot          = "RedistHeat_MustExposeHotSide".Translate();
-        public static string StringExposeCold         = "RedistHeat_MustExposeColdSide".Translate();
-        public static string StringAttachToCooler     = "RedistHeat_MustPlaceBackSideOnCooler".Translate();
+        public static string ExposeHot                = "RedistHeat_MustExposeHotSide".Translate();
+        public static string ExposeDuct               = "RedistHeat_MustExposeDuct".Translate();
+        public static string ExposeBoth               = "MustPlaceVentWithFreeSpaces".Translate(); // Core mod key text
+        public static string ExposeCold               = "RedistHeat_MustExposeColdSide".Translate();
+        public static string AttachToCooler           = "RedistHeat_MustPlaceBackSideOnCooler".Translate();
+        public static string NotNearWithOther         = "RedistHeat_MustBeNotNearWithOther".Translate();
+        public static string NeedConstructedRoof      = "RedistHeat_NeedConstructedRoof".Translate();
 
         // ==== Vent.xml ==== //
         public static string StringToggleAirflowLabel = "RedistHeat_CommandToggleLockLabel".Translate();

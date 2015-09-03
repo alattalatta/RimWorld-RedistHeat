@@ -49,9 +49,9 @@ namespace RedistHeat
             if ( connectedNet != null )
             {
                 result.Append( Mathf.Round( connectedNet.NetTemperature).ToStringTemperature( "F0" ) );
-
-                if ( Prefs.LogVerbose )
-                    result.AppendLine().Append( "Debug ID: " ).Append( connectedNet.debugId );
+#if DEBUG
+                result.AppendLine().Append( "Debug ID: " ).Append( connectedNet.debugId );
+#endif
             }
 
             return result.ToString();

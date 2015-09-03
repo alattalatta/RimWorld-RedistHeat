@@ -26,7 +26,7 @@ namespace RedistHeat
                 Find.ThingGrid.ThingsAt( pos ).ToList().Find(
                         s => s.def.defName == "RedistHeat_DuctPipeLower" || s.def.defName == "RedistHeat_DuctPipeUpper" );
 
-            pipe?.Destroy( DestroyMode.Kill );
+            pipe?.Destroy();
         }
     }
 }
