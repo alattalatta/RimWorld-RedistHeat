@@ -1,20 +1,31 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Verse;
 
 namespace RedistHeat
 {
     public class Building_ActiveVent : Building_Vent
     {
-        public override void SpawnSetup()
+        protected override void Equalize( Room room, float targetTemp, float rate )
         {
-            base.SpawnSetup();
+            var tempDiff = Mathf.Abs( room.Temperature - targetTemp );
+            var tempSet = compTempControl.targetTemperature;
+            var tempRated = tempDiff*rate;
+            if ( targetTemp < room.Temperature )
+            {
+                room.Temperature = Mathf.Max( targetTemp, room.Temperature - tempRated, tempSet );
+            }
+            else if ( targetTemp > room.Temperature )
+            {
+                room.Temperature = Mathf.Min( targetTemp, room.Temperature + tempRated, tempSet );
+            }
         }
 
         protected override bool Validate()
         {
             if ( compPowerTrader == null )
+            {
                 return true;
+            }
 
             return (base.Validate() && compPowerTrader.PowerOn &&
                     ValidateTemp( roomNorth.Temperature, roomSouth.Temperature ));
@@ -24,29 +35,6 @@ namespace RedistHeat
         {
             return ((controlled < compTempControl.targetTemperature && controlled < other) ||
                     (controlled > compTempControl.targetTemperature && controlled > other));
-        }
-
-        private void Revert()
-        {
-            Rotation = new Rot4( Rotation.AsInt + 2 );
-            vecNorth = Position + IntVec3.North.RotatedBy( Rotation );
-            vecSouth = Position + IntVec3.South.RotatedBy( Rotation );
-        }
-
-        public override IEnumerable<Gizmo> GetGizmos()
-        {
-            var com = new Command_Action
-            {
-                defaultLabel = "RedistHeat_RevertVentLabl",
-                defaultDesc = "RedistHeat_RevertVentDesc",
-                action = Revert,
-                icon = Texture2D.blackTexture
-            };
-
-            foreach ( var current in base.GetGizmos() )
-                yield return current;
-
-            yield return com;
         }
     }
 }

@@ -9,7 +9,7 @@ namespace RedistHeat
 
         public void EqualizeWithRoom( Room room, float targetTemp, float rate )
         {
-            //Will only push when EPS is 1
+            //Will do full push when EPS is 1
             var tempDiff = Mathf.Abs( room.Temperature - targetTemp );
             var tempRated = tempDiff*rate*(1-props.energyPerSecond);
 
@@ -38,6 +38,13 @@ namespace RedistHeat
             {
                 connectedNet.NetTemperature = Mathf.Min( targetTemp, netTemp + tempRated );
             }
+        }
+
+        public void SetNetTemperatureDirect( float temp )
+        {
+            netTemp = (int)connectedNet.NetTemperature;
+
+            connectedNet.NetTemperature += temp;
         }
 
         public override void PostExposeData()

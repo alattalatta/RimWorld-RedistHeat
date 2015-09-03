@@ -12,7 +12,7 @@ namespace RedistHeat
         protected override void Equalize()
         {
             var tempHot = room.Temperature;
-
+            
             //Cooler's temperature
             var tempCold = compAir.connectedNet.NetTemperature;
             var tempDiff = tempHot - tempCold;
@@ -35,8 +35,7 @@ namespace RedistHeat
             {
                 return;
             }
-            Log.Message( coldAir.ToString("F0") );
-            compAir.connectedNet.NetTemperature += coldAir;
+            compAir.SetNetTemperatureDirect( coldAir );
 
             if ( room.UsesOutdoorTemperature )
             {

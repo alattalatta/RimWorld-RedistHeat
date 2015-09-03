@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using RimWorld;
 using Verse;
 
@@ -79,6 +80,11 @@ namespace RedistHeat
         /// </summary>
         protected virtual bool Validate()
         {
+            if ( compAir.connectedNet == null )
+            {
+                return false;
+            }
+
             if ( RoomVec.Impassable() )
             {
                 return false;

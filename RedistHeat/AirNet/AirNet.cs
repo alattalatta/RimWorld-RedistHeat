@@ -28,7 +28,7 @@ namespace RedistHeat
         public AirNet( IEnumerable< CompAir > newNodes, NetLayer layer, CompAir root )
         {
             Layer = layer;
-            var compAirs = newNodes as IList< CompAir > ?? newNodes.ToList();
+            var compAirs = newNodes.ToList();
 
             foreach ( var current in compAirs )
             {
@@ -43,10 +43,13 @@ namespace RedistHeat
             this.root = root;
 
             var intake =
-                compAirs.Where( s => s is CompAirTrader )
+                compAirs.Where( s => s.GetType() == typeof ( CompAirTrader ) )
                         .Cast< CompAirTrader >()
                         .ToList()
-                        .Find( s => Mathf.Approximately( s.props.energyPerSecond, 1 ) );
+                        .Find(
+                            s =>
+                                s.parent.def.defName == "RedistHeat_DuctIntake" ||
+                                s.parent.def.defName == "RedistHeat_DuctCooler" );
 
             if ( intake == null || intake.netTemp == 999 )
             {

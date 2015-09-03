@@ -4,7 +4,7 @@ namespace RedistHeat
 {
     public class AirNetTicker : MapComponent
     {
-        private bool doneInit;
+        public static bool doneInit;
         //private bool doneLoad;
 
         //private List<NetSaver> savers = new List<NetSaver>();
@@ -35,7 +35,7 @@ namespace RedistHeat
             AirNetManager.AirNetsTick();
         }
 
-        private void Initialize()
+        public static void Initialize()
         {
             AirNetGrid.Reinit();
             AirNetManager.Reinit();

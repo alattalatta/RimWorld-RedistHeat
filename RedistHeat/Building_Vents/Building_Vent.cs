@@ -7,7 +7,7 @@ namespace RedistHeat
 {
     public class Building_Vent : Building_TempControl
     {
-        private const float EqualizationRate = 0.25f;
+        private const float EqualizationRate = 0.28f;
 
         protected IntVec3 vecNorth, vecSouth;
         protected Room roomNorth, roomSouth;
@@ -88,7 +88,7 @@ namespace RedistHeat
             }
         }
 
-        private static void Equalize( Room room, float targetTemp, float rate )
+        protected virtual void Equalize( Room room, float targetTemp, float rate )
         {
             var tempDiff = Mathf.Abs( room.Temperature - targetTemp );
             var tempRated = tempDiff * rate;

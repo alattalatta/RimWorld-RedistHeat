@@ -22,6 +22,9 @@ namespace RedistHeat
 
         public static AirNet NetAt( IntVec3 pos, NetLayer layer )
         {
+            if(!AirNetTicker.doneInit)
+                AirNetTicker.Initialize();
+
             return netGrid[(int)layer][CellIndices.CellToIndex( pos )];
         }
 
