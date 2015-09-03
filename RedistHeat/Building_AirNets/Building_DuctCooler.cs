@@ -1,15 +1,17 @@
 ﻿using UnityEngine;
 using Verse;
 
-namespace RedistHeat.Building_AirNets
+namespace RedistHeat
 {
     public class Building_DuctCooler : Building_DuctComp
     {
+        protected override IntVec3 RoomVec => Position;
+
         private float Energy => compTempControl.props.energyPerSecond;
 
         protected override void Equalize()
         {
-            var tempHot = roomNorth.Temperature;
+            var tempHot = room.Temperature;
 
             //Cooler's temperature
             var tempCold = compAir.connectedNet.NetTemperature;
@@ -33,9 +35,10 @@ namespace RedistHeat.Building_AirNets
             {
                 return;
             }
+            Log.Message( coldAir.ToString("F0") );
             compAir.connectedNet.NetTemperature += coldAir;
 
-            if ( roomNorth.UsesOutdoorTemperature )
+            if ( room.UsesOutdoorTemperature )
             {
                 return;
             }
@@ -46,7 +49,7 @@ namespace RedistHeat.Building_AirNets
                 return;
             }
 
-            GenTemperature.PushHeat( vecNorth, hotAir );
+            GenTemperature.PushHeat( RoomVec, hotAir );
         }   
 
         protected override bool Validate()
@@ -57,10 +60,10 @@ namespace RedistHeat.Building_AirNets
             return compTempControl.targetTemperature < compAir.connectedNet.NetTemperature;
         }
 
-        private float ControlTemperatureTempChange( AirNet net, float energyLimit, float targetTemperature )
+        private static float ControlTemperatureTempChange( AirNet net, float energyLimit, float targetTemperature )
         {
-            float b = energyLimit / net.nodes.Count;
-            float a = targetTemperature - net.NetTemperature;
+            var b = energyLimit / net.nodes.Count;
+            var a = targetTemperature - net.NetTemperature;
             float num;
             if ( energyLimit > 0f )
             {

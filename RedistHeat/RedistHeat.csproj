@@ -38,6 +38,7 @@
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
       <HintPath>..\Reference\Assembly-CSharp.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -47,12 +48,13 @@
     <Reference Include="System.Xml" />
     <Reference Include="UnityEngine">
       <HintPath>..\Reference\UnityEngine.dll</HintPath>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AirNetGraphic\Graphic_LinkedAirPipe.cs" />
-    <Compile Include="AirNetGraphic\Graphic_LinkedAirPipeOverlay.cs" />
-    <Compile Include="AirNetGraphic\AirOverlayMat.cs" />
+    <Compile Include="Graphics\Graphic_LinkedAirPipe.cs" />
+    <Compile Include="Graphics\Graphic_LinkedAirPipeOverlay.cs" />
+    <Compile Include="Graphics\AirOverlayMat.cs" />
     <Compile Include="AirNet\AirNetMaker.cs" />
     <Compile Include="AirNet\AirNetManager.cs" />
     <Compile Include="AirNet\CompProperties\CompAirTransmitterProperties.cs" />

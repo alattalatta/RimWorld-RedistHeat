@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
+﻿using System.Linq;
 using Verse;
 
 namespace RedistHeat
@@ -9,14 +7,7 @@ namespace RedistHeat
     {
         public override void DrawGhost( ThingDef def, IntVec3 center, Rot4 rot )
         {
-            var vecNorth = center + IntVec3.North.RotatedBy( rot );
-            if ( !vecNorth.InBounds() )
-            {
-                return;
-            }
-
-            GenDraw.DrawFieldEdges( new List< IntVec3 > {vecNorth}, new Color( 1f, 0.7f, 0f, 0.5f ) );
-            var room = vecNorth.GetRoom();
+            var room = center.GetRoom();
             if ( room == null || room.UsesOutdoorTemperature )
             {
                 return;
@@ -26,13 +17,13 @@ namespace RedistHeat
 
         public override AcceptanceReport AllowsPlacing( BuildableDef def, IntVec3 center, Rot4 rot )
         {
-            var vecNorth = center + IntVec3.North.RotatedBy( rot );
-            if ( !vecNorth.InBounds() )
+            var vecSouth = center + IntVec3.South.RotatedBy( rot );
+            if ( !vecSouth.InBounds() )
             {
                 return false;
             }
 
-            if ( vecNorth.Impassable() )
+            if ( vecSouth.Impassable() )
             {
                 return ResourceBank.ExposeDuct;
             }

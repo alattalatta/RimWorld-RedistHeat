@@ -9,8 +9,8 @@ namespace RedistHeat
         private const float EqualizationRate = 0.85f;
 
         protected CompAirTrader compAir;
-        protected Room roomNorth;
-        protected IntVec3 vecNorth;
+        protected Room room;
+        protected virtual IntVec3 RoomVec => Position + IntVec3.North.RotatedBy( Rotation );
         
         private bool isLocked;
         private bool isWorking;
@@ -47,7 +47,6 @@ namespace RedistHeat
         {
             base.SpawnSetup();
             compAir = GetComp< CompAirTrader >();
-            vecNorth = Position + IntVec3.North.RotatedBy( Rotation );
 
             Common.WipeExistingPipe( Position );
         }
@@ -80,13 +79,13 @@ namespace RedistHeat
         /// </summary>
         protected virtual bool Validate()
         {
-            if ( vecNorth.Impassable() )
+            if ( RoomVec.Impassable() )
             {
                 return false;
             }
 
-            roomNorth = vecNorth.GetRoom();
-            if ( roomNorth == null )
+            room = RoomVec.GetRoom();
+            if ( room == null )
             {
                 return false;
             }
@@ -97,21 +96,21 @@ namespace RedistHeat
         protected virtual void Equalize()
         {
             float targetTemp;
-            if ( roomNorth.UsesOutdoorTemperature )
+            if ( room.UsesOutdoorTemperature )
             {
-                targetTemp = roomNorth.Temperature;
+                targetTemp = room.Temperature;
             }
             else
             {
-                targetTemp = (roomNorth.Temperature*roomNorth.CellCount +
+                targetTemp = (room.Temperature*room.CellCount +
                               compAir.connectedNet.NetTemperature*compAir.connectedNet.nodes.Count)
-                             /(roomNorth.CellCount + compAir.connectedNet.nodes.Count);
+                             /(room.CellCount + compAir.connectedNet.nodes.Count);
             }
 
             compAir.EqualizeWithNet( targetTemp, EqualizationRate );
-            if ( !roomNorth.UsesOutdoorTemperature )
+            if ( !room.UsesOutdoorTemperature )
             {
-                compAir.EqualizeWithRoom( roomNorth, targetTemp, EqualizationRate );
+                compAir.EqualizeWithRoom( room, targetTemp, EqualizationRate );
             }
         }
 

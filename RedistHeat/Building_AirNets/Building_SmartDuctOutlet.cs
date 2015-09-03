@@ -8,7 +8,7 @@
             if ( !base.Validate() )
                 return false;
 
-            return ValidateTemp( roomNorth.Temperature, compAir.connectedNet.NetTemperature );
+            return ValidateTemp( room.Temperature, compAir.connectedNet.NetTemperature );
         }
 
         private bool ValidateTemp( float roomTemp, float netTemp )
