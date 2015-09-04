@@ -76,7 +76,7 @@ namespace RedistHeat
                 return false;
             }
 
-            return true;
+            return compTempControl.targetTemperature < roomSouth.Temperature;
         }
 
         private void ControlTemperature()

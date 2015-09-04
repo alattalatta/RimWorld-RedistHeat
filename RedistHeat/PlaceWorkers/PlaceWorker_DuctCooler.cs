@@ -17,18 +17,7 @@ namespace RedistHeat
 
         public override AcceptanceReport AllowsPlacing( BuildableDef def, IntVec3 center, Rot4 rot )
         {
-            var vecSouth = center + IntVec3.South.RotatedBy( rot );
-            if ( !vecSouth.InBounds() )
-            {
-                return false;
-            }
-
-            if ( vecSouth.Impassable() )
-            {
-                return ResourceBank.ExposeDuct;
-            }
-
-            return true;
+            return center.InBounds();
         }
     }
 }

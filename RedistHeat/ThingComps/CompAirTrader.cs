@@ -44,7 +44,9 @@ namespace RedistHeat
         {
             netTemp = (int)connectedNet.NetTemperature;
 
+            Log.Message( "NetTemp: " + connectedNet.NetTemperature.ToString( "F0" ) + " temp: " + temp.ToString( "F0" ) );
             connectedNet.NetTemperature += temp;
+            Log.Message( "NetTemp: " + connectedNet.NetTemperature.ToString( "F0" ) );
         }
 
         public override void PostExposeData()
