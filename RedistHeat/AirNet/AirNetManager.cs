@@ -155,7 +155,9 @@ namespace RedistHeat
                 //Deregister the whole net that should be merged (deregister adjacent AirNet)
                 foreach ( var current in newComps[layerInt] )
                 {
+#if DEBUG
                     Log.Message("Cleaning.");
+#endif
                     //Check for adjacent cells
                     foreach ( var adjPos in GenAdj.CellsAdjacentCardinal( current.parent ) )
                     {
@@ -176,7 +178,9 @@ namespace RedistHeat
                 //Deregister comps marked as old
                 foreach ( var current in oldComps[layerInt] )
                 {
+#if DEBUG
                     Log.Message("Deleting.");
+#endif
                     var oldNet = AirNetGrid.NetAt( current.parent.Position, (NetLayer) layerInt );
 
                     if ( oldNet != null )
@@ -189,7 +193,9 @@ namespace RedistHeat
                 //Make a new, merged net
                 foreach ( var current in newComps[layerInt] )
                 {
+#if DEBUG
                     Log.Message("Merging.");
+#endif
                     if ( AirNetGrid.NetAt( current.parent.Position, (NetLayer) layerInt ) == null )
                     {
                         RegisterAirNet( AirNetMaker.NewAirNetStartingFrom( (Building) current.parent, (NetLayer) layerInt ) );
@@ -199,7 +205,9 @@ namespace RedistHeat
                 //Split nets
                 foreach ( var current in oldComps[layerInt] )
                 {
+#if DEBUG
                     Log.Message("Splitting.");
+#endif
                     foreach ( var adjPos in GenAdj.CellsAdjacentCardinal( current.parent ) )
                     {
                         if ( !adjPos.InBounds() )
