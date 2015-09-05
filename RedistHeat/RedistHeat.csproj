@@ -37,8 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
-      <HintPath>..\Reference\Assembly-CSharp.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>D:\1\RimWorld914Win\RimWorld914Win_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -47,11 +46,11 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="UnityEngine">
-      <HintPath>..\Reference\UnityEngine.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>D:\1\RimWorld914Win\RimWorld914Win_Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Building_AirNets\Building_DuctBase.cs" />
     <Compile Include="Graphics\Graphic_LinkedAirPipe.cs" />
     <Compile Include="Graphics\Graphic_LinkedAirPipeOverlay.cs" />
     <Compile Include="Graphics\AirOverlayMat.cs" />
@@ -69,6 +68,9 @@
     <Compile Include="Building_TempControl\Building_IndustrialCooler.cs" />
     <Compile Include="Building_TempControl\Building_IndustrialHeater.cs" />
     <Compile Include="Building_Vents\Building_Vent.cs" />
+    <Compile Include="Misc\OverlayDrawHandler_AirNet.cs" />
+    <Compile Include="Misc\SectionLayer_AirNetOverlay.cs" />
+    <Compile Include="PlaceWorkers\PlaceWorker_DuctBase.cs" />
     <Compile Include="PlaceWorkers\PlaceWorker_WallChecker.cs" />
     <Compile Include="PlaceWorkers\PlaceWorker_DuctCooler.cs" />
     <Compile Include="ThingComps\CompAir.cs" />
@@ -82,9 +84,6 @@
     <Compile Include="PlaceWorkers\PlaceWorker_IndustrialCooler.cs" />
     <Compile Include="PlaceWorkers\PlaceWorker_ActiveVent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Analyzer Include="..\Reference\Assembly-CSharp.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

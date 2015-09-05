@@ -7,6 +7,13 @@ namespace RedistHeat
     {
         public int netTemp;
 
+        public override void PostSpawnSetup()
+        {
+            base.PostSpawnSetup();
+            if ( netTemp == 0 )
+                netTemp = (int) GenTemperature.OutdoorTemp;
+        }
+
         public void EqualizeWithRoom( Room room, float targetTemp, float rate )
         {
             //Will do full push when EPS is 1
@@ -25,8 +32,6 @@ namespace RedistHeat
 
         public void EqualizeWithNet( float targetTemp, float rate )
         {
-            netTemp = (int) connectedNet.NetTemperature;
-
             var tempDiff = Mathf.Abs( netTemp - targetTemp );
             var tempRated = tempDiff*rate*props.energyPerSecond;
 
@@ -38,15 +43,14 @@ namespace RedistHeat
             {
                 connectedNet.NetTemperature = Mathf.Min( targetTemp, netTemp + tempRated );
             }
+
+            netTemp = (int)connectedNet.NetTemperature;
         }
 
         public void SetNetTemperatureDirect( float temp )
         {
-            netTemp = (int)connectedNet.NetTemperature;
-
-            Log.Message( "NetTemp: " + connectedNet.NetTemperature.ToString( "F0" ) + " temp: " + temp.ToString( "F0" ) );
             connectedNet.NetTemperature += temp;
-            Log.Message( "NetTemp: " + connectedNet.NetTemperature.ToString( "F0" ) );
+            netTemp = (int)connectedNet.NetTemperature;
         }
 
         public override void PostExposeData()

@@ -5,10 +5,12 @@ using Verse;
 
 namespace RedistHeat
 {
-    public class PlaceWorker_DuctComp : PlaceWorker
+    public class PlaceWorker_DuctComp : PlaceWorker_DuctBase
     {
         public override void DrawGhost( ThingDef def, IntVec3 center, Rot4 rot )
         {
+            base.DrawGhost( def, center, rot );
+
             var vecNorth = center + IntVec3.North.RotatedBy( rot );
             if ( !vecNorth.InBounds() )
             {

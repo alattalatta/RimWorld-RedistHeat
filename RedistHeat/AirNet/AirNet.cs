@@ -94,7 +94,8 @@ namespace RedistHeat
                   .Append( Layer )
                   .Append( ", root " )
                   .Append( root.parent.Position )
-                  .Append( ")" );
+                  .Append( ", temp " )
+                  .Append( netTemperature );
             return result.ToString();
         }
     }
