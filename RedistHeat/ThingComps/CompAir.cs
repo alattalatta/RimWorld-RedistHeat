@@ -34,14 +34,14 @@ namespace RedistHeat
             Scribe_Values.LookValue( ref currentLayer, "currentLayer", NetLayer.Lower );
         }
 
-        public override void CompPrintForPowerGrid( SectionLayer layer )
+        public void CompPrintForAirGrid( SectionLayer layer )
         {
             AirOverlayMat.GetLayeredOverlayGraphic( this ).Print( layer, parent );
         }
 
         public override string CompInspectStringExtra()
         {
-            OverlayDrawHandler.DrawPowerGridOverlayThisFrame();
+            OverlayDrawHandler_AirNet.DrawAitNetOverlayThisFrame();
             var result = new StringBuilder();
             result.Append( ResourceBank.CurrentConnectionChannel.Translate(currentLayer.ToStringTranslated()) );
 

@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using RimWorld;
 using Verse;
 
 namespace RedistHeat
 {
-    public class Building_DuctComp : Building_TempControl
+    public class Building_DuctComp : Building_DuctBase
     {
         private const float EqualizationRate = 0.85f;
 

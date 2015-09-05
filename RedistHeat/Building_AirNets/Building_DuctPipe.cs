@@ -2,7 +2,7 @@
 
 namespace RedistHeat
 {
-    public class Building_DuctPipe : Building
+    public class Building_DuctPipe : Building_DuctBase
     {
         private Graphic_LinkedAirPipe graphicLinked;
 
