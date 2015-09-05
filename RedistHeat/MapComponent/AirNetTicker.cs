@@ -5,9 +5,6 @@ namespace RedistHeat
     public class AirNetTicker : MapComponent
     {
         public static bool doneInit;
-        //private bool doneLoad;
-
-        //private List<NetSaver> savers = new List<NetSaver>();
         
         public override void MapComponentUpdate()
         {
@@ -17,12 +14,6 @@ namespace RedistHeat
             }
             AirNetManager.AirNetsUpdate();
             AirNetManager.UpdateMapDrawer();
-            
-            /*
-            if (!doneLoad)
-            {
-                RestoreTemperature();
-            }*/
         }
 
 

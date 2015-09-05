@@ -38,7 +38,6 @@
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
       <HintPath>D:\1\RimWorld914Win\RimWorld914Win_Data\Managed\Assembly-CSharp.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -48,10 +47,10 @@
     <Reference Include="System.Xml" />
     <Reference Include="UnityEngine">
       <HintPath>D:\1\RimWorld914Win\RimWorld914Win_Data\Managed\UnityEngine.dll</HintPath>
-      <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Building_AirNets\Building_DuctBase.cs" />
     <Compile Include="Graphics\Graphic_LinkedAirPipe.cs" />
     <Compile Include="Graphics\Graphic_LinkedAirPipeOverlay.cs" />
     <Compile Include="Graphics\AirOverlayMat.cs" />
@@ -69,6 +68,9 @@
     <Compile Include="Building_TempControl\Building_IndustrialCooler.cs" />
     <Compile Include="Building_TempControl\Building_IndustrialHeater.cs" />
     <Compile Include="Building_Vents\Building_Vent.cs" />
+    <Compile Include="Misc\OverlayDrawHandler_AirNet.cs" />
+    <Compile Include="Misc\SectionLayer_AirNetOverlay.cs" />
+    <Compile Include="PlaceWorkers\PlaceWorker_DuctBase.cs" />
     <Compile Include="PlaceWorkers\PlaceWorker_WallChecker.cs" />
     <Compile Include="PlaceWorkers\PlaceWorker_DuctCooler.cs" />
     <Compile Include="ThingComps\CompAir.cs" />
