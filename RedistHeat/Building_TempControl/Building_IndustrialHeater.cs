@@ -6,11 +6,14 @@ namespace RedistHeat
 {
     public class Building_IndustrialHeater : Building_TempControl
     {
-        private int ticksUntilSpray = 6;
         private int sprayTicksLeft;
 
-        public override void TickRare()
+        public override void Tick()
         {
+	        if ( !this.IsHashIntervalTick( 250 ) )
+	        {
+		        return;
+	        }
             if ( !compPowerTrader.PowerOn )
             {
                 return;
@@ -65,7 +68,7 @@ namespace RedistHeat
                 }
                 if ( sprayTicksLeft <= 0 )
                 {
-                    ticksUntilSpray = Rand.RangeInclusive( 0, 10 );
+                    sprayTicksLeft = Rand.RangeInclusive( 1, 10 );
                 }
             }
             else

@@ -14,19 +14,19 @@ namespace RedistHeat
                 netTemp = (int) GenTemperature.OutdoorTemp;
         }
 
-        public void EqualizeWithRoom( Room room, float targetTemp, float rate )
+        public void EqualizeWithRoom( Room room, float pointTemp, float rate )
         {
             //Will do full push when EPS is 1
-            var tempDiff = Mathf.Abs( room.Temperature - targetTemp );
+            var tempDiff = Mathf.Abs( room.Temperature - pointTemp );
             var tempRated = tempDiff*rate*(1-props.energyPerSecond);
 
-            if ( targetTemp < room.Temperature )
+            if ( pointTemp < room.Temperature )
             {
-                room.Temperature = Mathf.Max(targetTemp, room.Temperature - tempRated);
+                room.Temperature = Mathf.Max(pointTemp, room.Temperature - tempRated);
             }
-            else if ( targetTemp > room.Temperature )
+            else if ( pointTemp > room.Temperature )
             {
-                room.Temperature = Mathf.Min(targetTemp, room.Temperature + tempRated);
+                room.Temperature = Mathf.Min(pointTemp, room.Temperature + tempRated);
             }
         }
 
