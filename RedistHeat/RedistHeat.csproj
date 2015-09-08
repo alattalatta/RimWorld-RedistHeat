@@ -38,6 +38,7 @@
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
       <HintPath>D:\1\RimWorld914Win\RimWorld914Win_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -47,30 +48,38 @@
     <Reference Include="System.Xml" />
     <Reference Include="UnityEngine">
       <HintPath>D:\1\RimWorld914Win\RimWorld914Win_Data\Managed\UnityEngine.dll</HintPath>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Building_AirNets\Building_DuctBase.cs" />
+    <Compile Include="Building\Building_AirNets\Building_DuctBase.cs" />
+    <Compile Include="Building\Building_TempControl\Building_MediumHeater.cs" />
+    <Compile Include="Building\IWallAttachable.cs" />
     <Compile Include="Graphics\Graphic_LinkedAirPipe.cs" />
     <Compile Include="Graphics\Graphic_LinkedAirPipeOverlay.cs" />
     <Compile Include="Graphics\AirOverlayMat.cs" />
     <Compile Include="AirNet\AirNetMaker.cs" />
     <Compile Include="AirNet\AirNetManager.cs" />
     <Compile Include="AirNet\CompProperties\CompAirTransmitterProperties.cs" />
-    <Compile Include="Building_AirNets\Building_DuctComp.cs" />
-    <Compile Include="Building_AirNets\Building_DuctCooler.cs" />
-    <Compile Include="Building_AirNets\Building_DuctPipe.cs" />
+    <Compile Include="Building\Building_AirNets\Building_DuctComp.cs" />
+    <Compile Include="Building\Building_AirNets\Building_DuctCooler.cs" />
+    <Compile Include="Building\Building_AirNets\Building_DuctPipe.cs" />
+    <Compile Include="DXTLoader\Graphic_MultiDXT5.cs" />
+    <Compile Include="DXTLoader\Graphic_SingleDXT5.cs" />
     <Compile Include="Misc\Common.cs" />
     <Compile Include="MapComponent\AirNetTicker.cs" />
-    <Compile Include="Building_Vents\Building_ActiveVent.cs" />
-    <Compile Include="Building_AirNets\Building_SmartDuctOutlet.cs" />
-    <Compile Include="Building_TempControl\Building_ExhaustPort.cs" />
-    <Compile Include="Building_TempControl\Building_IndustrialCooler.cs" />
-    <Compile Include="Building_TempControl\Building_IndustrialHeater.cs" />
-    <Compile Include="Building_Vents\Building_Vent.cs" />
+    <Compile Include="Building\Building_Vents\Building_ActiveVent.cs" />
+    <Compile Include="Building\Building_AirNets\Building_SmartDuctOutlet.cs" />
+    <Compile Include="Building\Building_TempControl\Building_ExhaustPort.cs" />
+    <Compile Include="Building\Building_TempControl\Building_IndustrialCooler.cs" />
+    <Compile Include="Building\Building_TempControl\Building_IndustrialHeater.cs" />
+    <Compile Include="Building\Building_Vents\Building_Vent.cs" />
+    <Compile Include="DXTLoader\DXTLoader.cs" />
+    <Compile Include="Misc\Designator_DeconstructReversed.cs" />
     <Compile Include="Misc\OverlayDrawHandler_AirNet.cs" />
     <Compile Include="Misc\SectionLayer_AirNetOverlay.cs" />
     <Compile Include="PlaceWorkers\PlaceWorker_DuctBase.cs" />
+    <Compile Include="PlaceWorkers\PlaceWorker_MediumHeater.cs" />
     <Compile Include="PlaceWorkers\PlaceWorker_WallChecker.cs" />
     <Compile Include="PlaceWorkers\PlaceWorker_DuctCooler.cs" />
     <Compile Include="ThingComps\CompAir.cs" />

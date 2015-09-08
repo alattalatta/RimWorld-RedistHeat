@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using RimWorld;
+using UnityEngine;
 using Verse;
 
 namespace RedistHeat
 {
-    public class Building_DuctComp : Building_DuctBase
+    public class Building_DuctComp : Building_DuctBase, IWallAttachable
     {
-        private const float EqualizationRate = 0.85f;
+        protected const float EqualizationRate = 0.85f;
 
         protected CompAirTrader compAir;
         protected Room room;
@@ -101,22 +102,35 @@ namespace RedistHeat
 
         protected virtual void Equalize()
         {
-            float targetTemp;
+            float pointTemp;
             if ( room.UsesOutdoorTemperature )
             {
-                targetTemp = room.Temperature;
+                pointTemp = room.Temperature;
             }
             else
             {
-                targetTemp = (room.Temperature*room.CellCount +
+                pointTemp = (room.Temperature*room.CellCount +
                               compAir.connectedNet.NetTemperature*compAir.connectedNet.nodes.Count)
                              /(room.CellCount + compAir.connectedNet.nodes.Count);
             }
 
-            compAir.EqualizeWithNet( targetTemp, EqualizationRate );
+	        if ( compTempControl != null )
+	        {
+		        // Trying to remove temperature spiking
+		        if ( compTempControl.targetTemperature < room.Temperature )
+		        {
+			        pointTemp = Mathf.Max( pointTemp, compTempControl.targetTemperature );
+		        }
+		        else
+		        {
+			        pointTemp = Mathf.Min( pointTemp, compTempControl.targetTemperature );
+		        }
+	        }
+
+	        compAir.EqualizeWithNet( pointTemp, EqualizationRate );
             if ( !room.UsesOutdoorTemperature )
             {
-                compAir.EqualizeWithRoom( room, targetTemp, EqualizationRate );
+                compAir.EqualizeWithRoom( room, pointTemp, EqualizationRate );
             }
         }
 

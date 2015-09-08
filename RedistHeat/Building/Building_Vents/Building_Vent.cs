@@ -5,7 +5,7 @@ using Verse;
 
 namespace RedistHeat
 {
-    public class Building_Vent : Building_TempControl
+    public class Building_Vent : Building_TempControl, IWallAttachable
     {
         private const float EqualizationRate = 0.28f;
 
@@ -110,8 +110,8 @@ namespace RedistHeat
         protected virtual bool Validate()
         {
             if ( vecNorth.Impassable() || vecSouth.Impassable() )
-            {
-                return false;
+			{
+				return false;
             }
 
             roomNorth = (Position + IntVec3.North.RotatedBy( Rotation )).GetRoom();

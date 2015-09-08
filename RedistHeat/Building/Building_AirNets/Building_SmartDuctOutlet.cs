@@ -1,9 +1,8 @@
 ﻿namespace RedistHeat
 {
     public class Building_SmartDuctOutlet : Building_DuctComp
-    {
-
-        protected override bool Validate()
+	{
+		protected override bool Validate()
         {
             if ( !base.Validate() )
                 return false;

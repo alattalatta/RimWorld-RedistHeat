@@ -45,8 +45,12 @@ namespace RedistHeat
         }
 
         public override void TickRare()
-        {
-            if( !Validate() )
+		{
+			if (!this.IsHashIntervalTick(250))
+			{
+				return;
+			}
+			if ( !Validate() )
             {
                 WorkingState = false;
                 return;
