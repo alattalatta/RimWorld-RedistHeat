@@ -5,7 +5,7 @@ using Verse;
 
 namespace RedistHeat
 {
-    public class Building_DuctComp : Building_DuctBase
+    public class Building_DuctComp : Building_DuctBase, IWallAttachable
     {
         protected const float EqualizationRate = 0.85f;
 
@@ -114,16 +114,20 @@ namespace RedistHeat
                              /(room.CellCount + compAir.connectedNet.nodes.Count);
             }
 
-	        if ( compTempControl.targetTemperature < room.Temperature )
+	        if ( compTempControl != null )
 	        {
-		        pointTemp = Mathf.Max( pointTemp, compTempControl.targetTemperature );
+		        // Trying to remove temperature spiking
+		        if ( compTempControl.targetTemperature < room.Temperature )
+		        {
+			        pointTemp = Mathf.Max( pointTemp, compTempControl.targetTemperature );
+		        }
+		        else
+		        {
+			        pointTemp = Mathf.Min( pointTemp, compTempControl.targetTemperature );
+		        }
 	        }
-	        else
-	        {
-				pointTemp = Mathf.Min( pointTemp, compTempControl.targetTemperature );
-			}
 
-            compAir.EqualizeWithNet( pointTemp, EqualizationRate );
+	        compAir.EqualizeWithNet( pointTemp, EqualizationRate );
             if ( !room.UsesOutdoorTemperature )
             {
                 compAir.EqualizeWithRoom( room, pointTemp, EqualizationRate );

@@ -16,9 +16,11 @@ namespace RedistHeat
         public static string CycleLayerLabel          = "RedistHeat_CycleLayerLabel".Translate();
         public static string CycleLayerDesc           = "RedistHeat_CycleLayerDesc".Translate();
         public static string CycleLayerMote           = "RedistHeat_CycleLayerMote";
+	    public static string DeconstructReversed	  = "RedistHeat_DesignatorDeconstructReverse".Translate();
+		public static string DeconstructReversedDesc  = "RedistHeat_DesignatorDeconstructReverseDesc".Translate();
 
-        // ===== TempControl.xml ===== //
-        public static string StringState              = "RedistHeat_State".Translate();
+		// ===== TempControl.xml ===== //
+		public static string StringState              = "RedistHeat_State".Translate();
         public static string StringWorking            = "RedistHeat_Working".Translate();
         public static string StringNotWorking         = "RedistHeat_NotWorking".Translate();
         public static string StringWorkingDucts       = "RedistHeat_WorkingDucts".Translate();
