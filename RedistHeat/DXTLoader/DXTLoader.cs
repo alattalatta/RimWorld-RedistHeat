@@ -13,7 +13,7 @@ namespace RedistHeat
 		public static Texture2D LoadTextureDXT( string path, TextureFormat format, bool mipmap = true )
 		{
 			var a = Path.Combine( GenFilePaths.CoreModsFolderPath, LoadedModManager.LoadedMods.ToList().Find( s => s.name == "LT_RedistHeat" ).name );
-			var b = Path.Combine( a, "Textures\\" );
+			var b = Path.Combine( a, @"Textures\" );
 
 			var filePath = Path.Combine( b,  path + ".dds");
 			var bytes = File.ReadAllBytes( filePath );
@@ -23,7 +23,7 @@ namespace RedistHeat
 
 			var ddsSizeCheck = bytes[4];
 			if (ddsSizeCheck != 124)
-				throw new Exception("Invalid DDS DXTn texture. Unable to read");  //this header byte should be 124 for DDS image files
+				throw new Exception("Invalid DDS DXT texture. Unable to read");  //this header byte should be 124 for DDS image files
 
 			var height = bytes[13] * 256 + bytes[12];
 			var width = bytes[17] * 256 + bytes[16];
