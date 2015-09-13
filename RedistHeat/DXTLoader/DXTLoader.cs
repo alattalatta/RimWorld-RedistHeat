@@ -13,8 +13,7 @@ namespace RedistHeat
 		public static Texture2D LoadTextureDXT( string path, TextureFormat format, bool mipmap = true )
 		{
 			var a = Path.Combine( GenFilePaths.CoreModsFolderPath, LoadedModManager.LoadedMods.ToList().Find( s => s.name == "LT_RedistHeat" ).name );
-			var b = Path.Combine( a, @"Textures\" );
-
+			var b = Path.Combine( a, "Textures" );
 			var filePath = Path.Combine( b,  path + ".dds");
 			var bytes = File.ReadAllBytes( filePath );
 			
