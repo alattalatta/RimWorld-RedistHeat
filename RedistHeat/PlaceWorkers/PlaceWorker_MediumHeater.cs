@@ -15,7 +15,7 @@ namespace RedistHeat
 				return;
 			}
 
-			GenDraw.DrawFieldEdges(new List<IntVec3>() { vecNorth }, Color.white);
+			GenDraw.DrawFieldEdges(new List<IntVec3>() { vecNorth }, GenTemperature.ColorRoomHot);
 			var room = vecNorth.GetRoom();
 			if (room == null || room.UsesOutdoorTemperature)
 			{

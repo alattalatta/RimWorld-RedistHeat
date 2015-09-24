@@ -67,29 +67,42 @@ namespace RedistHeat
 
             WorkingState = true;
 
-            float targetTemp;
+            float pointTemp;
             if ( roomNorth.UsesOutdoorTemperature )
             {
-                targetTemp = roomNorth.Temperature;
+                pointTemp = roomNorth.Temperature;
             }
             else if ( roomSouth.UsesOutdoorTemperature )
             {
-                targetTemp = roomSouth.Temperature;
+                pointTemp = roomSouth.Temperature;
             }
             else
             {
                 //Average temperature with cell counts in account
-                targetTemp = (roomNorth.Temperature * roomNorth.CellCount + roomSouth.Temperature * roomSouth.CellCount) /
+                pointTemp = (roomNorth.Temperature * roomNorth.CellCount + roomSouth.Temperature * roomSouth.CellCount) /
                              (roomNorth.CellCount + roomSouth.CellCount);
-            }
+			}
 
-            if ( !roomNorth.UsesOutdoorTemperature )
+			if (compTempControl != null)
+			{
+				// Trying to remove temperature spiking
+				if (compTempControl.targetTemperature < roomNorth.Temperature)
+				{
+					pointTemp = Mathf.Max(pointTemp, compTempControl.targetTemperature) - 1;
+				}
+				else
+				{
+					pointTemp = Mathf.Min(pointTemp, compTempControl.targetTemperature) + 1;
+				}
+			}
+
+			if ( !roomNorth.UsesOutdoorTemperature )
             {
-                Equalize( roomNorth, targetTemp, EqualizationRate );
+                Equalize( roomNorth, pointTemp, EqualizationRate );
             }
             if ( !roomSouth.UsesOutdoorTemperature )
             {
-                Equalize( roomSouth, targetTemp, EqualizationRate );
+                Equalize( roomSouth, pointTemp, EqualizationRate );
             }
         }
 

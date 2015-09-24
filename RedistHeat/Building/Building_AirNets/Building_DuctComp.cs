@@ -119,11 +119,11 @@ namespace RedistHeat
 		        // Trying to remove temperature spiking
 		        if ( compTempControl.targetTemperature < room.Temperature )
 		        {
-			        pointTemp = Mathf.Max( pointTemp, compTempControl.targetTemperature );
+			        pointTemp = Mathf.Max( pointTemp, compTempControl.targetTemperature ) - 1;
 		        }
 		        else
 		        {
-			        pointTemp = Mathf.Min( pointTemp, compTempControl.targetTemperature );
+			        pointTemp = Mathf.Min( pointTemp, compTempControl.targetTemperature ) + 1;
 		        }
 	        }
 
