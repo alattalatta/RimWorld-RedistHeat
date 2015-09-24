@@ -68,7 +68,7 @@ namespace RedistHeat
 				wasLit = false;
 		    }
 
-	        if ( !this.IsHashIntervalTick( 250 ) )
+	        if ( !this.IsHashIntervalTick( 60 ) )
 	        {
 		        return;
 	        }

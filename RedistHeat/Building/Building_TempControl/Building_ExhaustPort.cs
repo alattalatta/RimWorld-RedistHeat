@@ -20,8 +20,13 @@ namespace RedistHeat
             VecSouth = Position + IntVec3.South.RotatedBy( Rotation );
         }
 
-        public override void TickRare()
+        public override void Tick()
         {
+			if( !this.IsHashIntervalTick( 60 ) )
+			{
+				return;
+			}
+
             neighCooler = AdjacentCooler();
             if ( compPowerTrader.PowerOn && neighCooler != null && !VecNorth.Impassable() )
             {

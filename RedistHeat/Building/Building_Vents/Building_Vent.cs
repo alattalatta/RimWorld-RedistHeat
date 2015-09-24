@@ -7,7 +7,7 @@ namespace RedistHeat
 {
     public class Building_Vent : Building_TempControl, IWallAttachable
     {
-        private const float EqualizationRate = 0.28f;
+        private const float EqualizationRate = 0.0672f; // RareTick @ 0.28f;
 
         protected IntVec3 vecNorth, vecSouth;
         protected Room roomNorth, roomSouth;
@@ -54,7 +54,7 @@ namespace RedistHeat
         public override void Tick()
         {
             base.Tick();
-            if ( !this.IsHashIntervalTick( 250 ) )
+            if ( !this.IsHashIntervalTick( 60 ) )
             {
                 return;
             }

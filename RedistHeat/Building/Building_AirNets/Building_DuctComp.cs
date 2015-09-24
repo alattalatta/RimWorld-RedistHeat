@@ -7,7 +7,7 @@ namespace RedistHeat
 {
     public class Building_DuctComp : Building_DuctBase, IWallAttachable
     {
-        protected const float EqualizationRate = 0.85f;
+        protected const float EqualizationRate = 0.204f; // RareTick @ 0.85f;
 
         protected CompAirTrader compAir;
         protected Room room;
@@ -61,7 +61,7 @@ namespace RedistHeat
         public override void Tick()
         {
             base.Tick();
-            if ( !this.IsHashIntervalTick( 250 ) )
+            if ( !this.IsHashIntervalTick( 60 ) )
             {
                 return;
             }
