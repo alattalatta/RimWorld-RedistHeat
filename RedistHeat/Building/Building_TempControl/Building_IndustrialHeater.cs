@@ -10,7 +10,7 @@ namespace RedistHeat
 
         public override void Tick()
         {
-	        if ( !this.IsHashIntervalTick( 250 ) )
+	        if ( !this.IsHashIntervalTick( 60 ) )
 	        {
 		        return;
 	        }
