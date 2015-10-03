@@ -14,8 +14,10 @@ namespace RedistHeat
         public override void Tick()
         {
             if (!this.IsHashIntervalTick( 60 ))
+            {
                 return;
-            
+            }
+
             if (heater == null || heater.glower != this)
             {
                 Destroy();

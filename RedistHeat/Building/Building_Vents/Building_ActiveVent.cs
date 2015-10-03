@@ -4,7 +4,7 @@
     {
         protected override bool Validate()
         {
-            if ( compPowerTrader == null )
+            if (compPowerTrader == null)
             {
                 return true;
             }

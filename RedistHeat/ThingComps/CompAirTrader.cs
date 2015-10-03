@@ -10,23 +10,25 @@ namespace RedistHeat
         public override void PostSpawnSetup()
         {
             base.PostSpawnSetup();
-            if ( netTemp == 0 )
+            if (netTemp == 0)
+            {
                 netTemp = (int) GenTemperature.OutdoorTemp;
+            }
         }
 
         public void EqualizeWithRoom( Room room, float pointTemp, float rate )
         {
             //Will do full push when EPS is 1
             var tempDiff = Mathf.Abs( room.Temperature - pointTemp );
-            var tempRated = tempDiff*rate*(1-props.energyPerSecond);
+            var tempRated = tempDiff*rate*(1 - props.energyPerSecond);
 
-            if ( pointTemp < room.Temperature )
+            if (pointTemp < room.Temperature)
             {
-                room.Temperature = Mathf.Max(pointTemp, room.Temperature - tempRated);
+                room.Temperature = Mathf.Max( pointTemp, room.Temperature - tempRated );
             }
-            else if ( pointTemp > room.Temperature )
+            else if (pointTemp > room.Temperature)
             {
-                room.Temperature = Mathf.Min(pointTemp, room.Temperature + tempRated);
+                room.Temperature = Mathf.Min( pointTemp, room.Temperature + tempRated );
             }
         }
 
@@ -35,22 +37,22 @@ namespace RedistHeat
             var tempDiff = Mathf.Abs( netTemp - targetTemp );
             var tempRated = tempDiff*rate*props.energyPerSecond;
 
-            if ( targetTemp < connectedNet.NetTemperature )
+            if (targetTemp < connectedNet.NetTemperature)
             {
                 connectedNet.NetTemperature = Mathf.Max( targetTemp, netTemp - tempRated );
             }
-            else if ( targetTemp > connectedNet.NetTemperature )
+            else if (targetTemp > connectedNet.NetTemperature)
             {
                 connectedNet.NetTemperature = Mathf.Min( targetTemp, netTemp + tempRated );
             }
 
-            netTemp = (int)connectedNet.NetTemperature;
+            netTemp = (int) connectedNet.NetTemperature;
         }
 
         public void SetNetTemperatureDirect( float temp )
         {
             connectedNet.NetTemperature += temp;
-            netTemp = (int)connectedNet.NetTemperature;
+            netTemp = (int) connectedNet.NetTemperature;
         }
 
         public override void PostExposeData()

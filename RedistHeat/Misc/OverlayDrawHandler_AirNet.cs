@@ -7,7 +7,7 @@ namespace RedistHeat
         private static int lastPowerGridDrawFrame;
 
         public static bool ShouldDrawAirNetOverlay => lastPowerGridDrawFrame + 1 >= Time.frameCount;
-        
+
         public static void DrawAitNetOverlayThisFrame()
         {
             lastPowerGridDrawFrame = Time.frameCount;

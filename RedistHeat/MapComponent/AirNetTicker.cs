@@ -5,7 +5,7 @@ namespace RedistHeat
     public class AirNetTicker : MapComponent
     {
         public static bool doneInit;
-        
+
         public override void MapComponentUpdate()
         {
             if (!doneInit)

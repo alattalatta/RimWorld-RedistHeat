@@ -13,8 +13,10 @@ namespace RedistHeat
         public override bool ShouldLinkWith( IntVec3 c, Thing parent )
         {
             var compAir = parent.TryGetComp< CompAir >();
-            if ( compAir == null )
+            if (compAir == null)
+            {
                 return false;
+            }
 
             var lowerFlag = AirNetGrid.NetAt( c, NetLayer.Lower ) != null && compAir.IsLayerOf( NetLayer.Lower );
             var upperFlag = AirNetGrid.NetAt( c, NetLayer.Upper ) != null && compAir.IsLayerOf( NetLayer.Upper );
@@ -25,11 +27,11 @@ namespace RedistHeat
         public override void Print( SectionLayer layer, Thing parent )
         {
             var occupiedRect = parent.OccupiedRect();
-            foreach ( var current in occupiedRect )
+            foreach (var current in occupiedRect)
             {
                 var center = current.ToVector3ShiftedWithAltitude( AltitudeLayer.WorldDataOverlay );
-                Printer_Plane.PrintPlane(layer, center, new Vector2(1f, 1f), LinkedDrawMatFrom(parent, current),
-                    0f);
+                Printer_Plane.PrintPlane( layer, center, new Vector2( 1f, 1f ), LinkedDrawMatFrom( parent, current ),
+                                          0f );
             }
         }
     }

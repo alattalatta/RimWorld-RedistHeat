@@ -2,7 +2,7 @@
 
 namespace RedistHeat
 {
-    class CompAirTransmitterProperties : CompProperties
+    public class CompAirTransmitterProperties : CompProperties
     {
         public NetLayer layer = NetLayer.Lower;
     }

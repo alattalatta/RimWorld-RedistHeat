@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -12,24 +11,25 @@ namespace RedistHeat
     {
         private IntVec3 vecSouth, vecSouthEast;
         private Room roomSouth;
-        private List<Building_ExhaustPort> activeExhausts;
+        private List< Building_ExhaustPort > activeExhausts;
 
         private float Energy => compTempControl.props.energyPerSecond;
 
         private bool isWorking;
+
         private bool WorkingState
         {
             set
             {
                 isWorking = value;
 
-                if ( isWorking )
+                if (isWorking)
                 {
                     compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption;
                 }
                 else
                 {
-                    compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption *
+                    compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption*
                                                   compTempControl.props.lowPowerConsumptionFactor;
                 }
 
@@ -45,12 +45,12 @@ namespace RedistHeat
         }
 
         public override void Tick()
-		{
-			if (!this.IsHashIntervalTick(60))
-			{
-				return;
-			}
-			if ( !Validate() )
+        {
+            if (!this.IsHashIntervalTick( 60 ))
+            {
+                return;
+            }
+            if (!Validate())
             {
                 WorkingState = false;
                 return;
@@ -62,20 +62,20 @@ namespace RedistHeat
 
         private bool Validate()
         {
-            if ( vecSouth.Impassable() || vecSouthEast.Impassable() )
+            if (vecSouth.Impassable() || vecSouthEast.Impassable())
             {
                 return false;
             }
 
             roomSouth = vecSouth.GetRoom();
-            if ( roomSouth == null )
+            if (roomSouth == null)
             {
                 return false;
             }
 
             activeExhausts = GetActiveExhausts();
 
-            if ( !compPowerTrader.PowerOn || activeExhausts.Count == 0 )
+            if (!compPowerTrader.PowerOn || activeExhausts.Count == 0)
             {
                 return false;
             }
@@ -86,49 +86,50 @@ namespace RedistHeat
         private void ControlTemperature()
         {
             //Average of exhaust ports' room temperature
-            var tempHotAvg = activeExhausts.Sum( s => s.VecNorth.GetTemperature() ) / activeExhausts.Count;
+            var tempHotAvg = activeExhausts.Sum( s => s.VecNorth.GetTemperature() )/activeExhausts.Count;
 
             //Cooler's temperature
             var tempCold = roomSouth.Temperature;
             var tempDiff = tempHotAvg - tempCold;
 
-            if ( tempHotAvg - tempDiff > 40.0 )
+            if (tempHotAvg - tempDiff > 40.0)
             {
                 tempDiff = tempHotAvg - 40f;
             }
 
-            var num2 = 1.0 - tempDiff * (1.0 / 130.0);
-            if ( num2 < 0.0 )
+            var num2 = 1.0 - tempDiff*(1.0/130.0);
+            if (num2 < 0.0)
             {
                 num2 = 0.0f;
             }
 
-            var energyLimit = (float)(Energy * activeExhausts.Count * num2 * 4.16666650772095);
-            var coldAir = GenTemperature.ControlTemperatureTempChange( vecSouth, energyLimit, compTempControl.targetTemperature );
+            var energyLimit = (float) (Energy*activeExhausts.Count*num2*4.16666650772095);
+            var coldAir = GenTemperature.ControlTemperatureTempChange( vecSouth, energyLimit,
+                                                                       compTempControl.targetTemperature );
             isWorking = !Mathf.Approximately( coldAir, 0.0f );
-            if ( !isWorking )
+            if (!isWorking)
             {
                 return;
             }
             roomSouth.Temperature += coldAir;
 
-            var hotAir = (float)(-energyLimit * 1.25 / activeExhausts.Count);
+            var hotAir = (float) (-energyLimit*1.25/activeExhausts.Count);
 
-            if ( Mathf.Approximately( hotAir, 0.0f ) )
+            if (Mathf.Approximately( hotAir, 0.0f ))
             {
                 return;
             }
 
-            foreach ( var current in activeExhausts )
+            foreach (var current in activeExhausts)
             {
                 current.PushHeat( hotAir );
             }
         }
 
-        private List<Building_ExhaustPort> GetActiveExhausts()
+        private List< Building_ExhaustPort > GetActiveExhausts()
         {
             var origin = GenAdj.CellsAdjacentCardinal( this )
-                               .Select( s => Find.ThingGrid.ThingAt<Building_ExhaustPort>( s ) )
+                               .Select( s => Find.ThingGrid.ThingAt< Building_ExhaustPort >( s ) )
                                .Where( thingAt => thingAt != null )
                                .ToList();
 
@@ -142,7 +143,7 @@ namespace RedistHeat
                .Append( ResourceBank.StringWorkingDucts )
                .Append( ": " );
 
-            if ( activeExhausts != null )
+            if (activeExhausts != null)
             {
                 str.Append( activeExhausts.Count );
             }
