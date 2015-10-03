@@ -8,7 +8,7 @@ namespace RedistHeat
         public override void PostSpawnSetup()
         {
             var compAirProps = props as CompAirTransmitterProperties;
-            if ( compAirProps == null )
+            if (compAirProps == null)
             {
                 Log.Error( "LT-RH: Could not find CompAirTransmtterProperties for CompAirTransmitter! " );
                 currentLayer = NetLayer.Lower;

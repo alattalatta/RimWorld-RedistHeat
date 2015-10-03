@@ -6,9 +6,9 @@ namespace RedistHeat
 {
     public class Building_DuctBase : Building_TempControl
     {
-        public void PrintForAirGrid(SectionLayer layer)
+        public void PrintForAirGrid( SectionLayer layer )
         {
-            foreach ( var current in AllComps.Where( s => s is CompAir ).Cast< CompAir >() )
+            foreach (var current in AllComps.Where( s => s is CompAir ).Cast< CompAir >())
             {
                 current.CompPrintForAirGrid( layer );
             }

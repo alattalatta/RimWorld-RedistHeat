@@ -11,7 +11,7 @@ namespace RedistHeat
         {
             var vecNorth = center + IntVec3.North.RotatedBy( rot );
             var vecSouth = center + IntVec3.South.RotatedBy( rot );
-            if ( !vecNorth.InBounds() || !vecSouth.InBounds() )
+            if (!vecNorth.InBounds() || !vecSouth.InBounds())
             {
                 return;
             }
@@ -28,12 +28,12 @@ namespace RedistHeat
             var controlledRoom = vecNorth.GetRoom();
             var otherRoom = vecSouth.GetRoom();
 
-            if ( controlledRoom == null || otherRoom == null )
+            if (controlledRoom == null || otherRoom == null)
             {
                 return;
             }
 
-            if ( !controlledRoom.UsesOutdoorTemperature )
+            if (!controlledRoom.UsesOutdoorTemperature)
             {
                 GenDraw.DrawFieldEdges( controlledRoom.Cells.ToList(), new Color( 1f, 0.7f, 0f, 0.5f ) );
             }
@@ -43,11 +43,11 @@ namespace RedistHeat
         {
             var vecNorth = center + IntVec3.North.RotatedBy( rot );
             var vecSouth = center + IntVec3.South.RotatedBy( rot );
-            if ( !vecNorth.InBounds() || !vecSouth.InBounds() )
+            if (!vecNorth.InBounds() || !vecSouth.InBounds())
             {
                 return false;
             }
-            if ( vecNorth.Impassable() || vecSouth.Impassable() )
+            if (vecNorth.Impassable() || vecSouth.Impassable())
             {
                 return ResourceBank.ExposeBoth;
             }

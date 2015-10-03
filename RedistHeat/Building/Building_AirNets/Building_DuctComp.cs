@@ -7,12 +7,12 @@ namespace RedistHeat
 {
     public class Building_DuctComp : Building_DuctBase, IWallAttachable
     {
-        protected const float EqualizationRate = 0.85f;
+        protected const float EqualizationRate = 0.204f; // RareTick @ 0.85f;
 
         protected CompAirTrader compAir;
         protected Room room;
         protected virtual IntVec3 RoomVec => Position + IntVec3.North.RotatedBy( Rotation );
-        
+
         private bool isLocked;
         private bool isWorking;
 
@@ -23,11 +23,11 @@ namespace RedistHeat
             {
                 isWorking = value;
 
-                if ( compPowerTrader == null || compTempControl == null )
+                if (compPowerTrader == null || compTempControl == null)
                 {
                     return;
                 }
-                if ( isWorking )
+                if (isWorking)
                 {
                     compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption;
                 }
@@ -61,12 +61,12 @@ namespace RedistHeat
         public override void Tick()
         {
             base.Tick();
-            if ( !this.IsHashIntervalTick( 250 ) )
+            if (!this.IsHashIntervalTick( 60 ))
             {
                 return;
             }
 
-            if ( !Validate() )
+            if (!Validate())
             {
                 WorkingState = false;
                 return;
@@ -81,18 +81,18 @@ namespace RedistHeat
         /// </summary>
         protected virtual bool Validate()
         {
-            if ( compAir.connectedNet == null )
+            if (compAir.connectedNet == null)
             {
                 return false;
             }
 
-            if ( RoomVec.Impassable() )
+            if (RoomVec.Impassable())
             {
                 return false;
             }
 
             room = RoomVec.GetRoom();
-            if ( room == null )
+            if (room == null)
             {
                 return false;
             }
@@ -103,32 +103,32 @@ namespace RedistHeat
         protected virtual void Equalize()
         {
             float pointTemp;
-            if ( room.UsesOutdoorTemperature )
+            if (room.UsesOutdoorTemperature)
             {
                 pointTemp = room.Temperature;
             }
             else
             {
                 pointTemp = (room.Temperature*room.CellCount +
-                              compAir.connectedNet.NetTemperature*compAir.connectedNet.nodes.Count)
-                             /(room.CellCount + compAir.connectedNet.nodes.Count);
+                             compAir.connectedNet.NetTemperature*compAir.connectedNet.nodes.Count)
+                            /(room.CellCount + compAir.connectedNet.nodes.Count);
             }
 
-	        if ( compTempControl != null )
-	        {
-		        // Trying to remove temperature spiking
-		        if ( compTempControl.targetTemperature < room.Temperature )
-		        {
-			        pointTemp = Mathf.Max( pointTemp, compTempControl.targetTemperature ) - 1;
-		        }
-		        else
-		        {
-			        pointTemp = Mathf.Min( pointTemp, compTempControl.targetTemperature ) + 1;
-		        }
-	        }
+            if (compTempControl != null)
+            {
+                // Trying to remove temperature spiking
+                if (compTempControl.targetTemperature < room.Temperature)
+                {
+                    pointTemp = Mathf.Max( pointTemp, compTempControl.targetTemperature ) - 1;
+                }
+                else
+                {
+                    pointTemp = Mathf.Min( pointTemp, compTempControl.targetTemperature ) + 1;
+                }
+            }
 
-	        compAir.EqualizeWithNet( pointTemp, EqualizationRate );
-            if ( !room.UsesOutdoorTemperature )
+            compAir.EqualizeWithNet( pointTemp, EqualizationRate );
+            if (!room.UsesOutdoorTemperature)
             {
                 compAir.EqualizeWithRoom( room, pointTemp, EqualizationRate );
             }
@@ -137,7 +137,7 @@ namespace RedistHeat
         public override void Draw()
         {
             base.Draw();
-            if ( isLocked )
+            if (isLocked)
             {
                 OverlayDrawer.DrawOverlay( this, OverlayTypes.ForbiddenBig );
             }
@@ -145,7 +145,7 @@ namespace RedistHeat
 
         public override IEnumerable< Gizmo > GetGizmos()
         {
-            foreach ( var g in base.GetGizmos() )
+            foreach (var g in base.GetGizmos())
             {
                 yield return g;
             }

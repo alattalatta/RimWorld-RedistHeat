@@ -13,8 +13,10 @@ namespace RedistHeat
         public override bool ShouldLinkWith( IntVec3 c, Thing parent )
         {
             var compAir = parent.TryGetComp< CompAir >();
-            if ( compAir == null )
+            if (compAir == null)
+            {
                 return false;
+            }
 
             var lowerFlag = AirNetGrid.NetAt( c, NetLayer.Lower ) != null && compAir.IsLayerOf( NetLayer.Lower );
             var upperFlag = AirNetGrid.NetAt( c, NetLayer.Upper ) != null && compAir.IsLayerOf( NetLayer.Upper );
@@ -26,37 +28,39 @@ namespace RedistHeat
         {
             base.Print( layer, parent );
             var compAir = parent.TryGetComp< CompAir >();
-            if ( compAir == null )
+            if (compAir == null)
+            {
                 return;
-            
-            for ( var i = 0; i < 4; i++ )
+            }
+
+            for (var i = 0; i < 4; i++)
             {
                 var neighCell = parent.Position + GenAdj.CardinalDirections[i];
-                if ( !neighCell.InBounds() )
+                if (!neighCell.InBounds())
                 {
                     continue;
                 }
 
                 Material mat;
-                if ( compAir.IsLayerOf( NetLayer.Lower ) )
+                if (compAir.IsLayerOf( NetLayer.Lower ))
                 {
                     var lowerTransmitter = neighCell.GetAirTransmitter( NetLayer.Lower );
-                    if ( lowerTransmitter != null && !lowerTransmitter.def.graphicData.Linked )
+                    if (lowerTransmitter != null && !lowerTransmitter.def.graphicData.Linked)
                     {
-                        mat = LinkedDrawMatFrom(parent, neighCell);
-                        Printer_Plane.PrintPlane(layer, neighCell.ToVector3ShiftedWithAltitude(parent.def.Altitude),
-                            Vector2.one, mat, 0f);
+                        mat = LinkedDrawMatFrom( parent, neighCell );
+                        Printer_Plane.PrintPlane( layer, neighCell.ToVector3ShiftedWithAltitude( parent.def.Altitude ),
+                                                  Vector2.one, mat, 0f );
                     }
                 }
 
-                else if ( compAir.IsLayerOf( NetLayer.Upper ) )
+                else if (compAir.IsLayerOf( NetLayer.Upper ))
                 {
                     var upperTransmitter = neighCell.GetAirTransmitter( NetLayer.Upper );
-                    if ( upperTransmitter != null && !upperTransmitter.def.graphicData.Linked )
+                    if (upperTransmitter != null && !upperTransmitter.def.graphicData.Linked)
                     {
-                        mat = LinkedDrawMatFrom(parent, neighCell);
-                        Printer_Plane.PrintPlane(layer, neighCell.ToVector3ShiftedWithAltitude(parent.def.Altitude),
-                            Vector2.one, mat, 0f);
+                        mat = LinkedDrawMatFrom( parent, neighCell );
+                        Printer_Plane.PrintPlane( layer, neighCell.ToVector3ShiftedWithAltitude( parent.def.Altitude ),
+                                                  Vector2.one, mat, 0f );
                     }
                 }
             }

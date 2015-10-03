@@ -2,8 +2,8 @@
 
 namespace RedistHeat
 {
-	public interface IWallAttachable
-	{
-		// Does nothing
-	}
+    public interface IWallAttachable
+    {
+        // Does nothing
+    }
 }

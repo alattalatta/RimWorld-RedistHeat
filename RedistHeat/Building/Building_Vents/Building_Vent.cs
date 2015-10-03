@@ -7,30 +7,31 @@ namespace RedistHeat
 {
     public class Building_Vent : Building_TempControl, IWallAttachable
     {
-        private const float EqualizationRate = 0.28f;
+        private const float EqualizationRate = 0.0672f; // RareTick @ 0.28f;
 
         protected IntVec3 vecNorth, vecSouth;
         protected Room roomNorth, roomSouth;
 
         private bool isLocked;
         private bool isWorking;
+
         private bool WorkingState
         {
             set
             {
                 isWorking = value;
 
-                if ( compPowerTrader == null || compTempControl == null )
+                if (compPowerTrader == null || compTempControl == null)
                 {
                     return;
                 }
-                if ( isWorking )
+                if (isWorking)
                 {
                     compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption;
                 }
                 else
                 {
-                    compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption *
+                    compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption*
                                                   compTempControl.props.lowPowerConsumptionFactor;
                 }
 
@@ -54,12 +55,12 @@ namespace RedistHeat
         public override void Tick()
         {
             base.Tick();
-            if ( !this.IsHashIntervalTick( 250 ) )
+            if (!this.IsHashIntervalTick( 60 ))
             {
                 return;
             }
 
-            if ( !Validate() )
+            if (!Validate())
             {
                 WorkingState = false;
                 return;
@@ -68,39 +69,39 @@ namespace RedistHeat
             WorkingState = true;
 
             float pointTemp;
-            if ( roomNorth.UsesOutdoorTemperature )
+            if (roomNorth.UsesOutdoorTemperature)
             {
                 pointTemp = roomNorth.Temperature;
             }
-            else if ( roomSouth.UsesOutdoorTemperature )
+            else if (roomSouth.UsesOutdoorTemperature)
             {
                 pointTemp = roomSouth.Temperature;
             }
             else
             {
                 //Average temperature with cell counts in account
-                pointTemp = (roomNorth.Temperature * roomNorth.CellCount + roomSouth.Temperature * roomSouth.CellCount) /
-                             (roomNorth.CellCount + roomSouth.CellCount);
-			}
+                pointTemp = (roomNorth.Temperature*roomNorth.CellCount + roomSouth.Temperature*roomSouth.CellCount)/
+                            (roomNorth.CellCount + roomSouth.CellCount);
+            }
 
-			if (compTempControl != null)
-			{
-				// Trying to remove temperature spiking
-				if (compTempControl.targetTemperature < roomNorth.Temperature)
-				{
-					pointTemp = Mathf.Max(pointTemp, compTempControl.targetTemperature) - 1;
-				}
-				else
-				{
-					pointTemp = Mathf.Min(pointTemp, compTempControl.targetTemperature) + 1;
-				}
-			}
+            if (compTempControl != null)
+            {
+                // Trying to remove temperature spiking
+                if (compTempControl.targetTemperature < roomNorth.Temperature)
+                {
+                    pointTemp = Mathf.Max( pointTemp, compTempControl.targetTemperature ) - 1;
+                }
+                else
+                {
+                    pointTemp = Mathf.Min( pointTemp, compTempControl.targetTemperature ) + 1;
+                }
+            }
 
-			if ( !roomNorth.UsesOutdoorTemperature )
+            if (!roomNorth.UsesOutdoorTemperature)
             {
                 Equalize( roomNorth, pointTemp, EqualizationRate );
             }
-            if ( !roomSouth.UsesOutdoorTemperature )
+            if (!roomSouth.UsesOutdoorTemperature)
             {
                 Equalize( roomSouth, pointTemp, EqualizationRate );
             }
@@ -109,12 +110,12 @@ namespace RedistHeat
         protected virtual void Equalize( Room room, float targetTemp, float rate )
         {
             var tempDiff = Mathf.Abs( room.Temperature - targetTemp );
-            var tempRated = tempDiff * rate;
-            if ( targetTemp < room.Temperature )
+            var tempRated = tempDiff*rate;
+            if (targetTemp < room.Temperature)
             {
                 room.Temperature = Mathf.Max( targetTemp, room.Temperature - tempRated );
             }
-            else if ( targetTemp > room.Temperature )
+            else if (targetTemp > room.Temperature)
             {
                 room.Temperature = Mathf.Min( targetTemp, room.Temperature + tempRated );
             }
@@ -122,19 +123,19 @@ namespace RedistHeat
 
         protected virtual bool Validate()
         {
-            if ( vecNorth.Impassable() || vecSouth.Impassable() )
-			{
-				return false;
-            }
-
-            roomNorth = (Position + IntVec3.North.RotatedBy( Rotation )).GetRoom();
-            roomSouth = (Position + IntVec3.South.RotatedBy( Rotation )).GetRoom();
-            if ( roomNorth == null || roomSouth == null || roomNorth == roomSouth)
+            if (vecNorth.Impassable() || vecSouth.Impassable())
             {
                 return false;
             }
 
-            if ( roomNorth.UsesOutdoorTemperature && roomSouth.UsesOutdoorTemperature )
+            roomNorth = (Position + IntVec3.North.RotatedBy( Rotation )).GetRoom();
+            roomSouth = (Position + IntVec3.South.RotatedBy( Rotation )).GetRoom();
+            if (roomNorth == null || roomSouth == null || roomNorth == roomSouth)
+            {
+                return false;
+            }
+
+            if (roomNorth.UsesOutdoorTemperature && roomSouth.UsesOutdoorTemperature)
             {
                 return false;
             }
@@ -145,15 +146,15 @@ namespace RedistHeat
         public override void Draw()
         {
             base.Draw();
-            if ( isLocked )
+            if (isLocked)
             {
                 OverlayDrawer.DrawOverlay( this, OverlayTypes.ForbiddenBig );
             }
         }
 
-        public override IEnumerable<Gizmo> GetGizmos()
+        public override IEnumerable< Gizmo > GetGizmos()
         {
-            foreach ( var g in base.GetGizmos() )
+            foreach (var g in base.GetGizmos())
             {
                 yield return g;
             }

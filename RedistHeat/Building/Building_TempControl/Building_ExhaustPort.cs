@@ -20,10 +20,15 @@ namespace RedistHeat
             VecSouth = Position + IntVec3.South.RotatedBy( Rotation );
         }
 
-        public override void TickRare()
+        public override void Tick()
         {
+            if (!this.IsHashIntervalTick( 60 ))
+            {
+                return;
+            }
+
             neighCooler = AdjacentCooler();
-            if ( compPowerTrader.PowerOn && neighCooler != null && !VecNorth.Impassable() )
+            if (compPowerTrader.PowerOn && neighCooler != null && !VecNorth.Impassable())
             {
                 isAvailable = true;
                 compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption;
@@ -48,11 +53,11 @@ namespace RedistHeat
 
         public void PushHeat( float amount )
         {
-            if ( VecNorth.UsesOutdoorTemperature() )
+            if (VecNorth.UsesOutdoorTemperature())
             {
                 return;
             }
-            GenTemperature.PushHeat(VecNorth, amount);
+            GenTemperature.PushHeat( VecNorth, amount );
         }
 
         private Building_IndustrialCooler AdjacentCooler()

@@ -13,7 +13,7 @@ namespace RimWorld
 
         public override void DrawLayer()
         {
-            if ( OverlayDrawHandler_AirNet.ShouldDrawAirNetOverlay )
+            if (OverlayDrawHandler_AirNet.ShouldDrawAirNetOverlay)
             {
                 base.DrawLayer();
             }
