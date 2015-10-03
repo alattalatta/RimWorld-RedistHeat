@@ -24,18 +24,18 @@ namespace RedistHeat
 			colorTwo = req.colorTwo;
 			drawSize = req.drawSize;
 			var array = new Texture2D[3];
-			array[0] = DXTLoader.LoadTextureDXT(req.path + "_back", TextureFormat.DXT5);
+			array[0] = DXTLoader.LoadTextureDXT(ResourceBank.modName, req.path + "_back", TextureFormat.DXT5);
 			if (array[0] == null)
 			{
 				Log.Error("Failed to find any texture while constructing " + ToString());
 				return;
 			}
-			array[1] = DXTLoader.LoadTextureDXT(req.path + "_side", TextureFormat.DXT5);
+			array[1] = DXTLoader.LoadTextureDXT( ResourceBank.modName, req.path + "_side", TextureFormat.DXT5);
 			if (array[1] == null)
 			{
 				array[1] = array[0];
 			}
-			array[2] = DXTLoader.LoadTextureDXT(req.path + "_front", TextureFormat.DXT5);
+			array[2] = DXTLoader.LoadTextureDXT( ResourceBank.modName, req.path + "_front", TextureFormat.DXT5);
 			if (array[2] == null)
 			{
 				array[2] = array[0];

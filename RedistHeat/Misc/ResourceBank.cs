@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Security.Policy;
+using UnityEngine;
 using Verse;
 
 // ReSharper disable All
@@ -7,6 +8,8 @@ namespace RedistHeat
 {
     public static class ResourceBank
     {
+        public const string  modName                  = "LT_RedistHeat";
+
         // ===== AirNet.xml ===== //
         public static string CurrentConnectionChannel = "RedistHeat_CurrentConnectionChannel";
         public static string CurrentConnectedNetTemp  = "RedistHeat_CurrentConnectedNetTemp".Translate();

@@ -10,9 +10,9 @@ namespace RedistHeat
 	{
 		private const int DDSHeaderSize = 128;
 
-		public static Texture2D LoadTextureDXT( string path, TextureFormat format, bool mipmap = true )
+		public static Texture2D LoadTextureDXT( string modName, string path, TextureFormat format, bool mipmap = true )
 		{
-			var a = Path.Combine( GenFilePaths.CoreModsFolderPath, LoadedModManager.LoadedMods.ToList().Find( s => s.name == "LT_RedistHeat" ).name );
+			var a = Path.Combine( GenFilePaths.CoreModsFolderPath, LoadedModManager.LoadedMods.ToList().Find( s => s.name == modName ).name );
 			var b = Path.Combine( a, "Textures" );
 			var filePath = Path.Combine( b,  path + ".dds");
 			var bytes = File.ReadAllBytes( filePath );

@@ -6,11 +6,11 @@ namespace RedistHeat
 {
     public class Building_MediumHeater : Building_TempControl, IWallAttachable
     {
-	    private IntVec3 vecNorth;
-	    private Room roomNorth;
-	    private Thing glower;
-	    private CompGlower compGlower;
+        public Thing glower;
 
+        private IntVec3 vecNorth;
+	    private Room roomNorth;
+	    private CompGlower compGlower;
 		private bool isWorking;
 	    private bool wasLit;
 
@@ -45,6 +45,7 @@ namespace RedistHeat
 		    vecNorth = Position + IntVec3.North.RotatedBy( Rotation );
 
 			glower = GenSpawn.Spawn( ThingDef.Named( "RedistHeat_HeaterGlower" ), vecNorth );
+            ((Building_HeaterGlower)glower).Reinit( this );
 			compGlower = glower.TryGetComp< CompGlower >();
 			compGlower.Lit = false;
 	    }

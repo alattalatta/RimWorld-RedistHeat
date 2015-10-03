@@ -25,7 +25,7 @@ namespace RedistHeat
 			colorTwo = req.colorTwo;
 			drawSize = req.drawSize;
 			var req2 = default(MaterialRequest);
-			req2.mainTex = DXTLoader.LoadTextureDXT(req.path, TextureFormat.DXT5);
+			req2.mainTex = DXTLoader.LoadTextureDXT( ResourceBank.modName, req.path, TextureFormat.DXT5 );
 			req2.shader = req.shader;
 			req2.color = color;
 			req2.colorTwo = colorTwo;
