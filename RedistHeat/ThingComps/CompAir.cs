@@ -59,12 +59,11 @@ namespace RedistHeat
 
         public override IEnumerable< Command > CompGetGizmosExtra()
         {
-            var iconTex = currentLayer == NetLayer.Lower ? ResourceBank.UILower : ResourceBank.UIUpper;
             var com = new Command_Action()
             {
                 defaultLabel  = ResourceBank.CycleLayerLabel,
                 defaultDesc   = ResourceBank.CycleLayerDesc,
-                icon          = iconTex,
+                icon          = currentLayer == NetLayer.Lower ? ResourceBank.UILower : ResourceBank.UIUpper,
                 activateSound = SoundDef.Named( "DesignateMine" ),
                 hotKey        = KeyBindingDefOf.CommandColonistDraft,
                 action        = () =>
