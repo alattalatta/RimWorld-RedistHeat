@@ -61,12 +61,12 @@ namespace RedistHeat
         {
             var com = new Command_Action
             {
-                defaultLabel = ResourceBank.CycleLayerLabel,
-                defaultDesc = ResourceBank.CycleLayerDesc,
-                icon = currentLayer == NetLayer.Lower ? ResourceBank.UILower : ResourceBank.UIUpper,
+                defaultLabel  = ResourceBank.CycleLayerLabel,
+                defaultDesc   = ResourceBank.CycleLayerDesc,
+                icon          = currentLayer == NetLayer.Lower ? ResourceBank.UILower : ResourceBank.UIUpper,
                 activateSound = SoundDef.Named( "DesignateMine" ),
-                hotKey = KeyBindingDefOf.CommandColonistDraft,
-                action = () =>
+                hotKey        = KeyBindingDefOf.CommandColonistDraft,
+                action        = () =>
                 {
                     var oldLayer = currentLayer;
                     currentLayer = currentLayer == NetLayer.Lower ? NetLayer.Upper : NetLayer.Lower;
