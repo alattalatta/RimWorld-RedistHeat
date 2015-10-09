@@ -18,14 +18,14 @@ namespace RedistHeat
 
 		public override bool ShouldDrawRotated => data == null || data.drawRotated;
 
-		public override void Init(GraphicRequest req)
+        public override void Init( GraphicRequest req )
 		{
 			path = req.path;
 			color = req.color;
 			colorTwo = req.colorTwo;
 			drawSize = req.drawSize;
 			var req2 = default(MaterialRequest);
-			req2.mainTex = DXTLoader.LoadTextureDXT(req.path, TextureFormat.DXT5);
+            req2.mainTex = DXTLoader.LoadTextureDXT( ResourceBank.modName, req.path, TextureFormat.DXT5 );
 			req2.shader = req.shader;
 			req2.color = color;
 			req2.colorTwo = colorTwo;
@@ -34,17 +34,17 @@ namespace RedistHeat
 			{
 				req2.maskTex = DXTLoader.LoadTextureDXT(req.path + "_m", TextureFormat.DXT5);
 			}*/
-			mat = MaterialPool.MatFrom(req2);
+            mat = MaterialPool.MatFrom( req2 );
 		}
 
-		public override Graphic GetColoredVersion(Shader newShader, Color newColor, Color newColorTwo)
+        public override Graphic GetColoredVersion( Shader newShader, Color newColor, Color newColorTwo )
 		{
-			var graphic = GraphicDatabase.Get<Graphic_SingleDXT5>(path, newShader, drawSize, newColor, newColorTwo);
+            var graphic = GraphicDatabase.Get< Graphic_SingleDXT5 >( path, newShader, drawSize, newColor, newColorTwo );
 			graphic.data = data;
 			return graphic;
 		}
 
-		public override Material MatAt(Rot4 rot, Thing thing = null)
+        public override Material MatAt( Rot4 rot, Thing thing = null )
 		{
 			return mat;
 		}

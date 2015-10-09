@@ -43,12 +43,12 @@ namespace RedistHeat
         {
             OverlayDrawHandler_AirNet.DrawAitNetOverlayThisFrame();
             var result = new StringBuilder();
-            result.Append( ResourceBank.CurrentConnectionChannel.Translate(currentLayer.ToStringTranslated()) );
+            result.Append( ResourceBank.CurrentConnectionChannel.Translate( currentLayer.ToStringTranslated() ) );
 
-            result.Append(ResourceBank.CurrentConnectedNetTemp);
-            if ( connectedNet != null )
+            result.Append( ResourceBank.CurrentConnectedNetTemp );
+            if (connectedNet != null)
             {
-                result.Append( Mathf.Round( connectedNet.NetTemperature).ToStringTemperature( "F0" ) );
+                result.Append( Mathf.Round( connectedNet.NetTemperature ).ToStringTemperature( "F0" ) );
 #if DEBUG
                 result.AppendLine().Append( "Debug ID: " ).Append( connectedNet.debugId );
 #endif
@@ -59,24 +59,24 @@ namespace RedistHeat
 
         public override IEnumerable< Command > CompGetGizmosExtra()
         {
-            var iconTex = currentLayer == NetLayer.Lower ? ResourceBank.UILower : ResourceBank.UIUpper;
-            var com = new Command_Action()
+            var com = new Command_Action
             {
                 defaultLabel  = ResourceBank.CycleLayerLabel,
                 defaultDesc   = ResourceBank.CycleLayerDesc,
-                icon          = iconTex,
+                icon          = currentLayer == NetLayer.Lower ? ResourceBank.UILower : ResourceBank.UIUpper,
                 activateSound = SoundDef.Named( "DesignateMine" ),
                 hotKey        = KeyBindingDefOf.CommandColonistDraft,
                 action        = () =>
                 {
                     var oldLayer = currentLayer;
                     currentLayer = currentLayer == NetLayer.Lower ? NetLayer.Upper : NetLayer.Lower;
-                    MoteThrower.ThrowText( parent.Position.ToVector3Shifted(), ResourceBank.CycleLayerMote.Translate(currentLayer.ToStringTranslated()) );
+                    MoteThrower.ThrowText( parent.Position.ToVector3Shifted(),
+                                           ResourceBank.CycleLayerMote.Translate( currentLayer.ToStringTranslated() ) );
                     AirNetManager.NotifyCompLayerChange( this, oldLayer );
                 }
             };
 
-            foreach ( var current in base.CompGetGizmosExtra() )
+            foreach (var current in base.CompGetGizmosExtra())
                 yield return current;
 
             yield return com;

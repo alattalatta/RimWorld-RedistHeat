@@ -17,25 +17,25 @@ namespace RedistHeat
 
 		public override bool ShouldDrawRotated => MatSide == MatBack;
 
-		public override void Init(GraphicRequest req)
+        public override void Init( GraphicRequest req )
 		{
 			path = req.path;
 			color = req.color;
 			colorTwo = req.colorTwo;
 			drawSize = req.drawSize;
 			var array = new Texture2D[3];
-			array[0] = DXTLoader.LoadTextureDXT(req.path + "_back", TextureFormat.DXT5);
+            array[0] = DXTLoader.LoadTextureDXT( ResourceBank.modName, req.path + "_back", TextureFormat.DXT5 );
 			if (array[0] == null)
 			{
-				Log.Error("Failed to find any texture while constructing " + ToString());
+                Log.Error( "Failed to find any texture while constructing " + ToString() );
 				return;
 			}
-			array[1] = DXTLoader.LoadTextureDXT(req.path + "_side", TextureFormat.DXT5);
+            array[1] = DXTLoader.LoadTextureDXT( ResourceBank.modName, req.path + "_side", TextureFormat.DXT5 );
 			if (array[1] == null)
 			{
 				array[1] = array[0];
 			}
-			array[2] = DXTLoader.LoadTextureDXT(req.path + "_front", TextureFormat.DXT5);
+            array[2] = DXTLoader.LoadTextureDXT( ResourceBank.modName, req.path + "_front", TextureFormat.DXT5 );
 			if (array[2] == null)
 			{
 				array[2] = array[0];
@@ -66,13 +66,13 @@ namespace RedistHeat
 				req2.shader = req.shader;
 				req2.color = color;
 				req2.colorTwo = colorTwo;
-				mats[i] = MaterialPool.MatFrom(req2);
+                mats[i] = MaterialPool.MatFrom( req2 );
 			}
 		}
 
-		public override Graphic GetColoredVersion(Shader newShader, Color newColor, Color newColorTwo)
+        public override Graphic GetColoredVersion( Shader newShader, Color newColor, Color newColorTwo )
 		{
-			var graphic = GraphicDatabase.Get<Graphic_MultiDXT5>(path, newShader, drawSize, newColor, newColorTwo);
+            var graphic = GraphicDatabase.Get< Graphic_MultiDXT5 >( path, newShader, drawSize, newColor, newColorTwo );
 			graphic.data = data;
 			return graphic;
 		}
@@ -84,9 +84,9 @@ namespace RedistHeat
 
 		public override int GetHashCode()
 		{
-			var num = path.GetHashCode() * 7553;
-			num ^= color.GetHashCode() * 921;
-			return num ^ colorTwo.GetHashCode() * 511;
+            var num = path.GetHashCode()*7553;
+            num ^= color.GetHashCode()*921;
+            return num ^ colorTwo.GetHashCode()*511;
 		}
 	}
 }

@@ -1,0 +1,16 @@
+REM Set this to your local RedistHeat folder
+Set RedistHeat="/badkarma/"
+
+if NOT EXIST %RedistHeat% (
+	echo Missing or invalid copy target:
+	echo %RedistHeat%
+	EXIT -1
+)
+
+echo Build Target: %1
+echo RedistHeat Path: %RedistHeat%
+
+echo Copy to RimWorld
+copy %1 %RedistHeat%
+
+:Finished

@@ -10,17 +10,17 @@ namespace RedistHeat
 
         public override void Tick()
         {
-	        if ( !this.IsHashIntervalTick( 60 ) )
-	        {
-		        return;
-	        }
-            if ( !compPowerTrader.PowerOn )
+            if (!this.IsHashIntervalTick( 60 ))
+            {
+                return;
+            }
+            if (!compPowerTrader.PowerOn)
             {
                 return;
             }
 
             ControlTemperature();
-            if ( compTempControl.operatingAtHighPower )
+            if (compTempControl.operatingAtHighPower)
             {
                 SteamTick();
             }
@@ -30,21 +30,22 @@ namespace RedistHeat
         {
             var temperature = Position.GetTemperature();
             float energyMod;
-            if ( temperature < 20f )
+            if (temperature < 20f)
             {
                 energyMod = 1f;
             }
             else
             {
                 energyMod = temperature > 120f
-                          ? 0f
-                          : Mathf.InverseLerp( 120f, 20f, temperature );
+                    ? 0f
+                    : Mathf.InverseLerp( 120f, 20f, temperature );
             }
             var energyLimit = compTempControl.props.energyPerSecond*energyMod*4.16666651f;
-            var hotAir = GenTemperature.ControlTemperatureTempChange( Position, energyLimit, compTempControl.targetTemperature );
+            var hotAir = GenTemperature.ControlTemperatureTempChange( Position, energyLimit,
+                                                                      compTempControl.targetTemperature );
 
             var hotIsHot = !Mathf.Approximately( hotAir, 0f );
-            if ( hotIsHot )
+            if (hotIsHot)
             {
                 Position.GetRoom().Temperature += hotAir;
                 compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption;
@@ -59,14 +60,14 @@ namespace RedistHeat
 
         private void SteamTick()
         {
-            if ( sprayTicksLeft > 0 )
+            if (sprayTicksLeft > 0)
             {
                 sprayTicksLeft--;
-                if ( Rand.Value < 0.8f )
+                if (Rand.Value < 0.8f)
                 {
                     MoteThrower.ThrowAirPuffUp( this.TrueCenter() );
                 }
-                if ( sprayTicksLeft <= 0 )
+                if (sprayTicksLeft <= 0)
                 {
                     sprayTicksLeft = Rand.RangeInclusive( 1, 10 );
                 }

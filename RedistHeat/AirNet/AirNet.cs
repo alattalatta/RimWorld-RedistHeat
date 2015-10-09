@@ -15,6 +15,7 @@ namespace RedistHeat
         public readonly List< CompAir > nodes = new List< CompAir >();
 
         private float netTemperature;
+
         public float NetTemperature
         {
             get { return netTemperature; }
@@ -30,7 +31,7 @@ namespace RedistHeat
             Layer = layer;
             var compAirs = newNodes.ToList();
 
-            foreach ( var current in compAirs )
+            foreach (var current in compAirs)
             {
                 RegisterNode( current );
                 current.connectedNet = this;
@@ -43,7 +44,7 @@ namespace RedistHeat
             this.root = root;
 
             var intake =
-                compAirs.Where( s => s.GetType() == typeof ( CompAirTrader ) )
+                compAirs.Where( s => s.GetType() == typeof(CompAirTrader) )
                         .Cast< CompAirTrader >()
                         .ToList()
                         .Find(
@@ -51,7 +52,7 @@ namespace RedistHeat
                                 s.parent.def.defName == "RedistHeat_DuctIntake" ||
                                 s.parent.def.defName == "RedistHeat_DuctCooler" );
 
-            if ( intake == null || intake.netTemp == 999 )
+            if (intake == null || intake.netTemp == 999)
             {
                 NetTemperature = GenTemperature.OutdoorTemp;
             }
@@ -63,12 +64,11 @@ namespace RedistHeat
 
         public void AirNetTick()
         {
-
         }
 
         public void RegisterNode( CompAir node )
         {
-            if ( nodes.Contains( node ) )
+            if (nodes.Contains( node ))
             {
                 Log.Error( "LT-RH: AirNet adding node " + node + " which it already has." );
             }

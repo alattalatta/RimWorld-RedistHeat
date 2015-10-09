@@ -32,23 +32,24 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>..\_Refs\Assembly-CSharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="Assembly-CSharp">
-      <HintPath>..\Source-DLLs\Assembly-CSharp.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="UnityEngine">
-      <HintPath>..\Source-DLLs\UnityEngine.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>..\_Refs\UnityEngine.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Building\Building_AirNets\Building_DuctBase.cs" />
+    <Compile Include="Building\Building_TempControl\Building_Cooler.cs" />
+    <Compile Include="Building\Building_TempControl\Building_Heater.cs" />
+    <Compile Include="Building\Building_TempControl\Building_HeaterGlower.cs" />
     <Compile Include="Building\Building_TempControl\Building_MediumHeater.cs" />
     <Compile Include="Building\IWallAttachable.cs" />
     <Compile Include="Graphics\Graphic_LinkedAirPipe.cs" />
@@ -91,6 +92,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>call "$(ProjectDir)PostBuild.bat" "$(TargetPath)"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

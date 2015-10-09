@@ -10,7 +10,7 @@ namespace RedistHeat
             base.DrawGhost( def, center, rot );
 
             var room = center.GetRoom();
-            if ( room == null || room.UsesOutdoorTemperature )
+            if (room == null || room.UsesOutdoorTemperature)
             {
                 return;
             }

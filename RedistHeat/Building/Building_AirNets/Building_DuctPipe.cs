@@ -10,13 +10,13 @@ namespace RedistHeat
         {
             get
             {
-                if ( graphicLinked?.MatSingle != null )
+                if (graphicLinked?.MatSingle != null)
                 {
                     return graphicLinked;
                 }
 
                 GetGraphic();
-                if ( graphicLinked?.MatSingle != null )
+                if (graphicLinked?.MatSingle != null)
                 {
                     return graphicLinked;
                 }
@@ -33,7 +33,7 @@ namespace RedistHeat
 
         private void GetGraphic()
         {
-            if ( graphicLinked?.MatSingle != null )
+            if (graphicLinked?.MatSingle != null)
             {
                 return;
             }
