@@ -12,7 +12,7 @@ namespace RedistHeat
     {
         private const float EfficiencyFalloffSpan = 100f;
 
-        public override void TickRare()
+        public override void Tick()
         {
             if (!this.IsHashIntervalTick( 60 ))
             {
