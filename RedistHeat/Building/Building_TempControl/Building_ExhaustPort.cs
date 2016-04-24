@@ -31,12 +31,12 @@ namespace RedistHeat
             if (compPowerTrader.PowerOn && neighCooler != null && !VecNorth.Impassable())
             {
                 isAvailable = true;
-                compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption;
+                compPowerTrader.PowerOutput = -compPowerTrader.Props.basePowerConsumption;
             }
             else
             {
                 isAvailable = false;
-                compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption*0.1f;
+                compPowerTrader.PowerOutput = -compPowerTrader.Props.basePowerConsumption*0.1f;
             }
         }
 

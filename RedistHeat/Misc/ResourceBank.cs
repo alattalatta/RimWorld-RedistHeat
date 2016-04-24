@@ -41,8 +41,8 @@ namespace RedistHeat
         public static string StringToggleAirflowDesc = "RedistHeat_CommandToggleLockDesc".Translate();
 
         // === Gizmo icons === //
-        public static readonly Texture2D UILock = ContentFinder< Texture2D >.Get( "UI/Commands/Forbidden", true );
-        public static readonly Texture2D UILower = ContentFinder< Texture2D >.Get( "UI/Commands/Lower", true );
-        public static readonly Texture2D UIUpper = ContentFinder< Texture2D >.Get( "UI/Commands/Upper", true );
+        public static Texture2D UILock = ContentFinder<Texture2D>.Get("UI/Commands/Forbidden", true );
+        public static Texture2D UILower;// = ContentFinder<Texture2D>.Get("UI/Commands/Lower", true);
+        public static Texture2D UIUpper;// = ContentFinder<Texture2D>.Get("UI/Commands/Upper", true);
     }
 }

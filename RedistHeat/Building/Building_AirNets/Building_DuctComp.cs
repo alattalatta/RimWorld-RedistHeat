@@ -29,12 +29,12 @@ namespace RedistHeat
                 }
                 if (isWorking)
                 {
-                    compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption;
+                    compPowerTrader.PowerOutput = -compPowerTrader.Props.basePowerConsumption;
                 }
                 else
                 {
-                    compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption*
-                                                  compTempControl.props.lowPowerConsumptionFactor;
+                    compPowerTrader.PowerOutput = -compPowerTrader.Props.basePowerConsumption*
+                                                  compTempControl.Props.lowPowerConsumptionFactor;
                 }
 
                 compTempControl.operatingAtHighPower = isWorking;

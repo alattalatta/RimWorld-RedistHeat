@@ -19,12 +19,14 @@ namespace RedistHeat
         public override void PostSpawnSetup()
         {
             base.PostSpawnSetup();
+            ResourceBank.UILower = ContentFinder<Texture2D>.Get("UI/Commands/Lower", true);
+            ResourceBank.UIUpper = ContentFinder<Texture2D>.Get("UI/Commands/Upper", true);
             AirNetManager.NotifyCompSpawn( this );
         }
 
-        public override void PostDestroy( DestroyMode mode = DestroyMode.Vanish )
+        public override void PostDestroy( DestroyMode mode, bool wasSpawned)
         {
-            base.PostDestroy( mode );
+            base.PostDestroy(DestroyMode.Vanish, wasSpawned);
             AirNetManager.NotifyCompDespawn( this );
         }
 
@@ -59,27 +61,27 @@ namespace RedistHeat
 
         public override IEnumerable< Command > CompGetGizmosExtra()
         {
-            var com = new Command_Action
+            Command_Action act = new Command_Action();
+
+            act.defaultLabel = ResourceBank.CycleLayerLabel;
+            act.defaultDesc = ResourceBank.CycleLayerDesc;
+            act.icon = currentLayer == NetLayer.Lower ? ResourceBank.UILower : ResourceBank.UIUpper;
+            act.activateSound = SoundDef.Named("DesignateMine");
+            act.hotKey = KeyBindingDefOf.CommandColonistDraft;
+            act.action = () =>
             {
-                defaultLabel  = ResourceBank.CycleLayerLabel,
-                defaultDesc   = ResourceBank.CycleLayerDesc,
-                icon          = currentLayer == NetLayer.Lower ? ResourceBank.UILower : ResourceBank.UIUpper,
-                activateSound = SoundDef.Named( "DesignateMine" ),
-                hotKey        = KeyBindingDefOf.CommandColonistDraft,
-                action        = () =>
-                {
-                    var oldLayer = currentLayer;
-                    currentLayer = currentLayer == NetLayer.Lower ? NetLayer.Upper : NetLayer.Lower;
-                    MoteThrower.ThrowText( parent.Position.ToVector3Shifted(),
-                                           ResourceBank.CycleLayerMote.Translate( currentLayer.ToStringTranslated() ) );
-                    AirNetManager.NotifyCompLayerChange( this, oldLayer );
-                }
+                var oldLayer = currentLayer;
+                currentLayer = currentLayer == NetLayer.Lower ? NetLayer.Upper : NetLayer.Lower;
+                MoteThrower.ThrowText(parent.Position.ToVector3Shifted(),
+                                        ResourceBank.CycleLayerMote.Translate(currentLayer.ToStringTranslated()) 
+                                        );
+                AirNetManager.NotifyCompLayerChange(this, oldLayer);
             };
 
             foreach (var current in base.CompGetGizmosExtra())
                 yield return current;
 
-            yield return com;
+            yield return act;
         }
     }
 }

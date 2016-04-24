@@ -7,6 +7,14 @@ namespace RedistHeat
     {
         public int netTemp;
 
+        public CompAirTraderProperties Props
+        {
+            get
+            {
+                return (CompAirTraderProperties)this.props;
+            }
+        }
+
         public override void PostSpawnSetup()
         {
             base.PostSpawnSetup();
@@ -20,7 +28,7 @@ namespace RedistHeat
         {
             //Will do full push when EPS is 1
             var tempDiff = Mathf.Abs( room.Temperature - pointTemp );
-            var tempRated = tempDiff*rate*(1 - props.energyPerSecond);
+            var tempRated = tempDiff*rate*(1 - Props.energyPerSecond);
 
             if (pointTemp < room.Temperature)
             {
@@ -35,7 +43,7 @@ namespace RedistHeat
         public void EqualizeWithNet( float targetTemp, float rate )
         {
             var tempDiff = Mathf.Abs( netTemp - targetTemp );
-            var tempRated = tempDiff*rate*props.energyPerSecond;
+            var tempRated = tempDiff*rate*Props.energyPerSecond;
 
             if (targetTemp < connectedNet.NetTemperature)
             {

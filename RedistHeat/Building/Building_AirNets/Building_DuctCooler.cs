@@ -7,7 +7,7 @@ namespace RedistHeat
     {
         protected override IntVec3 RoomVec => Position;
 
-        private float Energy => compTempControl.props.energyPerSecond;
+        private float Energy => compTempControl.Props.energyPerSecond;
 
         protected override void Equalize()
         {

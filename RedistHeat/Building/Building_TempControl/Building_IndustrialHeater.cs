@@ -40,7 +40,7 @@ namespace RedistHeat
                     ? 0f
                     : Mathf.InverseLerp( 120f, 20f, temperature );
             }
-            var energyLimit = compTempControl.props.energyPerSecond*energyMod*4.16666651f;
+            var energyLimit = compTempControl.Props.energyPerSecond*energyMod*4.16666651f;
             var hotAir = GenTemperature.ControlTemperatureTempChange( Position, energyLimit,
                                                                       compTempControl.targetTemperature );
 
@@ -48,12 +48,12 @@ namespace RedistHeat
             if (hotIsHot)
             {
                 Position.GetRoom().Temperature += hotAir;
-                compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption;
+                compPowerTrader.PowerOutput = -compPowerTrader.Props.basePowerConsumption;
             }
             else
             {
-                compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption*
-                                              compTempControl.props.lowPowerConsumptionFactor;
+                compPowerTrader.PowerOutput = -compPowerTrader.Props.basePowerConsumption*
+                                              compTempControl.Props.lowPowerConsumptionFactor;
             }
             compTempControl.operatingAtHighPower = hotIsHot;
         }

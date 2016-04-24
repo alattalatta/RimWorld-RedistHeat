@@ -33,7 +33,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
-      <HintPath>..\_Refs\Assembly-CSharp.dll</HintPath>
+      <HintPath>..\..\..\RimWorld1135Win_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -42,10 +43,12 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="UnityEngine">
-      <HintPath>..\_Refs\UnityEngine.dll</HintPath>
+      <HintPath>..\..\..\RimWorld1135Win_Data\Managed\UnityEngine.dll</HintPath>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AirNet\CompProperties\CompAirTraderProperties.cs" />
     <Compile Include="Building\Building_AirNets\Building_DuctBase.cs" />
     <Compile Include="Building\Building_TempControl\Building_Cooler.cs" />
     <Compile Include="Building\Building_TempControl\Building_Heater.cs" />

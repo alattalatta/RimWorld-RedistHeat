@@ -27,12 +27,12 @@ namespace RedistHeat
                 }
                 if (isWorking)
                 {
-                    compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption;
+                    compPowerTrader.PowerOutput = -compPowerTrader.Props.basePowerConsumption;
                 }
                 else
                 {
-                    compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption*
-                                                  compTempControl.props.lowPowerConsumptionFactor;
+                    compPowerTrader.PowerOutput = -compPowerTrader.Props.basePowerConsumption*
+                                                  compTempControl.Props.lowPowerConsumptionFactor;
                 }
 
                 compTempControl.operatingAtHighPower = isWorking;
@@ -47,7 +47,7 @@ namespace RedistHeat
             glower = GenSpawn.Spawn( ThingDef.Named( "RedistHeat_HeaterGlower" ), vecNorth );
             ((Building_HeaterGlower) glower).Reinit( this );
             compGlower = glower.TryGetComp< CompGlower >();
-            compGlower.Lit = false;
+            //compGlower.Lit = false;
         }
 
         public override void Destroy( DestroyMode mode = DestroyMode.Vanish )
@@ -60,12 +60,12 @@ namespace RedistHeat
         {
             if (compPowerTrader.PowerOn && !wasLit)
             {
-                compGlower.Lit = true;
+                compGlower.UpdateLit();
                 wasLit = true;
             }
             else if (!compPowerTrader.PowerOn && wasLit)
             {
-                compGlower.Lit = false;
+                compGlower.UpdateLit();
                 wasLit = false;
             }
 
@@ -112,7 +112,7 @@ namespace RedistHeat
                     ? 0f
                     : Mathf.InverseLerp( 120f, 20f, temperature );
             }
-            var energyLimit = compTempControl.props.energyPerSecond*energyMod*4.16666651f;
+            var energyLimit = compTempControl.Props.energyPerSecond*energyMod*4.16666651f;
             var hotAir = GenTemperature.ControlTemperatureTempChange( vecNorth, energyLimit,
                                                                       compTempControl.targetTemperature );
 

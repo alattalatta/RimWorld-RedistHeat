@@ -39,7 +39,7 @@ namespace RedistHeat
                 {
                     num2 = 0f;
                 }
-                var num3 = compTempControl.props.energyPerSecond*num2*4.16666651f;
+                var num3 = compTempControl.Props.energyPerSecond*num2*4.16666651f;
                 var num4 = GenTemperature.ControlTemperatureTempChange( intVec, num3,
                                                                         compTempControl.targetTemperature );
                 flag = !Mathf.Approximately( num4, 0f );
@@ -51,12 +51,12 @@ namespace RedistHeat
             }
             if (flag)
             {
-                compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption;
+                compPowerTrader.PowerOutput = -compPowerTrader.Props.basePowerConsumption;
             }
             else
             {
-                compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption*
-                                              compTempControl.props.lowPowerConsumptionFactor;
+                compPowerTrader.PowerOutput = -compPowerTrader.Props.basePowerConsumption*
+                                              compTempControl.Props.lowPowerConsumptionFactor;
             }
             compTempControl.operatingAtHighPower = flag;
         }

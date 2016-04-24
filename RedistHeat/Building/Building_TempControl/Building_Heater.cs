@@ -38,19 +38,19 @@ namespace RedistHeat
             {
                 num = Mathf.InverseLerp( 120f, 20f, temperature );
             }
-            var energyLimit = compTempControl.props.energyPerSecond*num*4.16666651f;
+            var energyLimit = compTempControl.Props.energyPerSecond*num*4.16666651f;
             var num2 = GenTemperature.ControlTemperatureTempChange( Position, energyLimit,
                                                                     compTempControl.targetTemperature );
             var flag = !Mathf.Approximately( num2, 0f );
             if (flag)
             {
                 Position.GetRoom().Temperature += num2;
-                compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption;
+                compPowerTrader.PowerOutput = -compPowerTrader.Props.basePowerConsumption;
             }
             else
             {
-                compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption*
-                                              compTempControl.props.lowPowerConsumptionFactor;
+                compPowerTrader.PowerOutput = -compPowerTrader.Props.basePowerConsumption*
+                                              compTempControl.Props.lowPowerConsumptionFactor;
             }
             compTempControl.operatingAtHighPower = flag;
         }
