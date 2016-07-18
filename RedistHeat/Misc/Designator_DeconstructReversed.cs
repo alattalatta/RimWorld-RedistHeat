@@ -27,7 +27,7 @@ namespace RedistHeat
             {
                 return false;
             }
-            if (!Game.GodMode && c.Fogged())
+            if (!DebugSettings.godMode && c.Fogged())
             {
                 return false;
             }
@@ -48,12 +48,12 @@ namespace RedistHeat
 
         public override void DesignateThing( Thing t )
         {
-            if (t.Faction != Faction.OfColony)
+            if (t.Faction != Faction.OfPlayer)
             {
-                t.SetFaction( Faction.OfColony );
+                t.SetFaction( Faction.OfPlayer );
             }
             var innerIfMinified = t.GetInnerIfMinified();
-            if (Game.GodMode || Mathf.Approximately( innerIfMinified.GetStatValue( StatDefOf.WorkToMake ), 0 ) ||
+            if (DebugSettings.godMode || Mathf.Approximately( innerIfMinified.GetStatValue( StatDefOf.WorkToMake ), 0 ) ||
                 t.def.IsFrame)
             {
                 t.Destroy( DestroyMode.Deconstruct );
@@ -71,19 +71,19 @@ namespace RedistHeat
             {
                 return false;
             }
-            if (!Game.GodMode)
+            if (!DebugSettings.godMode)
             {
                 if (!building.def.building.IsDeconstructible)
                 {
                     return false;
                 }
-                if (building.Faction != Faction.OfColony)
+                if (building.Faction != Faction.OfPlayer)
                 {
                     if (building.Faction != null)
                     {
                         return false;
                     }
-                    if (!building.ClaimableBy( Faction.OfColony ))
+                    if (!building.ClaimableBy( Faction.OfPlayer ))
                     {
                         return false;
                     }

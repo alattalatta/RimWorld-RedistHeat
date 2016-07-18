@@ -42,7 +42,7 @@ namespace RedistHeat
         }
 
 
-        public override string LabelBase => base.LabelBase + " (" + compAir.currentLayer.ToString().ToLower() + ")";
+        public override string LabelNoCount => base.LabelNoCount + " (" + compAir.currentLayer.ToString().ToLower() + ")";
 
         public override void SpawnSetup()
         {
