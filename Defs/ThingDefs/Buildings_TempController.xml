@@ -20,7 +20,7 @@
             <texPath>Things/Building/Misc/TempControl/Heater</texPath>
             <graphicClass>Graphic_Single</graphicClass>
         </graphicData>
-        <altitudeLayer>BuildingTall</altitudeLayer>
+        <altitudeLayer>Building</altitudeLayer>
         <passability>PassThroughOnly</passability>
         <pathCost>40</pathCost>
         <rotatable>false</rotatable>
@@ -36,7 +36,7 @@
         <description>An electrical device that converts electricity into heat. It can automatically turn itself on or off to reach a specific target temperature.</description>
         <costList>
             <Steel>65</Steel>
-			<Components>1</Components>
+			<Component>1</Component>
         </costList>
         <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
         <placeWorkers>
@@ -63,7 +63,7 @@
 			<li Class="CompProperties_Breakdownable"/>
         </comps>
         <designationCategory>Temperature</designationCategory>
-        <designationHotKey>H</designationHotKey>
+        <designationHotKey>Misc2</designationHotKey>
     </ThingDef>
 
     <ThingDef ParentName="BuildingBase">
@@ -74,7 +74,7 @@
             <texPath>Things/Building/Misc/TempControl/Cooler</texPath>
             <graphicClass>Graphic_Multi</graphicClass>
         </graphicData>
-        <altitudeLayer>BuildingTall</altitudeLayer>
+        <altitudeLayer>Building</altitudeLayer>
         <passability>Impassable</passability>
         <fillPercent>1</fillPercent>
         <coversFloor>true</coversFloor>
@@ -91,7 +91,7 @@
         </description>
         <costList>
             <Steel>90</Steel>
-			<Components>3</Components>
+			<Component>3</Component>
         </costList>
         <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
         <placeWorkers>
@@ -115,7 +115,7 @@
 			<li Class="CompProperties_Breakdownable"/>
         </comps>
         <designationCategory>Temperature</designationCategory>
-        <designationHotKey>O</designationHotKey>
+        <designationHotKey>Misc3</designationHotKey>
     </ThingDef>
 
     <ThingDef ParentName="BuildingBase">
@@ -125,14 +125,14 @@
         <thingClass>Building_Cooler</thingClass>
         <graphicData>
             <texPath>Things/Building/Cooler/SmallCooler</texPath>
-            <graphicClass>RedistHeat.Graphic_MultiDXT5</graphicClass>
+            <graphicClass>Graphic_Multi</graphicClass>
         </graphicData>
         <building>
             <isEdifice>false</isEdifice>
         </building>
         <costList>
             <Steel>60</Steel>
-			<Components>1</Components>
+			<Component>1</Component>
         </costList>
         <statBases>
             <WorkToMake>500</WorkToMake>
@@ -177,11 +177,11 @@
         <description>A wall mounted heater, which is more efficient at heating large rooms and bases. It can automatically turn itself on or off to reach a specific target temperature.</description>
         <graphicData>
             <texPath>Things/Building/Heater/MediumHeater</texPath>
-            <graphicClass>RedistHeat.Graphic_MultiDXT5</graphicClass>
+            <graphicClass>Graphic_Multi</graphicClass>
         </graphicData>
         <costList>
             <Steel>170</Steel>
-			<Components>3</Components>
+			<Component>3</Component>
         </costList>
         <building>
             <isEdifice>false</isEdifice>
@@ -209,6 +209,11 @@
                 <energyPerSecond>8.4</energyPerSecond>
 <!--35-->
             </li>
+			<li Class="CompProperties_Glower">
+                <compClass>CompGlower</compClass>
+                <glowRadius>3</glowRadius>
+                <glowColor>(255,150,100,0)</glowColor>
+            </li>
 			<li Class="CompProperties_Breakdownable"/>
         </comps>
         <placeWorkers>
@@ -221,37 +226,6 @@
         <designationCategory>Temperature</designationCategory>
         <drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
         <tickerType>Normal</tickerType>
-    </ThingDef>
-
-    <ThingDef ParentName="BuildingBase">
-        <defName>RedistHeat_HeaterGlower</defName>
-        <thingClass>RedistHeat.Building_HeaterGlower</thingClass>
-        <label>medium heater</label>
-        <graphicData>
-            <texPath>Things/Transparent</texPath>
-            <graphicClass>Graphic_Single</graphicClass>
-            <shaderType>Transparent</shaderType>
-        </graphicData>
-        <building>
-            <isEdifice>false</isEdifice>
-        </building>
-        <statBases>
-            <WorkToMake>1</WorkToMake>
-            <Flammability>0</Flammability>
-        </statBases>
-        <comps>
-            <li Class="CompProperties_Glower">
-                <compClass>CompGlower</compClass>
-                <glowRadius>3</glowRadius>
-                <glowColor>(255,150,100,0)</glowColor>
-            </li>
-        </comps>
-        <altitudeLayer>Waist</altitudeLayer>
-        <castEdgeShadows>false</castEdgeShadows>
-        <menuHidden>true</menuHidden>
-        <selectable>false</selectable>
-        <tickerType>Normal</tickerType>
-        <useHitPoints>false</useHitPoints>
     </ThingDef>
 
     <ThingDef ParentName="BuildingBase">
@@ -279,7 +253,7 @@
         </statBases>
         <costList>
             <Steel>300</Steel>
-			<Components>9</Components>
+			<Component>9</Component>
         </costList>
         <placeWorkers>
             <li>PlaceWorker_Heater</li>
@@ -303,7 +277,7 @@
             </li>
 			<li Class="CompProperties_Breakdownable"/>
         </comps>
-        <altitudeLayer>BuildingTall</altitudeLayer>
+        <altitudeLayer>Building</altitudeLayer>
         <passability>PassThroughOnly</passability>
         <pathCost>40</pathCost>
         <castEdgeShadows>false</castEdgeShadows>
@@ -324,7 +298,7 @@
         <description>A massive electrical device that pushes cold air into a room. It needs at least one extenal exhaust port.</description>
         <graphicData>
             <texPath>Things/Building/Cooler/IndustrialCooler</texPath>
-            <graphicClass>RedistHeat.Graphic_MultiDXT5</graphicClass>
+            <graphicClass>Graphic_Multi</graphicClass>
             <drawSize>(2,2)</drawSize>
         </graphicData>
         <statBases>
@@ -335,7 +309,7 @@
         </statBases>
         <costList>
             <Steel>300</Steel>
-			<Components>9</Components>
+			<Component>9</Component>
         </costList>
         <building>
             <canPlaceOverWall>true</canPlaceOverWall>
@@ -359,7 +333,7 @@
         <placeWorkers>
             <li>RedistHeat.PlaceWorker_IndustrialCooler</li>
         </placeWorkers>
-        <altitudeLayer>BuildingTall</altitudeLayer>
+        <altitudeLayer>Building</altitudeLayer>
         <blockLight>true</blockLight>
         <castEdgeShadows>true</castEdgeShadows>
         <staticSunShadowHeight>1.0</staticSunShadowHeight>
@@ -395,7 +369,7 @@
         <size>(1,1)</size>
         <costList>
             <Steel>70</Steel>
-			<Components>2</Components>
+			<Component>2</Component>
         </costList>
         <building>
             <canPlaceOverWall>true</canPlaceOverWall>
@@ -413,7 +387,7 @@
         <placeWorkers>
             <li>RedistHeat.PlaceWorker_ExhaustPort</li>
         </placeWorkers>
-        <altitudeLayer>BuildingTall</altitudeLayer>
+        <altitudeLayer>Building</altitudeLayer>
         <blockLight>true</blockLight>
         <castEdgeShadows>true</castEdgeShadows>
         <designationCategory>Temperature</designationCategory>

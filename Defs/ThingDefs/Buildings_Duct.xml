@@ -111,7 +111,7 @@
         <label>duct outlet</label>
         <description>A duct building that pulls air from network.</description>
         <graphicData>
-            <graphicClass>RedistHeat.Graphic_MultiDXT5</graphicClass>
+            <graphicClass>Graphic_Multi</graphicClass>
             <texPath>Things/Building/AirNet/DuctOutlet</texPath>
         </graphicData>
         <statBases>
@@ -148,14 +148,14 @@
         <description>A duct building that pulls air from network. It can automatically open or close itself to control airflow.</description>
         <graphicData>
             <texPath>Things/Building/AirNet/SmartDuctOutlet</texPath>
-            <graphicClass>RedistHeat.Graphic_MultiDXT5</graphicClass>
+            <graphicClass>Graphic_Multi</graphicClass>
         </graphicData>
         <statBases>
             <WorkToMake>600</WorkToMake>
         </statBases>
         <costList>
             <Steel>65</Steel>
-			<Components>1</Components>
+			<Component>1</Component>
         </costList>
         <comps>
             <li Class="CompProperties_Power">
@@ -185,7 +185,7 @@
         <label>duct intake</label>
         <description>A duct building that pushes air to network.</description>
         <graphicData>
-            <graphicClass>RedistHeat.Graphic_MultiDXT5</graphicClass>
+            <graphicClass>Graphic_Multi</graphicClass>
             <texPath>Things/Building/AirNet/DuctIntake</texPath>
         </graphicData>
         <statBases>
@@ -218,7 +218,7 @@
         <label>duct cooler</label>
         <description>A duct building that cools air within its network. Generates a lot of heat.</description>
         <graphicData>
-            <graphicClass>RedistHeat.Graphic_SingleDXT5</graphicClass>
+            <graphicClass>Graphic_Single</graphicClass>
             <texPath>Things/Building/AirNet/DuctCooler</texPath>
         </graphicData>
         <statBases>
@@ -228,7 +228,7 @@
         </statBases>
         <costList>
             <Steel>110</Steel>
-			<Components>3</Components>
+			<Component>3</Component>
         </costList>
         <comps>
             <li Class="RedistHeat.CompAirTraderProperties">
@@ -249,7 +249,7 @@
         <placeWorkers>
             <li>RedistHeat.PlaceWorker_DuctCooler</li>
         </placeWorkers>
-        <altitudeLayer>BuildingTall</altitudeLayer>
+        <altitudeLayer>Building</altitudeLayer>
         <blockLight>true</blockLight>
         <castEdgeShadows>true</castEdgeShadows>
         <staticSunShadowHeight>0.75</staticSunShadowHeight>
