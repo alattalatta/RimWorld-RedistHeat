@@ -209,11 +209,6 @@
                 <energyPerSecond>8.4</energyPerSecond>
 <!--35-->
             </li>
-			<li Class="CompProperties_Glower">
-                <compClass>CompGlower</compClass>
-                <glowRadius>3</glowRadius>
-                <glowColor>(255,150,100,0)</glowColor>
-            </li>
 			<li Class="CompProperties_Breakdownable"/>
         </comps>
         <placeWorkers>
@@ -228,6 +223,37 @@
         <tickerType>Normal</tickerType>
     </ThingDef>
 
+	<ThingDef ParentName="BuildingBase">
+        <defName>RedistHeat_HeaterGlower</defName>
+        <thingClass>RedistHeat.Building_HeaterGlower</thingClass>
+        <label>medium heater</label>
+        <graphicData>
+            <texPath>Things/Transparent</texPath>
+            <graphicClass>Graphic_Single</graphicClass>
+            <shaderType>Transparent</shaderType>
+        </graphicData>
+        <building>
+            <isEdifice>false</isEdifice>
+        </building>
+        <statBases>
+            <WorkToMake>1</WorkToMake>
+            <Flammability>0</Flammability>
+        </statBases>
+        <comps>
+            <li Class="CompProperties_Glower">
+                <compClass>CompGlower</compClass>
+                <glowRadius>3</glowRadius>
+                <glowColor>(255,150,100,0)</glowColor>
+            </li>
+        </comps>
+        <altitudeLayer>Building</altitudeLayer>
+        <castEdgeShadows>false</castEdgeShadows>
+        <menuHidden>true</menuHidden>
+        <selectable>false</selectable>
+        <tickerType>Normal</tickerType>
+        <useHitPoints>false</useHitPoints>
+    </ThingDef>
+	
     <ThingDef ParentName="BuildingBase">
         <defName>RedistHeat_IndustrialHeater</defName>
         <thingClass>RedistHeat.Building_IndustrialHeater</thingClass>
