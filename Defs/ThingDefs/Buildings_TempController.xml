@@ -19,10 +19,23 @@
         <graphicData>
             <texPath>Things/Building/Misc/TempControl/Heater</texPath>
             <graphicClass>Graphic_Single</graphicClass>
+			<shadowData>
+				<volume>(0.25,0.4,0.7)</volume>
+				<offset>(0,0,-0.1)</offset>
+			</shadowData>
+			<damageData>
+				<rect>(0.234375,0,0.515625,0.984375)</rect>
+				<cornerTL>Damage/Corner</cornerTL>
+				<cornerTR>Damage/Corner</cornerTR>
+				<cornerBL>Damage/Corner</cornerBL>
+				<cornerBR>Damage/Corner</cornerBR>
+			</damageData>
         </graphicData>
+		<minifiedDef>MinifiedFurniture</minifiedDef>
         <altitudeLayer>Building</altitudeLayer>
         <passability>PassThroughOnly</passability>
-        <pathCost>40</pathCost>
+		<pathCost>40</pathCost>
+		<blockWind>true</blockWind>
         <rotatable>false</rotatable>
         <fillPercent>0.4</fillPercent>
         <castEdgeShadows>true</castEdgeShadows>
@@ -32,7 +45,7 @@
             <MaxHitPoints>100</MaxHitPoints>
             <Flammability>1.0</Flammability>
         </statBases>
-        <tickerType>Normal</tickerType>
+        <tickerType>Rare</tickerType>
         <description>An electrical device that converts electricity into heat. It can automatically turn itself on or off to reach a specific target temperature.</description>
         <costList>
             <Steel>65</Steel>
@@ -73,6 +86,12 @@
         <graphicData>
             <texPath>Things/Building/Misc/TempControl/Cooler</texPath>
             <graphicClass>Graphic_Multi</graphicClass>
+			<damageData>
+				<cornerTL>Damage/Corner</cornerTL>
+				<cornerTR>Damage/Corner</cornerTR>
+				<cornerBL>Damage/Corner</cornerBL>
+				<cornerBR>Damage/Corner</cornerBR>
+			</damageData>
         </graphicData>
         <altitudeLayer>Building</altitudeLayer>
         <passability>Impassable</passability>
@@ -86,7 +105,7 @@
             <MaxHitPoints>100</MaxHitPoints>
             <Flammability>1.0</Flammability>
         </statBases>
-        <tickerType>Normal</tickerType>
+        <tickerType>Rare</tickerType>
         <description>An electrical device that fits into a wall and pushes cold air into a room. Its exhaust port generates a lot of heat. Can be used to cool down rooms during the summer months, or to create a walk-in freezer.
         </description>
         <costList>
@@ -220,7 +239,7 @@
         <castEdgeShadows>false</castEdgeShadows>
         <designationCategory>Temperature</designationCategory>
         <drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
-        <tickerType>Normal</tickerType>
+        <tickerType>Rare</tickerType>
     </ThingDef>
 
 	<ThingDef ParentName="BuildingBase">
@@ -250,7 +269,7 @@
         <castEdgeShadows>false</castEdgeShadows>
         <menuHidden>true</menuHidden>
         <selectable>false</selectable>
-        <tickerType>Normal</tickerType>
+        <tickerType>Rare</tickerType>
         <useHitPoints>false</useHitPoints>
     </ThingDef>
 	
@@ -314,7 +333,7 @@
         <researchPrerequisites><li>RH_TemperatureControl</li></researchPrerequisites>
         <size>(2,2)</size>
         <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
-        <tickerType>Normal</tickerType>
+        <tickerType>Rare</tickerType>
     </ThingDef>
 
     <ThingDef ParentName="BuildingBase">
@@ -371,7 +390,7 @@
         <researchPrerequisites><li>RH_TemperatureControl</li></researchPrerequisites>
         <size>(2,2)</size>
         <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
-        <tickerType>Normal</tickerType>
+        <tickerType>Rare</tickerType>
     </ThingDef>
 
     <ThingDef ParentName="BuildingBase">
@@ -420,7 +439,7 @@
         <drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
         <researchPrerequisites><li>RH_TemperatureControl</li></researchPrerequisites>
         <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
-        <tickerType>Normal</tickerType>
+        <tickerType>Rare</tickerType>
     </ThingDef>
 
 </Buildings>
