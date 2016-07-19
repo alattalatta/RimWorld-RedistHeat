@@ -6,9 +6,10 @@ using Verse;
 
 namespace RedistHeat
 {
+    [StaticConstructorOnStartup]
     public static class ResourceBank
     {
-        public const string modName = "LT_RedistHeat";
+        public const string modName = "RedistHeat";
 
         // ===== AirNet.xml ===== //
         public static string CurrentConnectionChannel = "RedistHeat_CurrentConnectionChannel";

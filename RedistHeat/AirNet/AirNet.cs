@@ -70,7 +70,7 @@ namespace RedistHeat
         {
             if (nodes.Contains( node ))
             {
-                Log.Error( "LT-RH: AirNet adding node " + node + " which it already has." );
+                Log.Error( "RedistHeat: AirNet adding node " + node + " which it already has." );
             }
             else
             {

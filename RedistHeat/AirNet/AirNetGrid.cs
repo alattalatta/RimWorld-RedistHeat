@@ -16,7 +16,7 @@ namespace RedistHeat
                 netGrid[i] = new AirNet[CellIndices.NumGridCells];
             }
 #if DEBUG
-            Log.Message( "LT-RH: Initialized AirNetGrid." );
+            Log.Message("RedistHeat: Initialized AirNetGrid.");
 #endif
         }
 

@@ -5,6 +5,7 @@ using Verse;
 
 namespace RedistHeat
 {
+    [StaticConstructorOnStartup]
     public static class AirOverlayMat
     {
         private static readonly Shader TransmitterShader;
@@ -36,7 +37,7 @@ namespace RedistHeat
             {
                 return LinkedOverlayGraphic[(int) NetLayer.Upper];
             }
-            throw new ArgumentOutOfRangeException( nameof( compAir ), "LT-RH: compAir has no valid net layer!" );
+            throw new ArgumentOutOfRangeException( nameof( compAir ), "RedistHeat: compAir has no valid net layer!");
         }
     }
 }

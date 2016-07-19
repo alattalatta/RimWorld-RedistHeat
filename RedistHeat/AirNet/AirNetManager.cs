@@ -54,7 +54,7 @@ namespace RedistHeat
                 }
             }
 #if DEBUG
-            Log.Message( "LT-RH: Initialized AirNetManager." );
+            Log.Message("RedistHeat: Initialized AirNetManager.");
 #endif
             isReady = true;
         }
@@ -76,7 +76,7 @@ namespace RedistHeat
                 newComps[(int) NetLayer.Upper].Add( compAir );
             }
 #if DEBUG
-            Log.Message( "LT-RH: Spawning " + compAir.parent );
+            Log.Message("RedistHeat: Spawning " + compAir.parent );
 #endif
 
             AddToGraphicUpdateList( compAir );
@@ -100,7 +100,7 @@ namespace RedistHeat
             }
 
 #if DEBUG
-            Log.Message( "LT-RH: Despawning " + compAir.parent );
+            Log.Message("RedistHeat: Despawning " + compAir.parent );
 #endif
             AddToGraphicUpdateList( compAir );
         }
@@ -109,7 +109,7 @@ namespace RedistHeat
         {
             if (oldLayer == compAir.currentLayer)
             {
-                Log.Error( "LT-RH: Tried to change " + compAir + "\'s layer to " + compAir.currentLayer +
+                Log.Error("RedistHeat: Tried to change " + compAir + "\'s layer to " + compAir.currentLayer +
                            ", which is not different!" );
                 return;
             }
@@ -123,7 +123,7 @@ namespace RedistHeat
         public static void RegisterAirNet( AirNet newNet )
         {
 #if DEBUG
-            Log.Message( "LT-RH: Registering " + newNet );
+            Log.Message("RedistHeat: Registering " + newNet );
 #endif
             allNets[newNet.LayerInt].Add( newNet );
             AirNetGrid.NotifyNetCreated( newNet );
@@ -132,7 +132,7 @@ namespace RedistHeat
         public static void DeregisterAirNet( AirNet oldNet )
         {
 #if DEBUG
-            Log.Message( "LT-RH: Deregistering " + oldNet );
+            Log.Message("RedistHeat: Deregistering " + oldNet );
 #endif
             allNets[oldNet.LayerInt].Remove( oldNet );
             AirNetGrid.NotifyNetDeregistered( oldNet );
