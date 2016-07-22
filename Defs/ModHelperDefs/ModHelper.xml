@@ -6,7 +6,7 @@
 
         <ModName>RedistHeat</ModName>
 
-        <minCCLVersion>0.14.0.1</minCCLVersion>
+        <minCCLVersion>0.14.0</minCCLVersion>
 
         <MapComponents>
             <li>RedistHeat.AirNetTicker</li>

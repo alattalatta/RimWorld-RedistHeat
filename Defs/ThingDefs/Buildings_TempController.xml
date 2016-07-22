@@ -186,7 +186,7 @@
         <blockLight>false</blockLight>
         <designationCategory>Temperature</designationCategory>
         <drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
-        <tickerType>Normal</tickerType>
+        <tickerType>Rare</tickerType>
     </ThingDef>
 
     <ThingDef ParentName="BuildingBase">
