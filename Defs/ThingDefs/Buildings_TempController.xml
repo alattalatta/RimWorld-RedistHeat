@@ -64,6 +64,7 @@
                 <soundPowerOff>PowerOffSmall</soundPowerOff>
                 <basePowerConsumption>100</basePowerConsumption>
             </li>
+			<li Class="CompProperties_Flickable"/>
             <li Class="CompProperties_TempControl">
 				<compClass>CompTempControl</compClass>
                 <energyPerSecond>5.04</energyPerSecond> <!-- 21 -->
@@ -127,6 +128,7 @@
                 <soundPowerOff>PowerOffSmall</soundPowerOff>
                 <basePowerConsumption>200</basePowerConsumption>
             </li>
+			<li Class="CompProperties_Flickable"/>
             <li Class="CompProperties_TempControl">
 				<compClass>CompTempControl</compClass>
                 <energyPerSecond>-5.04</energyPerSecond> <!-- -21 -->
@@ -171,6 +173,7 @@
                 <soundPowerOff>PowerOffSmall</soundPowerOff>
                 <basePowerConsumption>100</basePowerConsumption>
             </li>
+			<li Class="CompProperties_Flickable"/>
             <li Class="CompProperties_TempControl">
 				<compClass>CompTempControl</compClass>
                 <energyPerSecond>-13</energyPerSecond>
@@ -223,6 +226,7 @@
                 <soundPowerOff>PowerOffSmall</soundPowerOff>
                 <basePowerConsumption>200</basePowerConsumption>
             </li>
+			<li Class="CompProperties_Flickable"/>
             <li Class="CompProperties_TempControl">
 				<compClass>CompTempControl</compClass>
                 <energyPerSecond>8.4</energyPerSecond>
@@ -310,6 +314,7 @@
                 <soundPowerOff>PowerOffSmall</soundPowerOff>
                 <basePowerConsumption>500</basePowerConsumption>
             </li>
+			<li Class="CompProperties_Flickable"/>
             <li Class="CompProperties_TempControl">
 				<compClass>CompTempControl</compClass>
                 <energyPerSecond>21.12</energyPerSecond>
@@ -368,6 +373,7 @@
                 <basePowerConsumption>400</basePowerConsumption>
                 <transmitsPower>true</transmitsPower>
             </li>
+			<li Class="CompProperties_Flickable"/>
             <li Class="CompProperties_TempControl">
 				<compClass>CompTempControl</compClass>
                 <energyPerSecond>-8.4</energyPerSecond>
@@ -427,6 +433,7 @@
                 <basePowerConsumption>100</basePowerConsumption>
                 <transmitsPower>true</transmitsPower>
             </li>
+			<li Class="CompProperties_Flickable"/>
 			<li Class="CompProperties_Breakdownable"/>
         </comps>
         <placeWorkers>
