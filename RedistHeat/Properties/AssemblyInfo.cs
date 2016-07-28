@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration( "" )]
 [assembly: AssemblyCompany( "" )]
 [assembly: AssemblyProduct("RedistHeat")]
-[assembly: AssemblyCopyright("Copyright © 2015 Latta")]
+[assembly: AssemblyCopyright("Copyright © 2016 Latta")]
 [assembly: AssemblyTrademark( "" )]
 [assembly: AssemblyCulture( "" )]
 

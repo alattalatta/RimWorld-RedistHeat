@@ -19,8 +19,8 @@ namespace RedistHeat
         public override void PostSpawnSetup()
         {
             base.PostSpawnSetup();
-            ResourceBank.UILower = ContentFinder<Texture2D>.Get("UI/Commands/Lower", true);
-            ResourceBank.UIUpper = ContentFinder<Texture2D>.Get("UI/Commands/Upper", true);
+            //ResourceBank.UILower = ContentFinder<Texture2D>.Get("UI/Commands/Lower", true);
+            //ResourceBank.UIUpper = ContentFinder<Texture2D>.Get("UI/Commands/Upper", true);
             AirNetManager.NotifyCompSpawn( this );
         }
 

@@ -43,7 +43,12 @@ namespace RedistHeat
 
         // === Gizmo icons === //
         public static Texture2D UILock = ContentFinder<Texture2D>.Get("UI/Commands/Forbidden", true );
-        public static Texture2D UILower;// = ContentFinder<Texture2D>.Get("UI/Commands/Lower", true);
-        public static Texture2D UIUpper;// = ContentFinder<Texture2D>.Get("UI/Commands/Upper", true);
+        public static Texture2D UILower = ContentFinder<Texture2D>.Get("UI/Commands/Lower", true);
+        public static Texture2D UIUpper = ContentFinder<Texture2D>.Get("UI/Commands/Upper", true);
+
+        // == Pipe textures == //
+
+        public static Graphic graphicSingleUpper = GraphicDatabase.Get<Graphic_Single>("Things/Building/Linked/DuctPipeUpper");
+        public static Graphic graphicSingleLower = GraphicDatabase.Get<Graphic_Single>("Things/Building/Linked/DuctPipeLower");
     }
 }
