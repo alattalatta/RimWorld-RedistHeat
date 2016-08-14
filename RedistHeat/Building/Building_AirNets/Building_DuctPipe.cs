@@ -38,9 +38,7 @@ namespace RedistHeat
                 return;
             }
 
-            #if DEBUG
-                  Log.Message("Printing graphicData: "+def.graphicData.texPath);
-#endif
+           
             //Things/Building/Linked/DuctPipeLower
             //var graphicSingle = GraphicDatabase.Get< Graphic_Single >( def.graphicData.texPath );
             //graphicLinked = new Graphic_LinkedAirPipe( graphicSingle );

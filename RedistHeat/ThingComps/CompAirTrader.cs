@@ -5,7 +5,7 @@ namespace RedistHeat
 {
     public class CompAirTrader : CompAir
     {
-        public int netTemp;
+        public float netTemp;
 
         public CompAirTraderProperties Props
         {
@@ -18,49 +18,55 @@ namespace RedistHeat
         public override void PostSpawnSetup()
         {
             base.PostSpawnSetup();
-            if (netTemp == 0)
+            if (netTemp == 0f)
             {
-                netTemp = (int) GenTemperature.OutdoorTemp;
+                netTemp = GenTemperature.OutdoorTemp;
             }
         }
 
-        public void EqualizeWithRoom( Room room, float pointTemp, float rate )
+        public void EqualizeWithRoom( Room room, float targetTemp, float rate )
         {
-            //Will do full push when EPS is 1
-            var tempDiff = Mathf.Abs( room.Temperature - pointTemp );
-            var tempRated = tempDiff*rate*(1 - Props.energyPerSecond);
+            //Will do full push when transferRate is 1
+            var tempDiff = Mathf.Abs( room.Temperature - targetTemp);
+            var tempRated = tempDiff*rate*(1 - Props.transferRate);
 
-            if (pointTemp < room.Temperature)
+#if DEBUG
+            Log.Message("RedistHeat: Device: " + this + ", targetTemp: " + targetTemp + ", room: " + room.Temperature + ", rated: " + tempRated);
+#endif
+
+            if (targetTemp < room.Temperature)
             {
-                room.Temperature = Mathf.Max( pointTemp, room.Temperature - tempRated );
+                room.Temperature = Mathf.Max(targetTemp, room.Temperature - tempRated );
             }
-            else if (pointTemp > room.Temperature)
+            else if (targetTemp > room.Temperature)
             {
-                room.Temperature = Mathf.Min( pointTemp, room.Temperature + tempRated );
+                room.Temperature = Mathf.Min(targetTemp, room.Temperature + tempRated );
             }
         }
 
         public void EqualizeWithNet( float targetTemp, float rate )
         {
             var tempDiff = Mathf.Abs( netTemp - targetTemp );
-            var tempRated = tempDiff*rate*Props.energyPerSecond;
+            var tempRated = tempDiff*rate*Props.transferRate;
 
             if (targetTemp < connectedNet.NetTemperature)
             {
-                connectedNet.NetTemperature = Mathf.Max( targetTemp, netTemp - tempRated );
+                connectedNet.NetTemperature = Mathf.Max(targetTemp, netTemp - tempRated);
             }
             else if (targetTemp > connectedNet.NetTemperature)
             {
-                connectedNet.NetTemperature = Mathf.Min( targetTemp, netTemp + tempRated );
+//#if DEBUG
+//                Log.Message("RedistHeat: PreCooling ----- targetTemp: " + targetTemp + ", net: " + netTemp + ", rated: " + tempRated + ", net+rated: " + (netTemp + tempRated));
+//#endif
+                connectedNet.NetTemperature = Mathf.Min(targetTemp, netTemp + tempRated);
             }
-
-            netTemp = (int) connectedNet.NetTemperature;
+            netTemp = connectedNet.NetTemperature;            
         }
 
         public void SetNetTemperatureDirect( float temp )
         {
             connectedNet.NetTemperature += temp;
-            netTemp = (int) connectedNet.NetTemperature;
+            netTemp = connectedNet.NetTemperature;
         }
 
         public override void PostExposeData()

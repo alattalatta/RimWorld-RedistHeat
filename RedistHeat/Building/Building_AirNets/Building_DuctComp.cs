@@ -110,8 +110,8 @@ namespace RedistHeat
             else
             {
                 pointTemp = (room.Temperature*room.CellCount +
-                             compAir.connectedNet.NetTemperature*compAir.connectedNet.nodes.Count)
-                            /(room.CellCount + compAir.connectedNet.nodes.Count);
+                             compAir.connectedNet.NetTemperature*compAir.connectedNet.nodes.Count*5)
+                            /(room.CellCount + compAir.connectedNet.nodes.Count*5);
             }
 
             if (compTempControl != null)
@@ -126,7 +126,9 @@ namespace RedistHeat
                     pointTemp = Mathf.Min( pointTemp, compTempControl.targetTemperature ) + 1;
                 }
             }
-
+#if DEBUG
+            Log.Message("RedistHeat: DuctComp ----- Device: " + this + ", pointTemp: " + pointTemp);
+#endif
             compAir.EqualizeWithNet( pointTemp, EqualizationRate );
             if (!room.UsesOutdoorTemperature)
             {
@@ -157,7 +159,7 @@ namespace RedistHeat
                 hotKey = KeyBindingDefOf.CommandItemForbid,
                 icon = ResourceBank.UILock,
                 groupKey = 912515,
-                isActive = () => isLocked,
+                isActive = () => !isLocked,
                 toggleAction = () => isLocked = !isLocked
             };
             yield return l;
