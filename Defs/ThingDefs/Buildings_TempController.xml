@@ -241,7 +241,7 @@
         <drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
         <tickerType>Normal</tickerType>
     </ThingDef>
-
+<!--Medium Heater Glower-->
 	<ThingDef ParentName="BuildingBase">
         <defName>RedistHeat_HeaterGlower</defName>
         <thingClass>RedistHeat.Building_HeaterGlower</thingClass>
@@ -260,7 +260,7 @@
         </statBases>
         <comps>
             <li Class="CompProperties_Glower">
-                <compClass>CompGlower</compClass>
+                <compClass>RedistHeat.CompMyGlower</compClass>
                 <glowRadius>3</glowRadius>
                 <glowColor>(255,150,100,0)</glowColor>
             </li>

@@ -10,7 +10,7 @@ namespace RedistHeat
 
         private IntVec3 vecNorth;
         private Room roomNorth;
-        private CompGlower compGlower;
+        private CompMyGlower compGlower;
         private bool isWorking;
         private bool wasLit;
 
@@ -46,7 +46,7 @@ namespace RedistHeat
 
             glower = GenSpawn.Spawn( ThingDef.Named( "RedistHeat_HeaterGlower" ), vecNorth );
             ((Building_HeaterGlower) glower).Reinit( this );
-            compGlower = glower.TryGetComp< CompGlower >();
+            compGlower = glower.TryGetComp< CompMyGlower >();
             //compGlower.Lit = false;
         }
 
@@ -60,12 +60,12 @@ namespace RedistHeat
         {
             if (compPowerTrader.PowerOn && !wasLit)
             {
-                compGlower.UpdateLit();
+                compGlower.UpdateLit(true);
                 wasLit = true;
             }
             else if (!compPowerTrader.PowerOn && wasLit)
             {
-                compGlower.UpdateLit();
+                compGlower.UpdateLit(false);
                 wasLit = false;
             }
 
