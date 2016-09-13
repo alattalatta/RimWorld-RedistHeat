@@ -72,7 +72,7 @@ namespace RedistHeat
             {
                 var oldLayer = currentLayer;
                 currentLayer = currentLayer == NetLayer.Lower ? NetLayer.Upper : NetLayer.Lower;
-                MoteThrower.ThrowText(parent.Position.ToVector3Shifted(),
+                MoteMaker.ThrowText(parent.Position.ToVector3Shifted(),
                                         ResourceBank.CycleLayerMote.Translate(currentLayer.ToStringTranslated()) 
                                         );
                 AirNetManager.NotifyCompLayerChange(this, oldLayer);

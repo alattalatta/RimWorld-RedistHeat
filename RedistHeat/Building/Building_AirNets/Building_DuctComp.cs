@@ -126,9 +126,9 @@ namespace RedistHeat
                     pointTemp = Mathf.Min( pointTemp, compTempControl.targetTemperature ) + 1;
                 }
             }
-#if DEBUG
-            Log.Message("RedistHeat: DuctComp ----- Device: " + this + ", pointTemp: " + pointTemp);
-#endif
+//#if DEBUG
+//            Log.Message("RedistHeat: DuctComp ----- Device: " + this + ", pointTemp: " + pointTemp);
+//#endif
             compAir.EqualizeWithNet( pointTemp, EqualizationRate );
             if (!room.UsesOutdoorTemperature)
             {

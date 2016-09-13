@@ -14,5 +14,6 @@
     <RedistHeat_DesignatorDeconstructReverseDesc>Deconstruct this and reclaim part of its resources. This designate pipes and conduits first.</RedistHeat_DesignatorDeconstructReverseDesc>
 
     <RedistHeat_WallAlreadyOccupied>Wall already occupied.</RedistHeat_WallAlreadyOccupied>
+	<RedistHeat_NeedsWall>Can only be placed on a wall</RedistHeat_NeedsWall>
 
 </LanguageData>

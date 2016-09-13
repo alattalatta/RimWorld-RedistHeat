@@ -30,9 +30,9 @@ namespace RedistHeat
             var tempDiff = Mathf.Abs( room.Temperature - targetTemp);
             var tempRated = tempDiff*rate*(1 - Props.transferRate);
 
-#if DEBUG
-            Log.Message("RedistHeat: Device: " + this + ", targetTemp: " + targetTemp + ", room: " + room.Temperature + ", rated: " + tempRated);
-#endif
+//#if DEBUG
+//            Log.Message("RedistHeat: Device: " + this + ", targetTemp: " + targetTemp + ", room: " + room.Temperature + ", rated: " + tempRated);
+//#endif
 
             if (targetTemp < room.Temperature)
             {

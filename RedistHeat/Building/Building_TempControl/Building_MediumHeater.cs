@@ -58,6 +58,7 @@ namespace RedistHeat
 
         public override void Tick()
         {
+            base.Tick();
             if (compPowerTrader.PowerOn && !wasLit)
             {
                 compGlower.UpdateLit(true);

@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration( "" )]
 [assembly: AssemblyCompany( "" )]
 [assembly: AssemblyProduct("RedistHeat")]
-[assembly: AssemblyCopyright("Copyright © 2016 Latta")]
+[assembly: AssemblyCopyright("Copyright © 2016 Morgloz")]
 [assembly: AssemblyTrademark( "" )]
 [assembly: AssemblyCulture( "" )]
 
@@ -36,5 +36,5 @@ using System.Runtime.InteropServices;
 // 지정되도록 할 수 있습니다.
 // [assembly: AssemblyVersion("1.0.*")]
 
-[assembly: AssemblyVersion("43.6.0.0")]
-[assembly: AssemblyFileVersion( "43.6.0.0" )]
+[assembly: AssemblyVersion("44.0.0.0")]
+[assembly: AssemblyFileVersion( "44.0.0.0" )]

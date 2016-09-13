@@ -65,7 +65,7 @@ namespace RedistHeat
                 sprayTicksLeft--;
                 if (Rand.Value < 0.8f)
                 {
-                    MoteThrower.ThrowAirPuffUp( this.TrueCenter() );
+                    MoteMaker.ThrowAirPuffUp( this.TrueCenter() );
                 }
                 if (sprayTicksLeft <= 0)
                 {

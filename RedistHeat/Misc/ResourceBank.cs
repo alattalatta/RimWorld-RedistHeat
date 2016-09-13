@@ -16,6 +16,7 @@ namespace RedistHeat
         public static string CurrentConnectedNetTemp = "RedistHeat_CurrentConnectedNetTemp".Translate();
         public static string LowerNetTemperature = "RedistHeat_LowerNetTemperature".Translate();
         public static string UpperNetTemperature = "RedistHeat_UpperNetTemperature".Translate();
+        public static string NeedsWall = "RedistHeat_NeedsWall".Translate();
         public static string WallAlreadyOccupied = "RedistHeat_WallAlreadyOccupied".Translate();
         public static string CycleLayerLabel = "RedistHeat_CycleLayerLabel".Translate();
         public static string CycleLayerDesc = "RedistHeat_CycleLayerDesc".Translate();
