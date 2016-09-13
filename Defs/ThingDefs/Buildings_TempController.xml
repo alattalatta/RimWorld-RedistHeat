@@ -74,6 +74,9 @@
         </comps>
         <designationCategory>Temperature</designationCategory>
         <designationHotKey>Misc2</designationHotKey>
+		<researchPrerequisites>
+			<li>Electricity</li>
+		</researchPrerequisites>
     </ThingDef>
 
     <ThingDef ParentName="BuildingBase">
@@ -133,6 +136,9 @@
         </comps>
         <designationCategory>Temperature</designationCategory>
         <designationHotKey>Misc3</designationHotKey>
+		<researchPrerequisites>
+			<li>AirConditioning</li>
+		</researchPrerequisites>
     </ThingDef>
 
     <ThingDef ParentName="BuildingBase">
@@ -157,12 +163,6 @@
             <Flammability>1.0</Flammability>
         </statBases>
         <comps>
-            <li Class="CommunityCoreLibrary.CompProperties_RestrictedPlacement">
-                <compClass>CommunityCoreLibrary.CompRestrictedPlacement</compClass>
-                <thingDefs>
-                    <li>Wall</li>
-                </thingDefs>
-            </li>
             <li Class="CompProperties_Power">
                 <compClass>CompPowerTrader</compClass>
                 <soundPowerOn>PowerOnSmall</soundPowerOn>
@@ -174,11 +174,14 @@
 				<compClass>CompTempControl</compClass>
                 <energyPerSecond>-13</energyPerSecond>
             </li>
+			<li Class="RedistHeat.CompWallObjectProperties">
+				<checkTickInterval>120</checkTickInterval>
+			</li>
 			<li Class="CompProperties_Breakdownable"/>
         </comps>
         <placeWorkers>
             <li>PlaceWorker_Cooler</li>
-            <li>CommunityCoreLibrary.PlaceWorker_OnlyOnThing</li>
+            <li>RedistHeat.PlaceWorker_WallObject</li>
             <li>RedistHeat.PlaceWorker_WallChecker</li>
         </placeWorkers>
         <altitudeLayer>PawnUnused</altitudeLayer>
@@ -186,6 +189,9 @@
         <designationCategory>Temperature</designationCategory>
         <drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
         <tickerType>Rare</tickerType>
+		<researchPrerequisites>
+			<li>AirConditioning</li>
+		</researchPrerequisites>
     </ThingDef>
 
     <ThingDef ParentName="BuildingBase">
@@ -210,12 +216,6 @@
             <Flammability>1.0</Flammability>
         </statBases>
         <comps>
-            <li Class="CommunityCoreLibrary.CompProperties_RestrictedPlacement">
-                <compClass>CommunityCoreLibrary.CompRestrictedPlacement</compClass>
-                <thingDefs>
-                    <li>Wall</li>
-                </thingDefs>
-            </li>
             <li Class="CompProperties_Power">
                 <compClass>CompPowerTrader</compClass>
                 <soundPowerOn>PowerOnSmall</soundPowerOn>
@@ -226,13 +226,15 @@
             <li Class="CompProperties_TempControl">
 				<compClass>CompTempControl</compClass>
                 <energyPerSecond>8.4</energyPerSecond>
-<!--35-->
             </li>
+			<li Class="RedistHeat.CompWallObjectProperties">
+				<checkTickInterval>120</checkTickInterval>
+			</li>
 			<li Class="CompProperties_Breakdownable"/>
         </comps>
         <placeWorkers>
             <li>RedistHeat.PlaceWorker_MediumHeater</li>
-            <li>CommunityCoreLibrary.PlaceWorker_OnlyOnThing</li>
+            <li>RedistHeat.PlaceWorker_WallObject</li>
             <li>RedistHeat.PlaceWorker_WallChecker</li>
         </placeWorkers>
         <altitudeLayer>PawnUnused</altitudeLayer>
@@ -240,6 +242,9 @@
         <designationCategory>Temperature</designationCategory>
         <drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
         <tickerType>Normal</tickerType>
+		<researchPrerequisites>
+			<li>Electricity</li>
+		</researchPrerequisites>
     </ThingDef>
 <!--Medium Heater Glower-->
 	<ThingDef ParentName="BuildingBase">
@@ -331,7 +336,9 @@
         <fillPercent>0.5</fillPercent>
         <designationCategory>Temperature</designationCategory>
         <drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
-        <researchPrerequisites><li>RH_TemperatureControl</li></researchPrerequisites>
+        <researchPrerequisites>
+			<li>RH_TemperatureControlHeating</li>
+		</researchPrerequisites>
         <size>(2,2)</size>
         <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
         <tickerType>Normal</tickerType>
@@ -389,7 +396,9 @@
         <fillPercent>1</fillPercent>
         <holdsRoof>true</holdsRoof>
         <passability>Impassable</passability>
-        <researchPrerequisites><li>RH_TemperatureControl</li></researchPrerequisites>
+        <researchPrerequisites>
+			<li>RH_TemperatureControlCooling</li>
+		</researchPrerequisites>
         <size>(2,2)</size>
         <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
         <tickerType>Normal</tickerType>
@@ -440,7 +449,9 @@
         <castEdgeShadows>true</castEdgeShadows>
         <designationCategory>Temperature</designationCategory>
         <drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
-        <researchPrerequisites><li>RH_TemperatureControl</li></researchPrerequisites>
+        <researchPrerequisites>
+			<li>RH_TemperatureControlCooling</li>
+		</researchPrerequisites>
         <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
         <tickerType>Normal</tickerType>
     </ThingDef>
