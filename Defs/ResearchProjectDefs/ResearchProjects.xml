@@ -2,13 +2,24 @@
 <ResearchProjectDefs>
 
 	<ResearchProjectDef>
-	    <defName>RH_TemperatureControl</defName>
-	    <label>temperature control</label>
-	    <description>Allows you to build industrial temperature controller buildings.</description>
+	    <defName>RH_TemperatureControlHeating</defName>
+	    <label>Industrial heating</label>
+	    <description>Allows you to build industrial heaters.</description>
 	    <baseCost>1500</baseCost>
 		<techLevel>Industrial</techLevel>
 		<prerequisites>
 		  <li>Electricity</li>
+		</prerequisites>
+	</ResearchProjectDef>
+	
+	<ResearchProjectDef>
+	    <defName>RH_TemperatureControlCooling</defName>
+	    <label>Industrial cooling</label>
+	    <description>Allows you to build industrial coolers.</description>
+	    <baseCost>1500</baseCost>
+		<techLevel>Industrial</techLevel>
+		<prerequisites>
+			<li>AirConditioning</li>
 		</prerequisites>
 	</ResearchProjectDef>
 

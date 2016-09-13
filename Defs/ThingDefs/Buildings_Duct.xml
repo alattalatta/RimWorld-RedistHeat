@@ -257,6 +257,9 @@
         <passability>PassThroughOnly</passability>
         <pathCost>40</pathCost>
         <rotatable>false</rotatable>
+		<researchPrerequisites>
+			<li>AirConditioning</li>
+		</researchPrerequisites>
     </ThingDef>
 
 </Buildings>
