@@ -24,7 +24,7 @@
         <statBases>
             <Flammability>1.0</Flammability>
             <MaxHitPoints>80</MaxHitPoints>
-            <WorkToMake>50</WorkToMake>
+            <WorkToBuild>50</WorkToBuild>
         </statBases>
         <costList>
             <Steel>4</Steel>
@@ -115,7 +115,7 @@
             <texPath>Things/Building/AirNet/DuctOutlet</texPath>
         </graphicData>
         <statBases>
-            <WorkToMake>400</WorkToMake>
+            <WorkToBuild>400</WorkToBuild>
         </statBases>
         <costList>
             <Steel>30</Steel>
@@ -151,7 +151,7 @@
             <graphicClass>Graphic_Multi</graphicClass>
         </graphicData>
         <statBases>
-            <WorkToMake>600</WorkToMake>
+            <WorkToBuild>600</WorkToBuild>
         </statBases>
         <costList>
             <Steel>65</Steel>
@@ -189,7 +189,7 @@
             <texPath>Things/Building/AirNet/DuctIntake</texPath>
         </graphicData>
         <statBases>
-            <WorkToMake>400</WorkToMake>
+            <WorkToBuild>400</WorkToBuild>
         </statBases>
         <costList>
             <Steel>45</Steel>
@@ -224,7 +224,7 @@
         <statBases>
             <MaxHitPoints>150</MaxHitPoints>
             <Flammability>1.0</Flammability>
-            <WorkToMake>2000</WorkToMake>
+            <WorkToBuild>2000</WorkToBuild>
         </statBases>
         <costList>
             <Steel>110</Steel>

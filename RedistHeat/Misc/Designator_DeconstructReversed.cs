@@ -53,7 +53,7 @@ namespace RedistHeat
                 t.SetFaction( Faction.OfPlayer );
             }
             var innerIfMinified = t.GetInnerIfMinified();
-            if (DebugSettings.godMode || Mathf.Approximately( innerIfMinified.GetStatValue( StatDefOf.WorkToMake ), 0 ) ||
+            if (DebugSettings.godMode || Mathf.Approximately( innerIfMinified.GetStatValue( StatDefOf.WorkToBuild ), 0 ) ||
                 t.def.IsFrame)
             {
                 t.Destroy( DestroyMode.Deconstruct );
