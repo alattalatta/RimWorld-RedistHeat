@@ -39,12 +39,12 @@ namespace RedistHeat
             }
         }
 
-        public override void SpawnSetup()
+        public override void SpawnSetup(Map map)
         {
-            base.SpawnSetup();
+            base.SpawnSetup(map);
             vecNorth = Position + IntVec3.North.RotatedBy( Rotation );
 
-            glower = GenSpawn.Spawn( ThingDef.Named( "RedistHeat_HeaterGlower" ), vecNorth );
+            glower = GenSpawn.Spawn( ThingDef.Named( "RedistHeat_HeaterGlower" ), vecNorth, map );
             ((Building_HeaterGlower) glower).Reinit( this );
             compGlower = glower.TryGetComp< CompMyGlower >();
             //compGlower.Lit = false;
@@ -85,12 +85,12 @@ namespace RedistHeat
 
         protected virtual bool Validate()
         {
-            if (vecNorth.Impassable())
+            if (vecNorth.Impassable(Map))
             {
                 return false;
             }
 
-            roomNorth = vecNorth.GetRoom();
+            roomNorth = vecNorth.GetRoom(Map);
             if (roomNorth == null)
             {
                 return false;
@@ -114,7 +114,7 @@ namespace RedistHeat
                     : Mathf.InverseLerp( 120f, 20f, temperature );
             }
             var energyLimit = compTempControl.Props.energyPerSecond*energyMod*4.16666651f;
-            var hotAir = GenTemperature.ControlTemperatureTempChange( vecNorth, energyLimit,
+            var hotAir = GenTemperature.ControlTemperatureTempChange( vecNorth, Map, energyLimit,
                                                                       compTempControl.targetTemperature );
 
             var hotIsHot = !Mathf.Approximately( hotAir, 0f );

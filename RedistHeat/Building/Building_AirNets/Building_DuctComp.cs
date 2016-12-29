@@ -44,9 +44,9 @@ namespace RedistHeat
 
         public override string LabelNoCount => base.LabelNoCount + " (" + compAir.currentLayer.ToString().ToLower() + ")";
 
-        public override void SpawnSetup()
+        public override void SpawnSetup(Map map)
         {
-            base.SpawnSetup();
+            base.SpawnSetup(map);
             compAir = GetComp< CompAirTrader >();
 
             Common.WipeExistingPipe( Position );
@@ -86,12 +86,12 @@ namespace RedistHeat
                 return false;
             }
 
-            if (RoomVec.Impassable())
+            if (RoomVec.Impassable(Map))
             {
                 return false;
             }
 
-            room = RoomVec.GetRoom();
+            room = RoomVec.GetRoom(Map);
             if (room == null)
             {
                 return false;
@@ -141,7 +141,7 @@ namespace RedistHeat
             base.Draw();
             if (isLocked)
             {
-                OverlayDrawer.DrawOverlay( this, OverlayTypes.ForbiddenBig );
+                base.Map.overlayDrawer.DrawOverlay( this, OverlayTypes.ForbiddenBig );
             }
         }
 

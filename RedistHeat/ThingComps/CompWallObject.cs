@@ -48,7 +48,7 @@ namespace RedistHeat
 //            Log.Message("Checking...");
 //#endif
             IntVec3 c = parent.Position;
-            Building wall = c.GetEdifice();
+            Building wall = c.GetEdifice(parent.Map);
             if ((wall == null) || ((wall.def.graphicData.linkFlags & LinkFlags.Wall) == 0))
             {
                 DestroyParent();

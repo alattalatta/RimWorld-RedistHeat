@@ -37,9 +37,9 @@ namespace RedistHeat
             }
         }
 
-        public override void SpawnSetup()
+        public override void SpawnSetup(Map map)
         {
-            base.SpawnSetup();
+            base.SpawnSetup(map);
             vecSouth = Position + IntVec3.South.RotatedBy( Rotation );
             vecSouthEast = vecSouth + IntVec3.East.RotatedBy( Rotation );
         }
@@ -62,12 +62,12 @@ namespace RedistHeat
 
         private bool Validate()
         {
-            if (vecSouth.Impassable() || vecSouthEast.Impassable())
+            if (vecSouth.Impassable(Map) || vecSouthEast.Impassable(Map))
             {
                 return false;
             }
 
-            roomSouth = vecSouth.GetRoom();
+            roomSouth = vecSouth.GetRoom(Map);
             if (roomSouth == null)
             {
                 return false;
@@ -86,7 +86,7 @@ namespace RedistHeat
         private void ControlTemperature()
         {
             //Average of exhaust ports' room temperature
-            var tempHotAvg = activeExhausts.Sum( s => s.VecNorth.GetTemperature() )/activeExhausts.Count;
+            var tempHotAvg = activeExhausts.Sum( s => s.VecNorth.GetTemperature(Map) )/activeExhausts.Count;
 
             //Cooler's temperature
             var tempCold = roomSouth.Temperature;
@@ -104,7 +104,7 @@ namespace RedistHeat
             }
 
             var energyLimit = (float) (Energy*activeExhausts.Count*num2*4.16666650772095);
-            var coldAir = GenTemperature.ControlTemperatureTempChange( vecSouth, energyLimit,
+            var coldAir = GenTemperature.ControlTemperatureTempChange( vecSouth, Map, energyLimit,
                                                                        compTempControl.targetTemperature );
             isWorking = !Mathf.Approximately( coldAir, 0.0f );
             if (!isWorking)
@@ -129,7 +129,7 @@ namespace RedistHeat
         private List< Building_ExhaustPort > GetActiveExhausts()
         {
             var origin = GenAdj.CellsAdjacentCardinal( this )
-                               .Select( s => Find.ThingGrid.ThingAt< Building_ExhaustPort >( s ) )
+                               .Select( s => Find.VisibleMap.thingGrid.ThingAt< Building_ExhaustPort >( s ) )
                                .Where( thingAt => thingAt != null )
                                .ToList();
 

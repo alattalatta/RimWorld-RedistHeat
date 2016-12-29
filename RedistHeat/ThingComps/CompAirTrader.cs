@@ -20,7 +20,7 @@ namespace RedistHeat
             base.PostSpawnSetup();
             if (netTemp == 0f)
             {
-                netTemp = GenTemperature.OutdoorTemp;
+                netTemp = base.parent.Map.mapTemperature.OutdoorTemp;
             }
         }
 

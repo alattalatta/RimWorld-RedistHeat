@@ -25,9 +25,9 @@ namespace RedistHeat
             }
         }
 
-        public override void SpawnSetup()
+        public override void SpawnSetup(Map map)
         {
-            base.SpawnSetup();
+            base.SpawnSetup(map);
             GetGraphic();
         }
 

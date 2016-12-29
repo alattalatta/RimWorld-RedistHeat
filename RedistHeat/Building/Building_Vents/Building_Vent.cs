@@ -45,9 +45,9 @@ namespace RedistHeat
             Scribe_Values.LookValue( ref isLocked, "isLocked", false );
         }
 
-        public override void SpawnSetup()
+        public override void SpawnSetup(Map map)
         {
-            base.SpawnSetup();
+            base.SpawnSetup(map);
             vecNorth = Position + IntVec3.North.RotatedBy( Rotation );
             vecSouth = Position + IntVec3.South.RotatedBy( Rotation );
         }
@@ -123,13 +123,13 @@ namespace RedistHeat
 
         protected virtual bool Validate()
         {
-            if (vecNorth.Impassable() || vecSouth.Impassable())
+            if (vecNorth.Impassable(Map) || vecSouth.Impassable(Map))
             {
                 return false;
             }
 
-            roomNorth = (Position + IntVec3.North.RotatedBy( Rotation )).GetRoom();
-            roomSouth = (Position + IntVec3.South.RotatedBy( Rotation )).GetRoom();
+            roomNorth = (Position + IntVec3.North.RotatedBy( Rotation )).GetRoom(Map);
+            roomSouth = (Position + IntVec3.South.RotatedBy( Rotation )).GetRoom(Map);
             if (roomNorth == null || roomSouth == null || roomNorth == roomSouth)
             {
                 return false;
@@ -148,7 +148,7 @@ namespace RedistHeat
             base.Draw();
             if (isLocked)
             {
-                OverlayDrawer.DrawOverlay( this, OverlayTypes.ForbiddenBig );
+                base.Map.overlayDrawer.DrawOverlay( this, OverlayTypes.ForbiddenBig );
             }
         }
 

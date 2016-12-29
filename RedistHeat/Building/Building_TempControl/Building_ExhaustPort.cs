@@ -13,9 +13,9 @@ namespace RedistHeat
 
         private Building_IndustrialCooler neighCooler;
 
-        public override void SpawnSetup()
+        public override void SpawnSetup(Map map)
         {
-            base.SpawnSetup();
+            base.SpawnSetup(map);
             VecNorth = Position + IntVec3.North.RotatedBy( Rotation );
             VecSouth = Position + IntVec3.South.RotatedBy( Rotation );
         }
@@ -28,7 +28,7 @@ namespace RedistHeat
             }
 
             neighCooler = AdjacentCooler();
-            if (compPowerTrader.PowerOn && neighCooler != null && !VecNorth.Impassable())
+            if (compPowerTrader.PowerOn && neighCooler != null && !VecNorth.Impassable(Map))
             {
                 isAvailable = true;
                 compPowerTrader.PowerOutput = -compPowerTrader.Props.basePowerConsumption;
@@ -53,16 +53,16 @@ namespace RedistHeat
 
         public void PushHeat( float amount )
         {
-            if (VecNorth.UsesOutdoorTemperature())
+            if (VecNorth.UsesOutdoorTemperature(Map))
             {
                 return;
             }
-            GenTemperature.PushHeat( VecNorth, amount );
+            GenTemperature.PushHeat( VecNorth, Map, amount );
         }
 
         private Building_IndustrialCooler AdjacentCooler()
         {
-            var cooler = Find.ThingGrid.ThingAt< Building_IndustrialCooler >( VecSouth );
+            var cooler = Find.VisibleMap.thingGrid.ThingAt< Building_IndustrialCooler >( VecSouth );
             return cooler;
         }
     }

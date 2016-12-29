@@ -26,7 +26,7 @@ namespace RedistHeat
         public static void WipeExistingPipe( IntVec3 pos )
         {
             var pipe =
-                Find.ThingGrid.ThingsAt( pos ).ToList().Find(
+                Find.VisibleMap.thingGrid.ThingsAt( pos ).ToList().Find(
                     s => s.def.defName == "RedistHeat_DuctPipeLower" || s.def.defName == "RedistHeat_DuctPipeUpper" );
 
             pipe?.Destroy();

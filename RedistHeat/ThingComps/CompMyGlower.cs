@@ -16,13 +16,13 @@ namespace RedistHeat
             this.glowOnInt = shouldBeLitNow;
             if (!this.glowOnInt)
             {
-                Find.MapDrawer.MapMeshDirty(this.parent.Position, MapMeshFlag.Things);
-                Find.GlowGrid.DeRegisterGlower(this);
+                Find.VisibleMap.mapDrawer.MapMeshDirty(this.parent.Position, MapMeshFlag.Things);
+                Find.VisibleMap.glowGrid.DeRegisterGlower(this);
             }
             else
             {
-                Find.MapDrawer.MapMeshDirty(this.parent.Position, MapMeshFlag.Things);
-                Find.GlowGrid.RegisterGlower(this);
+                Find.VisibleMap.mapDrawer.MapMeshDirty(this.parent.Position, MapMeshFlag.Things);
+                Find.VisibleMap.glowGrid.RegisterGlower(this);
             }
         }
 
@@ -36,9 +36,9 @@ namespace RedistHeat
             Scribe_Values.LookValue<bool>(ref this.glowOnInt, "glowOn", false, false);
         }
 
-        public override void PostDeSpawn()
+        public override void PostDeSpawn(Map map)
         {
-            base.PostDeSpawn();
+            base.PostDeSpawn(map);
             this.UpdateLit(false);
         }
     }

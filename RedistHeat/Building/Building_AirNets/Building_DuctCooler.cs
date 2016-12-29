@@ -49,7 +49,7 @@ namespace RedistHeat
                 return;
             }
 
-            GenTemperature.PushHeat( RoomVec, hotAir );
+            GenTemperature.PushHeat( RoomVec, Map, hotAir );
         }
 
         protected override bool Validate()

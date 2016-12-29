@@ -26,10 +26,10 @@ namespace RedistHeat
             var intVec = Position + IntVec3.South.RotatedBy( Rotation );
             var intVec2 = Position + IntVec3.North.RotatedBy( Rotation );
             var flag = false;
-            if (!intVec2.Impassable() && !intVec.Impassable())
+            if (!intVec2.Impassable(Map) && !intVec.Impassable(Map))
             {
-                var temperature = intVec2.GetTemperature();
-                var temperature2 = intVec.GetTemperature();
+                var temperature = intVec2.GetTemperature(Map);
+                var temperature2 = intVec.GetTemperature(Map);
                 var num = temperature - temperature2;
                 if (temperature - 40f > num)
                 {
@@ -41,13 +41,13 @@ namespace RedistHeat
                     num2 = 0f;
                 }
                 var num3 = compTempControl.Props.energyPerSecond*num2*4.16666651f;
-                var num4 = GenTemperature.ControlTemperatureTempChange( intVec, num3,
+                var num4 = GenTemperature.ControlTemperatureTempChange( intVec, Map, num3,
                                                                         compTempControl.targetTemperature );
                 flag = !Mathf.Approximately( num4, 0f );
                 if (flag)
                 {
-                    intVec.GetRoom().Temperature += num4;
-                    GenTemperature.PushHeat( intVec2, -num3*1.25f );
+                    intVec.GetRoom(Map).Temperature += num4;
+                    GenTemperature.PushHeat( intVec2, Map, -num3*1.25f );
                 }
             }
             if (flag)
