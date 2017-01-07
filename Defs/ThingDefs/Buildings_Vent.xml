@@ -44,7 +44,7 @@
             <Steel>40</Steel>
         </costList>
         <statBases>
-            <WorkToMake>200</WorkToMake>
+            <WorkToBuild>200</WorkToBuild>
         </statBases>
         <placeWorkers>
             <li>PlaceWorker_Vent</li>
@@ -67,7 +67,7 @@
             <Steel>50</Steel>
         </costList>
         <statBases>
-            <WorkToMake>400</WorkToMake>
+            <WorkToBuild>400</WorkToBuild>
         </statBases>
         <comps>
             <li Class="CompProperties_Power">

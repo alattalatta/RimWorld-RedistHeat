@@ -37,7 +37,7 @@
         <castEdgeShadows>true</castEdgeShadows>
         <staticSunShadowHeight>1.0</staticSunShadowHeight>
         <statBases>
-            <WorkToMake>1000</WorkToMake>
+            <WorkToBuild>1000</WorkToBuild>
             <MaxHitPoints>100</MaxHitPoints>
             <Flammability>1.0</Flammability>
         </statBases>
@@ -101,7 +101,7 @@
         <castEdgeShadows>true</castEdgeShadows>
         <staticSunShadowHeight>1.0</staticSunShadowHeight>
         <statBases>
-            <WorkToMake>1600</WorkToMake>
+            <WorkToBuild>1600</WorkToBuild>
             <MaxHitPoints>100</MaxHitPoints>
             <Flammability>1.0</Flammability>
         </statBases>
@@ -158,7 +158,7 @@
 			<Component>1</Component>
         </costList>
         <statBases>
-            <WorkToMake>500</WorkToMake>
+            <WorkToBuild>500</WorkToBuild>
             <MaxHitPoints>30</MaxHitPoints>
             <Flammability>1.0</Flammability>
         </statBases>
@@ -211,7 +211,7 @@
             <isEdifice>false</isEdifice>
         </building>
         <statBases>
-            <WorkToMake>1400</WorkToMake>
+            <WorkToBuild>1400</WorkToBuild>
             <MaxHitPoints>30</MaxHitPoints>
             <Flammability>1.0</Flammability>
         </statBases>
@@ -260,7 +260,7 @@
             <isEdifice>false</isEdifice>
         </building>
         <statBases>
-            <WorkToMake>1</WorkToMake>
+            <WorkToBuild>1</WorkToBuild>
             <Flammability>0</Flammability>
         </statBases>
         <comps>
@@ -296,7 +296,7 @@
             <drawSize>(2,2)</drawSize>
         </graphicData>
         <statBases>
-            <WorkToMake>5000</WorkToMake>
+            <WorkToBuild>5000</WorkToBuild>
             <MaxHitPoints>250</MaxHitPoints>
             <Flammability>1.0</Flammability>
             <Beauty>-20</Beauty>
@@ -355,7 +355,7 @@
             <drawSize>(2,2)</drawSize>
         </graphicData>
         <statBases>
-            <WorkToMake>7000</WorkToMake>
+            <WorkToBuild>7000</WorkToBuild>
             <MaxHitPoints>250</MaxHitPoints>
             <Flammability>1.0</Flammability>
             <Beauty>-30</Beauty>
@@ -417,7 +417,7 @@
         <staticSunShadowHeight>1.0</staticSunShadowHeight>
         <fillPercent>1</fillPercent>
         <statBases>
-            <WorkToMake>1000</WorkToMake>
+            <WorkToBuild>1000</WorkToBuild>
             <MaxHitPoints>100</MaxHitPoints>
             <Flammability>1.0</Flammability>
             <Beauty>-10</Beauty>

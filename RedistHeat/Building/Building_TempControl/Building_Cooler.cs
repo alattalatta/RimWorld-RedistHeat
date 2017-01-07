@@ -26,6 +26,7 @@ namespace RedistHeat
             var intVec = Position + IntVec3.South.RotatedBy( Rotation );
             var intVec2 = Position + IntVec3.North.RotatedBy( Rotation );
             var flag = false;
+
             if (!intVec2.Impassable(this.Map) && !intVec.Impassable(this.Map))
             {
                 var temperature = intVec2.GetTemperature(this.Map);

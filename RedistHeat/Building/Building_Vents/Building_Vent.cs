@@ -123,13 +123,13 @@ namespace RedistHeat
 
         protected virtual bool Validate()
         {
-            if (vecNorth.Impassable(base.Map) || vecSouth.Impassable(base.Map))
+            if (vecNorth.Impassable(this.Map) || vecSouth.Impassable(this.Map))
             {
                 return false;
             }
 
-            roomNorth = (Position + IntVec3.North.RotatedBy( Rotation )).GetRoom(base.Map);
-            roomSouth = (Position + IntVec3.South.RotatedBy( Rotation )).GetRoom(base.Map);
+            roomNorth = (Position + IntVec3.North.RotatedBy( Rotation )).GetRoom(this.Map);
+            roomSouth = (Position + IntVec3.South.RotatedBy( Rotation )).GetRoom(this.Map);
             if (roomNorth == null || roomSouth == null || roomNorth == roomSouth)
             {
                 return false;

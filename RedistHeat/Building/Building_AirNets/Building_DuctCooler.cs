@@ -48,7 +48,6 @@ namespace RedistHeat
             {
                 return;
             }
-
             GenTemperature.PushHeat( RoomVec, this.Map, hotAir);
         }
 

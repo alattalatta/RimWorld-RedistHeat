@@ -11,7 +11,7 @@ namespace RedistHeat
         public override AcceptanceReport AllowsPlacing(BuildableDef checkingDef, IntVec3 center, Rot4 rot, Thing thingToIgnore = null)
         {
             IntVec3 c = center;
-            Building wall = c.GetEdifice(base.Map);
+            Building wall = c.GetEdifice(this.Map);
 
             if (wall == null)
             {

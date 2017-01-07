@@ -85,12 +85,12 @@ namespace RedistHeat
 
         protected virtual bool Validate()
         {
-            if (vecNorth.Impassable(base.Map))
+            if (vecNorth.Impassable(this.Map))
             {
                 return false;
             }
 
-            roomNorth = vecNorth.GetRoom(base.Map);
+            roomNorth = vecNorth.GetRoom(this.Map);
             if (roomNorth == null)
             {
                 return false;
@@ -114,7 +114,7 @@ namespace RedistHeat
                     : Mathf.InverseLerp( 120f, 20f, temperature );
             }
             var energyLimit = compTempControl.Props.energyPerSecond*energyMod*4.16666651f;
-            var hotAir = GenTemperature.ControlTemperatureTempChange( vecNorth, base.Map, energyLimit,
+            var hotAir = GenTemperature.ControlTemperatureTempChange( vecNorth, this.Map, energyLimit,
                                                                       compTempControl.targetTemperature );
 
             var hotIsHot = !Mathf.Approximately( hotAir, 0f );
