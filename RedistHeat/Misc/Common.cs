@@ -23,10 +23,10 @@ namespace RedistHeat
             return ("RedistHeat_" + layer + "ChannelTranslated").Translate();
         }
 
-        public static void WipeExistingPipe( IntVec3 pos, Map map )
+        public static void WipeExistingPipe( IntVec3 pos)
         {
             var pipe =
-                map.thingGrid.ThingsAt( pos ).ToList().Find(
+                Find.VisibleMap.thingGrid.ThingsAt( pos ).ToList().Find(
                     s => s.def.defName == "RedistHeat_DuctPipeLower" || s.def.defName == "RedistHeat_DuctPipeUpper" );
 
             pipe?.Destroy();

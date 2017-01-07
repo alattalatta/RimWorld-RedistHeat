@@ -49,7 +49,7 @@ namespace RedistHeat
             base.SpawnSetup(map);
             compAir = GetComp< CompAirTrader >();
 
-            Common.WipeExistingPipe( Position, this.Map);
+            Common.WipeExistingPipe( Position );
         }
 
         public override void ExposeData()
@@ -92,6 +92,7 @@ namespace RedistHeat
             }
 
             room = RoomVec.GetRoom(this.Map);
+
             if (room == null)
             {
                 return false;

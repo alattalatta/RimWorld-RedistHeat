@@ -6,7 +6,7 @@ namespace RedistHeat
     {
         private bool glowOnInt;
         
-        public void UpdateLit(bool lit, Map map)
+        public void UpdateLit(bool lit)
         {
             bool shouldBeLitNow = lit;
             if (this.glowOnInt == shouldBeLitNow)
@@ -16,19 +16,19 @@ namespace RedistHeat
             this.glowOnInt = shouldBeLitNow;
             if (!this.glowOnInt)
             {
-                map.mapDrawer.MapMeshDirty(this.parent.Position, MapMeshFlag.Things);
-                map.glowGrid.DeRegisterGlower(this);
+                Find.VisibleMap.mapDrawer.MapMeshDirty(this.parent.Position, MapMeshFlag.Things);
+                Find.VisibleMap.glowGrid.DeRegisterGlower(this);
             }
             else
             {
-                map.mapDrawer.MapMeshDirty(this.parent.Position, MapMeshFlag.Things);
-                map.glowGrid.RegisterGlower(this);
+                Find.VisibleMap.mapDrawer.MapMeshDirty(this.parent.Position, MapMeshFlag.Things);
+                Find.VisibleMap.glowGrid.RegisterGlower(this);
             }
         }
 
         public override void PostSpawnSetup()
         {
-            this.UpdateLit(false, this.parent.Map);
+            this.UpdateLit(false);
         }
 
         public override void PostExposeData()
@@ -39,7 +39,7 @@ namespace RedistHeat
         public override void PostDeSpawn(Map map)
         {
             base.PostDeSpawn(map);
-            this.UpdateLit(false,map);
+            this.UpdateLit(false);
         }
     }
 }

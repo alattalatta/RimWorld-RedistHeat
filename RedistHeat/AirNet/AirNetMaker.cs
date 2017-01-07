@@ -69,9 +69,9 @@ namespace RedistHeat
                    select b.TryGetComp< CompAir >();
         }
 
-        public static AirNet NewAirNetStartingFrom( Building root, NetLayer layer )
+        public static AirNet NewAirNetStartingFrom( Building root, Map map, NetLayer layer )
         {
-            return new AirNet( ContiguousAirBuildings( root, layer, root.Map), layer, root.TryGetComp< CompAir >() );
+            return new AirNet( ContiguousAirBuildings( root, map, layer ), layer, root.TryGetComp< CompAir >(), map );
         }
     }
 }

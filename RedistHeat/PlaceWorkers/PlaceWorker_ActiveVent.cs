@@ -11,7 +11,7 @@ namespace RedistHeat
         {
             var vecNorth = center + IntVec3.North.RotatedBy( rot );
             var vecSouth = center + IntVec3.South.RotatedBy( rot );
-            if (!vecNorth.InBounds(base.Map) || !vecSouth.InBounds(base.Map))
+            if (!vecNorth.InBounds(this.Map) || !vecSouth.InBounds(this.Map))
             {
                 return;
             }
@@ -25,8 +25,8 @@ namespace RedistHeat
                 vecSouth
             }, Color.white );
 
-            var controlledRoom = vecNorth.GetRoom(base.Map);
-            var otherRoom = vecSouth.GetRoom(base.Map);
+            var controlledRoom = vecNorth.GetRoom(this.Map);
+            var otherRoom = vecSouth.GetRoom(this.Map);
 
             if (controlledRoom == null || otherRoom == null)
             {
@@ -43,11 +43,11 @@ namespace RedistHeat
         {
             var vecNorth = center + IntVec3.North.RotatedBy( rot );
             var vecSouth = center + IntVec3.South.RotatedBy( rot );
-            if (!vecNorth.InBounds(base.Map) || !vecSouth.InBounds(base.Map))
+            if (!vecNorth.InBounds(this.Map) || !vecSouth.InBounds(this.Map))
             {
                 return false;
             }
-            if (vecNorth.Impassable(base.Map) || vecSouth.Impassable(base.Map))
+            if (vecNorth.Impassable(this.Map) || vecSouth.Impassable(this.Map))
             {
                 return ResourceBank.ExposeBoth;
             }

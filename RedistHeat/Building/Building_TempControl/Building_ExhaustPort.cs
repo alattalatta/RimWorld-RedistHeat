@@ -62,7 +62,7 @@ namespace RedistHeat
 
         private Building_IndustrialCooler AdjacentCooler()
         {
-            var cooler = this.Map.thingGrid.ThingAt< Building_IndustrialCooler >( VecSouth );
+            var cooler = Find.VisibleMap.thingGrid.ThingAt< Building_IndustrialCooler >( VecSouth );
             return cooler;
         }
     }

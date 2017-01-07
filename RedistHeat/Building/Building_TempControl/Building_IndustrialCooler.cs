@@ -62,12 +62,12 @@ namespace RedistHeat
 
         private bool Validate()
         {
-            if (vecSouth.Impassable(base.Map) || vecSouthEast.Impassable(base.Map))
+            if (vecSouth.Impassable(this.Map) || vecSouthEast.Impassable(this.Map))
             {
                 return false;
             }
 
-            roomSouth = vecSouth.GetRoom(base.Map);
+            roomSouth = vecSouth.GetRoom(this.Map);
             if (roomSouth == null)
             {
                 return false;
@@ -86,7 +86,7 @@ namespace RedistHeat
         private void ControlTemperature()
         {
             //Average of exhaust ports' room temperature
-            var tempHotAvg = activeExhausts.Sum( s => s.VecNorth.GetTemperature(base.Map) )/activeExhausts.Count;
+            var tempHotAvg = activeExhausts.Sum( s => s.VecNorth.GetTemperature(this.Map) )/activeExhausts.Count;
 
             //Cooler's temperature
             var tempCold = roomSouth.Temperature;
@@ -104,7 +104,7 @@ namespace RedistHeat
             }
 
             var energyLimit = (float) (Energy*activeExhausts.Count*num2*4.16666650772095);
-            var coldAir = GenTemperature.ControlTemperatureTempChange( vecSouth, base.Map, energyLimit,
+            var coldAir = GenTemperature.ControlTemperatureTempChange( vecSouth, this.Map, energyLimit,
                                                                        compTempControl.targetTemperature );
             isWorking = !Mathf.Approximately( coldAir, 0.0f );
             if (!isWorking)
@@ -129,7 +129,7 @@ namespace RedistHeat
         private List< Building_ExhaustPort > GetActiveExhausts()
         {
             var origin = GenAdj.CellsAdjacentCardinal( this )
-                               .Select( s => this.Map.thingGrid.ThingAt< Building_ExhaustPort >( s ) )
+                               .Select( s => Find.VisibleMap.thingGrid.ThingAt< Building_ExhaustPort >( s ) )
                                .Where( thingAt => thingAt != null )
                                .ToList();
 

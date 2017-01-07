@@ -10,13 +10,13 @@ namespace RedistHeat
         public override void DrawGhost( ThingDef def, IntVec3 center, Rot4 rot )
         {
             var vecNorth = center + IntVec3.North.RotatedBy( rot );
-            if (!vecNorth.InBounds(base.Map))
+            if (!vecNorth.InBounds(this.Map))
             {
                 return;
             }
 
             GenDraw.DrawFieldEdges( new List< IntVec3 >() {vecNorth}, Color.white );
-            var room = vecNorth.GetRoom(base.Map);
+            var room = vecNorth.GetRoom(this.Map);
             if (room == null || room.UsesOutdoorTemperature)
             {
                 return;
@@ -28,16 +28,16 @@ namespace RedistHeat
         {
             var vecNorth = center + IntVec3.North.RotatedBy( rot );
             var vecSouth = center + IntVec3.South.RotatedBy( rot );
-            if (!vecSouth.InBounds(base.Map) || !vecNorth.InBounds(base.Map))
+            if (!vecSouth.InBounds(this.Map) || !vecNorth.InBounds(this.Map))
             {
                 return false;
             }
-            if (vecNorth.Impassable(base.Map))
+            if (vecNorth.Impassable(this.Map))
             {
                 return ResourceBank.ExposeHot;
             }
 
-            var edifice = vecSouth.GetEdifice(base.Map);
+            var edifice = vecSouth.GetEdifice(this.Map);
             if (edifice == null || edifice.def != ThingDef.Named( "RedistHeat_IndustrialCooler" ))
             {
                 return ResourceBank.AttachToCooler;

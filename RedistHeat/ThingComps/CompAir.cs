@@ -26,7 +26,7 @@ namespace RedistHeat
 
         public override void PostDestroy( DestroyMode mode, Map previousMap)
         {
-            base.PostDestroy(DestroyMode.Vanish, previousMap);
+            base.PostDestroy(mode, previousMap);
             AirNetManager.NotifyCompDespawn( this );
         }
 
@@ -95,7 +95,7 @@ namespace RedistHeat
             {
                 var oldLayer = currentLayer;
                 currentLayer = currentLayer == NetLayer.Lower ? NetLayer.Upper : NetLayer.Lower;
-                MoteMaker.ThrowText(parent.Position.ToVector3Shifted(), base.Map,
+                MoteMaker.ThrowText(parent.Position.ToVector3Shifted(), parent.Map,
                                         ResourceBank.CycleLayerMote.Translate(currentLayer.ToStringTranslated()) 
                                         );
                 AirNetManager.NotifyCompLayerChange(this, oldLayer);

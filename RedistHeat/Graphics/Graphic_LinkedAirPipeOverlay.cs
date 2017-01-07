@@ -18,9 +18,8 @@ namespace RedistHeat
                 return false;
             }
 
-            var lowerFlag = AirNetGrid.NetAt( c, NetLayer.Lower ) != null && compAir.IsLayerOf( NetLayer.Lower );
-            var upperFlag = AirNetGrid.NetAt( c, NetLayer.Upper ) != null && compAir.IsLayerOf( NetLayer.Upper );
-
+            var lowerFlag = AirNetGrid.NetAt( c, parent.Map, NetLayer.Lower ) != null && compAir.IsLayerOf( NetLayer.Lower );
+            var upperFlag = AirNetGrid.NetAt( c, parent.Map, NetLayer.Upper ) != null && compAir.IsLayerOf( NetLayer.Upper );
             return c.InBounds(parent.Map) && (lowerFlag || upperFlag);
         }
 

@@ -12,13 +12,13 @@ namespace RedistHeat
             base.DrawGhost( def, center, rot );
 
             var vecNorth = center + IntVec3.North.RotatedBy( rot );
-            if (!vecNorth.InBounds(base.Map))
+            if (!vecNorth.InBounds(this.Map))
             {
                 return;
             }
 
             GenDraw.DrawFieldEdges( new List< IntVec3 > {vecNorth}, new Color( 1f, 0.7f, 0f, 0.5f ) );
-            var room = vecNorth.GetRoom(base.Map);
+            var room = vecNorth.GetRoom(this.Map);
             if (room == null || room.UsesOutdoorTemperature)
             {
                 return;
@@ -29,12 +29,12 @@ namespace RedistHeat
         public override AcceptanceReport AllowsPlacing( BuildableDef def, IntVec3 center, Rot4 rot, Thing thingToIgnore = null)
         {
             var vecNorth = center + IntVec3.North.RotatedBy( rot );
-            if (!vecNorth.InBounds(base.Map))
+            if (!vecNorth.InBounds(this.Map))
             {
                 return false;
             }
 
-            if (vecNorth.Impassable(base.Map))
+            if (vecNorth.Impassable(this.Map))
             {
                 return ResourceBank.ExposeDuct;
             }

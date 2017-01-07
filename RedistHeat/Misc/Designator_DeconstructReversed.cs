@@ -23,11 +23,11 @@ namespace RedistHeat
 
         public override AcceptanceReport CanDesignateCell( IntVec3 c )
         {
-            if (!c.InBounds(base.Map))
+            if (!c.InBounds(this.Map))
             {
                 return false;
             }
-            if (!DebugSettings.godMode && c.Fogged(base.Map))
+            if (!DebugSettings.godMode && c.Fogged(this.Map))
             {
                 return false;
             }
@@ -42,7 +42,7 @@ namespace RedistHeat
         private Thing TopDeconstructibleInCell( IntVec3 loc )
         {
             return
-                (from t in base.Map.thingGrid.ThingsAt( loc ) orderby t.def.altitudeLayer ascending select t).FirstOrDefault
+                (from t in Find.VisibleMap.thingGrid.ThingsAt( loc ) orderby t.def.altitudeLayer ascending select t).FirstOrDefault
                     ( current => CanDesignateThing( current ).Accepted );
         }
 
@@ -53,14 +53,14 @@ namespace RedistHeat
                 t.SetFaction( Faction.OfPlayer );
             }
             var innerIfMinified = t.GetInnerIfMinified();
-            if (DebugSettings.godMode || Mathf.Approximately( innerIfMinified.GetStatValue( StatDefOf.WorkToMake ), 0 ) ||
+            if (DebugSettings.godMode || Mathf.Approximately( innerIfMinified.GetStatValue( StatDefOf.WorkToBuild ), 0 ) ||
                 t.def.IsFrame)
             {
                 t.Destroy( DestroyMode.Deconstruct );
             }
             else
             {
-                base.Map.designationManager.AddDesignation( new Designation( t, DesignationDefOf.Deconstruct ) );
+                Find.VisibleMap.designationManager.AddDesignation( new Designation( t, DesignationDefOf.Deconstruct ) );
             }
         }
 
@@ -89,11 +89,11 @@ namespace RedistHeat
                     }
                 }
             }
-            if (base.Map.designationManager.DesignationOn( t, DesignationDefOf.Deconstruct ) != null)
+            if (Find.VisibleMap.designationManager.DesignationOn( t, DesignationDefOf.Deconstruct ) != null)
             {
                 return false;
             }
-            return base.Map.designationManager.DesignationOn( t, DesignationDefOf.Uninstall ) == null;
+            return Find.VisibleMap.designationManager.DesignationOn( t, DesignationDefOf.Uninstall ) == null;
         }
 
         public override void SelectedUpdate()

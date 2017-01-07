@@ -11,7 +11,7 @@ namespace RedistHeat
         public readonly int debugId;
         private static int debugIdNext;
         private CompAir root;
-
+        
         public readonly List< CompAir > nodes = new List< CompAir >();
 
         private float netTemperature;
@@ -26,7 +26,7 @@ namespace RedistHeat
         public int LayerInt => (int) Layer;
 
 
-        public AirNet( IEnumerable< CompAir > newNodes, NetLayer layer, CompAir root )
+        public AirNet( IEnumerable< CompAir > newNodes, NetLayer layer, CompAir root, Map map )
         {
             Layer = layer;
             var compAirs = newNodes.ToList();
@@ -54,7 +54,7 @@ namespace RedistHeat
 
             if (intake == null || intake.netTemp == 999)
             {
-                //NetTemperature = GenTemperature.OutdoorTemp;
+                NetTemperature =  map.mapTemperature.OutdoorTemp;
             }
             else
             {

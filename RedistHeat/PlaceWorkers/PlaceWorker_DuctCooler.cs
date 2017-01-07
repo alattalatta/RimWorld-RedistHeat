@@ -9,7 +9,7 @@ namespace RedistHeat
         {
             base.DrawGhost( def, center, rot );
 
-            var room = center.GetRoom(base.Map);
+            var room = center.GetRoom(this.Map);
             if (room == null || room.UsesOutdoorTemperature)
             {
                 return;
@@ -19,7 +19,7 @@ namespace RedistHeat
 
         public override AcceptanceReport AllowsPlacing( BuildableDef def, IntVec3 center, Rot4 rot, Thing thingToIgnore = null)
         {
-            return center.InBounds(base.Map);
+            return center.InBounds(this.Map);
         }
     }
 }
