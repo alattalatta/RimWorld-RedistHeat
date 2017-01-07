@@ -71,7 +71,7 @@ namespace RedistHeat
 
         public static AirNet NewAirNetStartingFrom( Building root, Map map, NetLayer layer )
         {
-            return new AirNet( ContiguousAirBuildings( root, map, layer ), layer, root.TryGetComp< CompAir >(), map );
+            return new AirNet( ContiguousAirBuildings( root, layer, map), layer, root.TryGetComp< CompAir >(), map );
         }
     }
 }

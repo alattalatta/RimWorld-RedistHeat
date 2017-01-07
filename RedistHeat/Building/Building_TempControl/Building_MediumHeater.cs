@@ -61,12 +61,12 @@ namespace RedistHeat
             base.Tick();
             if (compPowerTrader.PowerOn && !wasLit)
             {
-                compGlower.UpdateLit(true,this.Map);
+                compGlower.UpdateLit(true);
                 wasLit = true;
             }
             else if (!compPowerTrader.PowerOn && wasLit)
             {
-                compGlower.UpdateLit(false,this.Map);
+                compGlower.UpdateLit(false);
                 wasLit = false;
             }
 
