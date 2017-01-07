@@ -21,7 +21,7 @@ namespace RedistHeat
             base.PostSpawnSetup();
         }
 
-        public override IEnumerable< Command > CompGetGizmosExtra()
+        public override IEnumerable<Gizmo> CompGetGizmosExtra()
         {
             yield break;
         }

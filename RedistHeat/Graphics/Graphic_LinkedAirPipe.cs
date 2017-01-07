@@ -21,7 +21,7 @@ namespace RedistHeat
             var lowerFlag = AirNetGrid.NetAt( c, NetLayer.Lower ) != null && compAir.IsLayerOf( NetLayer.Lower );
             var upperFlag = AirNetGrid.NetAt( c, NetLayer.Upper ) != null && compAir.IsLayerOf( NetLayer.Upper );
 
-            return c.InBounds() && (lowerFlag || upperFlag);
+            return c.InBounds(parent.Map) && (lowerFlag || upperFlag);
         }
 
         public override void Print( SectionLayer layer, Thing parent )
@@ -36,7 +36,7 @@ namespace RedistHeat
             for (var i = 0; i < 4; i++)
             {
                 var neighCell = parent.Position + GenAdj.CardinalDirections[i];
-                if (!neighCell.InBounds())
+                if (!neighCell.InBounds(parent.Map))
                 {
                     continue;
                 }

@@ -24,9 +24,9 @@ namespace RedistHeat
             AirNetManager.NotifyCompSpawn( this );
         }
 
-        public override void PostDestroy( DestroyMode mode, bool wasSpawned)
+        public override void PostDestroy( DestroyMode mode, Map previousMap)
         {
-            base.PostDestroy(DestroyMode.Vanish, wasSpawned);
+            base.PostDestroy(DestroyMode.Vanish, previousMap);
             AirNetManager.NotifyCompDespawn( this );
         }
 
@@ -59,9 +59,32 @@ namespace RedistHeat
             return result.ToString();
         }
 
-        public override IEnumerable< Command > CompGetGizmosExtra()
+        public override IEnumerable<Gizmo> CompGetGizmosExtra()
         {
-            Command_Action act = new Command_Action();
+            foreach (var current in base.CompGetGizmosExtra())
+                yield return current;
+
+            if(this.parent.Faction == Faction.OfPlayer)
+            {
+                yield return new Command_Toggle
+                {
+                    hotKey = KeyBindingDefOf.CommandColonistDraft,
+                    icon = currentLayer == NetLayer.Lower ? ResourceBank.UILower : ResourceBank.UIUpper,
+                    defaultLabel = ResourceBank.CycleLayerLabel,
+                    defaultDesc = ResourceBank.CycleLayerDesc,
+                    activateSound = SoundDef.Named("DesignateMine"),
+                    toggleAction = () =>
+                    {
+                        var oldLayer = currentLayer;
+                        currentLayer = currentLayer == NetLayer.Lower ? NetLayer.Upper : NetLayer.Lower;
+                        MoteMaker.ThrowText(parent.Position.ToVector3Shifted(), this.parent.Map,
+                                       ResourceBank.CycleLayerMote.Translate(currentLayer.ToStringTranslated())
+                                       );
+                        AirNetManager.NotifyCompLayerChange(this, oldLayer);
+                    }
+                };
+            }
+           /* Command_Action act = new Command_Action();
 
             act.defaultLabel = ResourceBank.CycleLayerLabel;
             act.defaultDesc = ResourceBank.CycleLayerDesc;
@@ -72,16 +95,15 @@ namespace RedistHeat
             {
                 var oldLayer = currentLayer;
                 currentLayer = currentLayer == NetLayer.Lower ? NetLayer.Upper : NetLayer.Lower;
-                MoteMaker.ThrowText(parent.Position.ToVector3Shifted(),
+                MoteMaker.ThrowText(parent.Position.ToVector3Shifted(), base.Map,
                                         ResourceBank.CycleLayerMote.Translate(currentLayer.ToStringTranslated()) 
                                         );
                 AirNetManager.NotifyCompLayerChange(this, oldLayer);
             };
 
-            foreach (var current in base.CompGetGizmosExtra())
-                yield return current;
+            
 
-            yield return act;
+            yield return act;*/
         }
     }
 }

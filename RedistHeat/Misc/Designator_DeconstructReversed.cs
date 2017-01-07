@@ -23,11 +23,11 @@ namespace RedistHeat
 
         public override AcceptanceReport CanDesignateCell( IntVec3 c )
         {
-            if (!c.InBounds())
+            if (!c.InBounds(base.Map))
             {
                 return false;
             }
-            if (!DebugSettings.godMode && c.Fogged())
+            if (!DebugSettings.godMode && c.Fogged(base.Map))
             {
                 return false;
             }
@@ -42,7 +42,7 @@ namespace RedistHeat
         private Thing TopDeconstructibleInCell( IntVec3 loc )
         {
             return
-                (from t in Find.ThingGrid.ThingsAt( loc ) orderby t.def.altitudeLayer ascending select t).FirstOrDefault
+                (from t in base.Map.thingGrid.ThingsAt( loc ) orderby t.def.altitudeLayer ascending select t).FirstOrDefault
                     ( current => CanDesignateThing( current ).Accepted );
         }
 
@@ -60,7 +60,7 @@ namespace RedistHeat
             }
             else
             {
-                Find.DesignationManager.AddDesignation( new Designation( t, DesignationDefOf.Deconstruct ) );
+                base.Map.designationManager.AddDesignation( new Designation( t, DesignationDefOf.Deconstruct ) );
             }
         }
 
@@ -89,11 +89,11 @@ namespace RedistHeat
                     }
                 }
             }
-            if (Find.DesignationManager.DesignationOn( t, DesignationDefOf.Deconstruct ) != null)
+            if (base.Map.designationManager.DesignationOn( t, DesignationDefOf.Deconstruct ) != null)
             {
                 return false;
             }
-            return Find.DesignationManager.DesignationOn( t, DesignationDefOf.Uninstall ) == null;
+            return base.Map.designationManager.DesignationOn( t, DesignationDefOf.Uninstall ) == null;
         }
 
         public override void SelectedUpdate()

@@ -54,7 +54,7 @@ namespace RedistHeat
 
             if (intake == null || intake.netTemp == 999)
             {
-                NetTemperature = GenTemperature.OutdoorTemp;
+                //NetTemperature = GenTemperature.OutdoorTemp;
             }
             else
             {

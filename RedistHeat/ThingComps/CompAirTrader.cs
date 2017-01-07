@@ -17,11 +17,11 @@ namespace RedistHeat
 
         public override void PostSpawnSetup()
         {
-            base.PostSpawnSetup();
+            /*base.PostSpawnSetup();
             if (netTemp == 0f)
             {
                 netTemp = GenTemperature.OutdoorTemp;
-            }
+            }*/
         }
 
         public void EqualizeWithRoom( Room room, float targetTemp, float rate )

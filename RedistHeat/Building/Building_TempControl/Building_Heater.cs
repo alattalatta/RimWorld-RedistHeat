@@ -24,7 +24,7 @@ namespace RedistHeat
             }
 
             //None changed
-            var temperature = Position.GetTemperature();
+            var temperature = Position.GetTemperature(this.Map);
             float num;
             if (temperature < 20f)
             {
@@ -39,12 +39,12 @@ namespace RedistHeat
                 num = Mathf.InverseLerp( 120f, 20f, temperature );
             }
             var energyLimit = compTempControl.Props.energyPerSecond*num*4.16666651f;
-            var num2 = GenTemperature.ControlTemperatureTempChange( Position, energyLimit,
+            var num2 = GenTemperature.ControlTemperatureTempChange( Position, this.Map, energyLimit,
                                                                     compTempControl.targetTemperature );
             var flag = !Mathf.Approximately( num2, 0f );
             if (flag)
             {
-                Position.GetRoom().Temperature += num2;
+                Position.GetRoom(this.Map).Temperature += num2;
                 compPowerTrader.PowerOutput = -compPowerTrader.Props.basePowerConsumption;
             }
             else

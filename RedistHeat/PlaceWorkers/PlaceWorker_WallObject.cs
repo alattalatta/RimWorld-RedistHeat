@@ -8,10 +8,10 @@ namespace RedistHeat
 {
     class PlaceWorker_WallObject : PlaceWorker
     {
-        public override AcceptanceReport AllowsPlacing(BuildableDef checkingDef, IntVec3 center, Rot4 rot)
+        public override AcceptanceReport AllowsPlacing(BuildableDef checkingDef, IntVec3 center, Rot4 rot, Thing thingToIgnore = null)
         {
             IntVec3 c = center;
-            Building wall = c.GetEdifice();
+            Building wall = c.GetEdifice(base.Map);
 
             if (wall == null)
             {

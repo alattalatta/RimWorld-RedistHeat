@@ -9,7 +9,7 @@ namespace RedistHeat
         {
             base.DrawGhost( def, center, rot );
 
-            var room = center.GetRoom();
+            var room = center.GetRoom(base.Map);
             if (room == null || room.UsesOutdoorTemperature)
             {
                 return;
@@ -17,9 +17,9 @@ namespace RedistHeat
             GenDraw.DrawFieldEdges( room.Cells.ToList(), GenTemperature.ColorRoomHot );
         }
 
-        public override AcceptanceReport AllowsPlacing( BuildableDef def, IntVec3 center, Rot4 rot )
+        public override AcceptanceReport AllowsPlacing( BuildableDef def, IntVec3 center, Rot4 rot, Thing thingToIgnore = null)
         {
-            return center.InBounds();
+            return center.InBounds(base.Map);
         }
     }
 }

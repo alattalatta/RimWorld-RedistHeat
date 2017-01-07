@@ -28,7 +28,7 @@ namespace RedistHeat
 
         private void ControlTemperature()
         {
-            var temperature = Position.GetTemperature();
+            var temperature = Position.GetTemperature(this.Map);
             float energyMod;
             if (temperature < 20f)
             {
@@ -41,13 +41,13 @@ namespace RedistHeat
                     : Mathf.InverseLerp( 120f, 20f, temperature );
             }
             var energyLimit = compTempControl.Props.energyPerSecond*energyMod*4.16666651f;
-            var hotAir = GenTemperature.ControlTemperatureTempChange( Position, energyLimit,
+            var hotAir = GenTemperature.ControlTemperatureTempChange( Position, this.Map, energyLimit,
                                                                       compTempControl.targetTemperature );
 
             var hotIsHot = !Mathf.Approximately( hotAir, 0f );
             if (hotIsHot)
             {
-                Position.GetRoom().Temperature += hotAir;
+                Position.GetRoom(this.Map).Temperature += hotAir;
                 compPowerTrader.PowerOutput = -compPowerTrader.Props.basePowerConsumption;
             }
             else
@@ -65,7 +65,7 @@ namespace RedistHeat
                 sprayTicksLeft--;
                 if (Rand.Value < 0.8f)
                 {
-                    MoteMaker.ThrowAirPuffUp( this.TrueCenter() );
+                    MoteMaker.ThrowAirPuffUp( this.TrueCenter(), this.Map);
                 }
                 if (sprayTicksLeft <= 0)
                 {

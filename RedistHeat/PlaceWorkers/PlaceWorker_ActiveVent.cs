@@ -11,7 +11,7 @@ namespace RedistHeat
         {
             var vecNorth = center + IntVec3.North.RotatedBy( rot );
             var vecSouth = center + IntVec3.South.RotatedBy( rot );
-            if (!vecNorth.InBounds() || !vecSouth.InBounds())
+            if (!vecNorth.InBounds(base.Map) || !vecSouth.InBounds(base.Map))
             {
                 return;
             }
@@ -25,8 +25,8 @@ namespace RedistHeat
                 vecSouth
             }, Color.white );
 
-            var controlledRoom = vecNorth.GetRoom();
-            var otherRoom = vecSouth.GetRoom();
+            var controlledRoom = vecNorth.GetRoom(base.Map);
+            var otherRoom = vecSouth.GetRoom(base.Map);
 
             if (controlledRoom == null || otherRoom == null)
             {
@@ -39,15 +39,15 @@ namespace RedistHeat
             }
         }
 
-        public override AcceptanceReport AllowsPlacing( BuildableDef def, IntVec3 center, Rot4 rot )
+        public override AcceptanceReport AllowsPlacing( BuildableDef def, IntVec3 center, Rot4 rot, Thing thingToIgnore = null)
         {
             var vecNorth = center + IntVec3.North.RotatedBy( rot );
             var vecSouth = center + IntVec3.South.RotatedBy( rot );
-            if (!vecNorth.InBounds() || !vecSouth.InBounds())
+            if (!vecNorth.InBounds(base.Map) || !vecSouth.InBounds(base.Map))
             {
                 return false;
             }
-            if (vecNorth.Impassable() || vecSouth.Impassable())
+            if (vecNorth.Impassable(base.Map) || vecSouth.Impassable(base.Map))
             {
                 return ResourceBank.ExposeBoth;
             }

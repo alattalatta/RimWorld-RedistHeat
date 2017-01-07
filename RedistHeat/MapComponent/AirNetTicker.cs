@@ -6,6 +6,10 @@ namespace RedistHeat
     {
         public static bool doneInit;
 
+        public AirNetTicker(Map map) : base(map)
+        {
+        }
+
         public override void MapComponentUpdate()
         {
             if (!doneInit)
@@ -13,7 +17,7 @@ namespace RedistHeat
                 Initialize();
             }
             AirNetManager.AirNetsUpdate();
-            AirNetManager.UpdateMapDrawer();
+            AirNetManager.UpdateMapDrawer(map);
         }
 
 

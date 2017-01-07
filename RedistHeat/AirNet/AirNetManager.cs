@@ -37,14 +37,14 @@ namespace RedistHeat
 
         public static void Reinit()
         {
-            for (var i = 0; i < Common.NetLayerCount(); i++)
+            /*for (var i = 0; i < Common.NetLayerCount(); i++)
             {
                 allNets[i] = new List< AirNet >();
                 newComps[i] = new List< CompAir >();
                 oldComps[i] = new List< CompAir >();
             }
 
-            foreach (var current in Find.Map.listerBuildings.allBuildingsColonist)
+            foreach (var current in Map.listerBuildings.allBuildingsColonist)
             {
                 var compAir = current.TryGetComp< CompAir >();
                 if (compAir != null)
@@ -56,7 +56,7 @@ namespace RedistHeat
 #if DEBUG
             Log.Message("RedistHeat: Initialized AirNetManager.");
 #endif
-            isReady = true;
+            isReady = true;*/
         }
 
         public static void NotifyCompSpawn( CompAir compAir )
@@ -167,7 +167,7 @@ namespace RedistHeat
                     //Check for adjacent cells
                     foreach (var adjPos in GenAdj.CellsAdjacentCardinal( current.parent ))
                     {
-                        if (!adjPos.InBounds())
+                        if (!adjPos.InBounds(current.parent.Map))
                         {
                             continue;
                         }
@@ -217,12 +217,12 @@ namespace RedistHeat
 #endif
                     foreach (var adjPos in GenAdj.CellsAdjacentCardinal( current.parent ))
                     {
-                        if (!adjPos.InBounds())
+                        if (!adjPos.InBounds(current.parent.Map))
                         {
                             continue;
                         }
 
-                        var airNode = GetAirNodeAt( adjPos, (NetLayer) layerInt );
+                        var airNode = GetAirNodeAt( adjPos, (NetLayer) layerInt, current.parent.Map);
                         if (airNode != null)
                         {
                             RegisterAirNet( AirNetMaker.NewAirNetStartingFrom( airNode, (NetLayer) layerInt ) );
@@ -235,9 +235,9 @@ namespace RedistHeat
             }
         }
 
-        private static Building GetAirNodeAt( IntVec3 loc, NetLayer layer )
+        private static Building GetAirNodeAt( IntVec3 loc, NetLayer layer, Map map)
         {
-            var things = Find.ThingGrid.ThingsListAt( loc );
+            var things = map.thingGrid.ThingsListAt( loc );
             foreach (var current in things)
             {
                 var compAir = current.TryGetComp< CompAir >();
@@ -261,7 +261,7 @@ namespace RedistHeat
                 updatees.Add( current );
         }
 
-        public static void UpdateMapDrawer()
+        public static void UpdateMapDrawer(Map map)
         {
             if (updatees.Count == 0)
             {
@@ -269,10 +269,10 @@ namespace RedistHeat
             }
             foreach (var current in updatees)
             {
-                Find.MapDrawer.MapMeshDirty( current, MapMeshFlag.Things, true, false );
-                Find.MapDrawer.MapMeshDirty( current, MapMeshFlag.PowerGrid, true, false );
+                map.mapDrawer.MapMeshDirty( current, MapMeshFlag.Things, true, false );
+                map.mapDrawer.MapMeshDirty( current, MapMeshFlag.PowerGrid, true, false );
             }
-            Find.MapDrawer.MapMeshDrawerUpdate_First();
+            map.mapDrawer.MapMeshDrawerUpdate_First();
             updatees.Clear();
         }
     }
