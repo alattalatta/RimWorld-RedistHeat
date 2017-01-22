@@ -66,25 +66,7 @@ namespace RedistHeat
 
             if(this.parent.Faction == Faction.OfPlayer)
             {
-                yield return new Command_Toggle
-                {
-                    hotKey = KeyBindingDefOf.CommandColonistDraft,
-                    icon = currentLayer == NetLayer.Lower ? ResourceBank.UILower : ResourceBank.UIUpper,
-                    defaultLabel = ResourceBank.CycleLayerLabel,
-                    defaultDesc = ResourceBank.CycleLayerDesc,
-                    activateSound = SoundDef.Named("DesignateMine"),
-                    toggleAction = () =>
-                    {
-                        var oldLayer = currentLayer;
-                        currentLayer = currentLayer == NetLayer.Lower ? NetLayer.Upper : NetLayer.Lower;
-                        MoteMaker.ThrowText(parent.Position.ToVector3Shifted(), this.parent.Map,
-                                       ResourceBank.CycleLayerMote.Translate(currentLayer.ToStringTranslated())
-                                       );
-                        AirNetManager.NotifyCompLayerChange(this, oldLayer);
-                    }
-                };
-            }
-           /* Command_Action act = new Command_Action();
+                Command_Action act = new Command_Action();
 
             act.defaultLabel = ResourceBank.CycleLayerLabel;
             act.defaultDesc = ResourceBank.CycleLayerDesc;
@@ -100,10 +82,8 @@ namespace RedistHeat
                                         );
                 AirNetManager.NotifyCompLayerChange(this, oldLayer);
             };
-
-            
-
-            yield return act;*/
+                yield return act;
+            }
         }
     }
 }
