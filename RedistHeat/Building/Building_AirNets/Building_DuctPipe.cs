@@ -43,7 +43,7 @@ namespace RedistHeat
             //graphicLinked = new Graphic_LinkedAirPipe( graphicSingle );
             if (def.graphicData.texPath == "Things/Building/Linked/DuctPipeUpper")
             {
-                graphicLinked = new Graphic_LinkedAirPipe( ResourceBank.graphicSingleLower);
+                graphicLinked = new Graphic_LinkedAirPipe( ResourceBank.graphicSingleUpper);
             }
             if (def.graphicData.texPath == "Things/Building/Linked/DuctPipeLower")
             {
