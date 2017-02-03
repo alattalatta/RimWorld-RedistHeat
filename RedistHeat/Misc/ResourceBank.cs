@@ -46,6 +46,8 @@ namespace RedistHeat
         public static Texture2D UILock = ContentFinder<Texture2D>.Get("UI/Commands/Forbidden", true );
         public static Texture2D UILower = ContentFinder<Texture2D>.Get("UI/Commands/Lower", true);
         public static Texture2D UIUpper = ContentFinder<Texture2D>.Get("UI/Commands/Upper", true);
+        public static Texture2D UICooling = ContentFinder<Texture2D>.Get("UI/Floats/In", true);
+        public static Texture2D UIHeating = ContentFinder<Texture2D>.Get("UI/Floats/Out", true);
 
         // == Pipe textures == //
 

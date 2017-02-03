@@ -6,8 +6,15 @@ namespace RedistHeat
     public class Building_DuctCooler : Building_DuctComp
     {
         protected override IntVec3 RoomVec => Position;
+        //protected Building_DuctPipe pipe;
 
         private float Energy => compTempControl.Props.energyPerSecond;
+
+        public override void SpawnSetup(Map map)
+        {
+            base.SpawnSetup(map);
+            //pipe = (Building_DuctPipe) GenSpawn.Spawn(ThingDef.Named("RedistHeat_DuctPipeLower"), Position, map);
+        }
 
         protected override void Equalize()
         {

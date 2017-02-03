@@ -37,12 +37,11 @@ namespace RedistHeat
             {
                 return;
             }
-
-           
+                       
             //Things/Building/Linked/DuctPipeLower
             //var graphicSingle = GraphicDatabase.Get< Graphic_Single >( def.graphicData.texPath );
             //graphicLinked = new Graphic_LinkedAirPipe( graphicSingle );
-            if (def.graphicData.texPath == "Things/Building/Linked/DuctPipeLower")
+            if (def.graphicData.texPath == "Things/Building/Linked/DuctPipeUpper")
             {
                 graphicLinked = new Graphic_LinkedAirPipe( ResourceBank.graphicSingleLower);
             }

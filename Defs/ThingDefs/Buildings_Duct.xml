@@ -205,6 +205,7 @@
             <li Class="RedistHeat.CompAirTraderProperties">
                 <compClass>RedistHeat.CompAirTrader</compClass>
                 <transferRate>0.9</transferRate>
+				<units>4</units>
             </li>
         </comps>
         <placeWorkers>
@@ -213,10 +214,10 @@
     </ThingDef>
 
     <ThingDef ParentName="DuctCompBase">
-        <defName>RedistHeat_DuctCooler</defName>
-        <thingClass>RedistHeat.Building_DuctCooler</thingClass>
-        <label>duct cooler</label>
-        <description>A duct building that cools air within its network. Generates a lot of heat.</description>
+        <defName>RedistHeat_MultipurposeCooler</defName>
+        <thingClass>RedistHeat.Building_MultipurposeCooler</thingClass>
+        <label>multipurpose cooler</label>
+        <description>A building that can cool either the room or the network.</description>
         <graphicData>
             <graphicClass>Graphic_Single</graphicClass>
             <texPath>Things/Building/AirNet/DuctCooler</texPath>
@@ -234,6 +235,9 @@
             <li Class="RedistHeat.CompAirTraderProperties">
                 <compClass>RedistHeat.CompAirTrader</compClass>
             </li>
+			<li Class="RedistHeat.CompMultipurposeCoolerProperties">
+                <compClass>RedistHeat.CompMultipurposeCooler</compClass>
+            </li>
             <li Class="CompProperties_Power">
                 <compClass>CompPowerTrader</compClass>
                 <soundPowerOn>PowerOnSmall</soundPowerOn>
@@ -247,7 +251,7 @@
 			<li Class="CompProperties_Breakdownable"/>
         </comps>
         <placeWorkers>
-            <li>RedistHeat.PlaceWorker_DuctCooler</li>
+            <li>RedistHeat.PlaceWorker_MultipurposeCooler</li>
         </placeWorkers>
         <altitudeLayer>Building</altitudeLayer>
         <blockLight>true</blockLight>

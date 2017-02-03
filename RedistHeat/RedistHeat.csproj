@@ -48,8 +48,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Building\Building_AirNets\Building_MultipurposeCooler.cs" />
+    <Compile Include="Building\Building_AirNets\Building_DuctIndustrialHeater.cs" />
+    <Compile Include="CompProperties\CompMultipurposeCoolerProperties.cs" />
     <Compile Include="CompProperties\CompWallObjectProperties.cs" />
+    <Compile Include="PlaceWorkers\PlaceWorker_MultipurposeCooler.cs" />
     <Compile Include="PlaceWorkers\PlaceWorker_WallObject.cs" />
+    <Compile Include="ThingComps\CompMultipurposeCooler.cs" />
     <Compile Include="ThingComps\CompWallObject.cs" />
     <Compile Include="CompProperties\CompAirTraderProperties.cs" />
     <Compile Include="Building\Building_AirNets\Building_DuctBase.cs" />

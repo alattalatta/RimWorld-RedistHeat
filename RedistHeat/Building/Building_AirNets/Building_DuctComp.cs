@@ -135,6 +135,16 @@ namespace RedistHeat
             {
                 compAir.EqualizeWithRoom( room, pointTemp, EqualizationRate );
             }
+            /*
+                if (GenDraw.fieldGrid == null)
+	            {
+		            GenDraw.fieldGrid = new BoolGrid(visibleMap);
+	            }
+	            else
+	            {
+		            GenDraw.fieldGrid.ClearAndResizeTo(visibleMap);
+	            }
+             */
         }
 
         public override void Draw()
