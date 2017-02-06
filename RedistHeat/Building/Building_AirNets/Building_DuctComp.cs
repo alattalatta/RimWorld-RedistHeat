@@ -193,9 +193,16 @@ namespace RedistHeat
                     {
                         avgTemp = room.Temperature;
                     }
-                    float diff = room.CellCount - force;
-                    float result = ((diff * room.Temperature) + (avgTemp * force)) / room.CellCount;
-                    room.Temperature = result;
+                    if (force >= room.CellCount)
+                    {
+                        room.Temperature = avgTemp;
+                    }
+                    else
+                    {
+                        float diff = room.CellCount - force;
+                        float result = ((diff * room.Temperature) + (avgTemp * force)) / room.CellCount;
+                        room.Temperature = result;
+                    }
 #if DEBUG
                     Log.Message("RedistHeat: Intake room result temp: " + result);
 #endif
