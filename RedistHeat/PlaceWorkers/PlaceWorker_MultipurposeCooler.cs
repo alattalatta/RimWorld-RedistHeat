@@ -16,7 +16,7 @@ namespace RedistHeat
             }
             Building_MultipurposeCooler t = (Building_MultipurposeCooler)Find.VisibleMap.thingGrid.ThingsListAt(center).Where(s => s.GetType() == typeof(Building_MultipurposeCooler)).ElementAtOrDefault(0);
 
-            if (t != null && !t.Cooling)
+            if (t != null && !t.Net)
                 GenDraw.DrawFieldEdges( room.Cells.ToList(), GenTemperature.ColorRoomCold );
             else
                 GenDraw.DrawFieldEdges(room.Cells.ToList(), GenTemperature.ColorRoomHot);

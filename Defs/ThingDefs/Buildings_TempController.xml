@@ -309,6 +309,12 @@
             <li>PlaceWorker_Heater</li>
         </placeWorkers>
         <comps>
+			<li Class="RedistHeat.CompAirTraderProperties">
+                <compClass>RedistHeat.CompAirTrader</compClass>
+            </li>
+			<li Class="RedistHeat.CompDuctSwitchableProperties">
+                <compClass>RedistHeat.CompDuctSwitchable</compClass>
+            </li>
             <li Class="CompProperties_Power">
                 <compClass>CompPowerTrader</compClass>
                 <soundPowerOn>PowerOnSmall</soundPowerOn>
@@ -368,6 +374,12 @@
             <canPlaceOverWall>true</canPlaceOverWall>
         </building>
         <comps>
+            <li Class="RedistHeat.CompAirTraderProperties">
+                <compClass>RedistHeat.CompAirTrader</compClass>
+            </li>
+			<li Class="RedistHeat.CompDuctSwitchableProperties">
+                <compClass>RedistHeat.CompDuctSwitchable</compClass>
+            </li>
             <li Class="CompProperties_Power">
                 <compClass>CompPowerTrader</compClass>
                 <soundPowerOn>PowerOnSmall</soundPowerOn>
@@ -431,6 +443,12 @@
             <canPlaceOverWall>true</canPlaceOverWall>
         </building>
         <comps>
+            <li Class="RedistHeat.CompAirTraderProperties">
+                <compClass>RedistHeat.CompAirTrader</compClass>
+            </li>
+			<li Class="RedistHeat.CompDuctSwitchableProperties">
+                <compClass>RedistHeat.CompDuctSwitchable</compClass>
+            </li>
             <li Class="CompProperties_Power">
                 <compClass>CompPowerTrader</compClass>
                 <soundPowerOn>PowerOnSmall</soundPowerOn>

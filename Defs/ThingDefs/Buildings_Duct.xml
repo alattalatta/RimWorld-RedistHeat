@@ -134,6 +134,7 @@
             <li Class="RedistHeat.CompAirTraderProperties">
                 <compClass>RedistHeat.CompAirTrader</compClass>
                 <transferRate>0.1</transferRate>
+                <units>-4</units>
             </li>
         </comps>
         <placeWorkers>
@@ -168,6 +169,7 @@
             <li Class="RedistHeat.CompAirTraderProperties">
                 <compClass>RedistHeat.CompAirTrader</compClass>
                 <transferRate>0.15</transferRate>
+                <units>-4</units>
             </li>
             <li Class="CompProperties_TempControl">
                 <compClass>CompTempControl</compClass>
@@ -205,7 +207,7 @@
             <li Class="RedistHeat.CompAirTraderProperties">
                 <compClass>RedistHeat.CompAirTrader</compClass>
                 <transferRate>0.9</transferRate>
-				<units>4</units>
+                <units>16</units>
             </li>
         </comps>
         <placeWorkers>
@@ -213,7 +215,7 @@
         </placeWorkers>
     </ThingDef>
 
-    <ThingDef ParentName="DuctCompBase">
+	<ThingDef ParentName="DuctCompBase">
         <defName>RedistHeat_MultipurposeCooler</defName>
         <thingClass>RedistHeat.Building_MultipurposeCooler</thingClass>
         <label>multipurpose cooler</label>
@@ -235,8 +237,8 @@
             <li Class="RedistHeat.CompAirTraderProperties">
                 <compClass>RedistHeat.CompAirTrader</compClass>
             </li>
-			<li Class="RedistHeat.CompMultipurposeCoolerProperties">
-                <compClass>RedistHeat.CompMultipurposeCooler</compClass>
+			<li Class="RedistHeat.CompDuctSwitchableProperties">
+                <compClass>RedistHeat.CompDuctSwitchable</compClass>
             </li>
             <li Class="CompProperties_Power">
                 <compClass>CompPowerTrader</compClass>

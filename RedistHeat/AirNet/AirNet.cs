@@ -13,6 +13,9 @@ namespace RedistHeat
         private CompAir root;
         
         public readonly List< CompAir > nodes = new List< CompAir >();
+        public int pushers;
+        public int pullers;
+        private int countdown = 0;
 
         private float netTemperature;
 
@@ -29,12 +32,26 @@ namespace RedistHeat
         public AirNet( IEnumerable< CompAir > newNodes, NetLayer layer, CompAir root, Map map )
         {
             Layer = layer;
+            pushers = 0;
+            pullers = 0;
             var compAirs = newNodes.ToList();
 
             foreach (var current in compAirs)
             {
                 RegisterNode( current );
                 current.connectedNet = this;
+                /*if (current.GetType() == typeof(CompAirTrader))
+                {
+                    var units = ((CompAirTrader)current).Props.units;
+                    if (units > 0)
+                    {
+                        pushers += units;
+                    }
+                    else
+                    {
+                        pullers += -units;
+                    }
+                }*/
             }
 
             checked
@@ -64,6 +81,38 @@ namespace RedistHeat
 
         public void AirNetTick()
         {
+            if(countdown >= 60)
+            {
+                countdown = 0;
+                pullers = 0;
+                pushers = 0;
+                foreach (var current in nodes)
+                {
+                    if (current.GetType() == typeof(CompAirTrader))
+                    {
+                        if(current.parent.def.defName == "RedistHeat_DuctIntake" || current.parent.def.defName == "RedistHeat_DuctOutlet" || current.parent.def.defName == "RedistHeat_SmartDuctOutlet")
+                        {
+                            if (!((Building_DuctComp)current.parent).isLocked)
+                            {
+                                var units = ((CompAirTrader)current).Props.units;
+                                if (units > 0)
+                                {
+                                    pushers += units;
+                                }
+                                else
+                                {
+                                    pullers += -units;
+                                }
+                            }
+                        }
+                    }
+                }
+#if DEBUG
+                Log.Message("RedistHeat: the net has " + pullers + " pullers and " + pushers + "pushers");
+#endif
+            }
+            countdown++;
+
         }
 
         public void RegisterNode( CompAir node )

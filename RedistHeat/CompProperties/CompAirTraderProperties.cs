@@ -5,7 +5,7 @@ namespace RedistHeat
     public class CompAirTraderProperties : CompProperties
     {
         public float transferRate = 12f;
-        public int units = 1;
+        public int units = 0;
 
         public CompAirTraderProperties()
         {

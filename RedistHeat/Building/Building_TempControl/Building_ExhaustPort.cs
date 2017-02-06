@@ -4,7 +4,7 @@ using Verse;
 
 namespace RedistHeat
 {
-    public class Building_ExhaustPort : Building_TempControl
+    public class Building_ExhaustPort : Building_DuctSwitchable
     {
         public IntVec3 VecNorth { get; private set; }
         public IntVec3 VecSouth { get; private set; }
@@ -53,11 +53,23 @@ namespace RedistHeat
 
         public void PushHeat( float amount )
         {
-            if (VecNorth.UsesOutdoorTemperature(this.Map))
+            if (Net)
             {
-                return;
+                compAir.SetNetTemperatureDirect(amount);
             }
-            GenTemperature.PushHeat( VecNorth, this.Map, amount );
+            else
+            {
+                if (VecNorth.UsesOutdoorTemperature(this.Map))
+                {
+                    return;
+                }
+                GenTemperature.PushHeat(VecNorth, this.Map, amount);
+            }
+        }
+
+        public AirNet GetNet()
+        {
+            return compAir.connectedNet;
         }
 
         private Building_IndustrialCooler AdjacentCooler()
