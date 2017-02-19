@@ -3,6 +3,7 @@ using System.Text;
 using RimWorld;
 using UnityEngine;
 using Verse;
+using System;
 
 namespace RedistHeat
 {
@@ -51,6 +52,7 @@ namespace RedistHeat
             if (connectedNet != null)
             {
                 result.Append( Mathf.Round( connectedNet.NetTemperature ).ToStringTemperature( "F0" ) );
+                result.Append(". Flow: " + Math.Min(connectedNet.pushers, connectedNet.pullers));
 #if DEBUG
                 result.AppendLine().Append( "Debug ID: " ).Append( connectedNet.debugId );
 #endif
