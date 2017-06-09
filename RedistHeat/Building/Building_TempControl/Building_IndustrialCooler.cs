@@ -15,9 +15,9 @@ namespace RedistHeat
 
         private float Energy => compTempControl.Props.energyPerSecond;
 
-        public override void SpawnSetup(Map map)
+        public override void SpawnSetup(Map map, bool respawningAfterLoad)
         {
-            base.SpawnSetup(map);
+            base.SpawnSetup(map, respawningAfterLoad);
             vecSouth = Position + IntVec3.South.RotatedBy( Rotation );
             vecSouthEast = vecSouth + IntVec3.East.RotatedBy( Rotation );
         }
@@ -103,7 +103,7 @@ namespace RedistHeat
             }
             else
             {
-                roomSouth.Temperature += coldAir;
+                roomSouth.Group.Temperature += coldAir;
             }
 
             var hotAir = (float) (-energyLimit*1.25/activeExhausts.Count);

@@ -15,9 +15,9 @@ namespace RedistHeat
             Net = true;
         }
 
-        public override void SpawnSetup(Map map)
+        public override void SpawnSetup(Map map, bool respawningAfterLoad)
         {
-            base.SpawnSetup(map);
+            base.SpawnSetup(map, respawningAfterLoad);
             //pipe = (Building_DuctPipe) GenSpawn.Spawn(ThingDef.Named("RedistHeat_DuctPipeLower"), Position, map);
         }
 
@@ -104,7 +104,7 @@ namespace RedistHeat
                     return;
                 }
 
-                room.Temperature += coldAir;
+                room.Group.Temperature += coldAir;
 
                 
             }

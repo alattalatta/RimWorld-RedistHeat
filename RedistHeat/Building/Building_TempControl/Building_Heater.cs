@@ -44,7 +44,7 @@ namespace RedistHeat
             var flag = !Mathf.Approximately( num2, 0f );
             if (flag)
             {
-                Position.GetRoom(this.Map).Temperature += num2;
+                Position.GetRoom(this.Map).Group.Temperature += num2;
                 compPowerTrader.PowerOutput = -compPowerTrader.Props.basePowerConsumption;
             }
             else

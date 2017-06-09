@@ -5,7 +5,7 @@ namespace RedistHeat
 {
     public class CompAirTransmitter : CompAir
     {
-        public override void PostSpawnSetup()
+        public override void PostSpawnSetup(bool respawningAfterLoad)
         {
             var compAirProps = props as CompAirTransmitterProperties;
             if (compAirProps == null)
@@ -18,7 +18,7 @@ namespace RedistHeat
                 currentLayer = compAirProps.layer;
             }
 
-            base.PostSpawnSetup();
+            base.PostSpawnSetup(respawningAfterLoad);
         }
 
         public override IEnumerable<Gizmo> CompGetGizmosExtra()

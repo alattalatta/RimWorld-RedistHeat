@@ -13,9 +13,9 @@ namespace RedistHeat
 
         private Building_IndustrialCooler neighCooler;
 
-        public override void SpawnSetup(Map map)
+        public override void SpawnSetup(Map map, bool respawningAfterLoad)
         {
-            base.SpawnSetup(map);
+            base.SpawnSetup(map, respawningAfterLoad);
             VecNorth = Position + IntVec3.North.RotatedBy( Rotation );
             VecSouth = Position + IntVec3.South.RotatedBy( Rotation );
         }

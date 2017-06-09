@@ -86,7 +86,7 @@ namespace RedistHeat
             }
             else
             {
-                room.Temperature += hotAir;
+                room.Group.Temperature += hotAir;
             }
 
         }

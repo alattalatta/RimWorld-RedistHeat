@@ -15,9 +15,9 @@ namespace RedistHeat
             }
         }
 
-        public override void PostSpawnSetup()
+        public override void PostSpawnSetup(bool respawningAfterLoad)
         {
-            base.PostSpawnSetup();
+            base.PostSpawnSetup(respawningAfterLoad);
             if (netTemp == 0f)
             {
                 netTemp = this.parent.Map.mapTemperature.OutdoorTemp;
@@ -36,11 +36,11 @@ namespace RedistHeat
 
             if (targetTemp < room.Temperature)
             {
-                room.Temperature = Mathf.Max(targetTemp, room.Temperature - tempRated );
+                room.Group.Temperature = Mathf.Max(targetTemp, room.Temperature - tempRated );
             }
             else if (targetTemp > room.Temperature)
             {
-                room.Temperature = Mathf.Min(targetTemp, room.Temperature + tempRated );
+                room.Group.Temperature = Mathf.Min(targetTemp, room.Temperature + tempRated );
             }
         }
 
@@ -73,7 +73,7 @@ namespace RedistHeat
         {
             base.PostExposeData();
 
-            Scribe_Values.LookValue( ref netTemp, "netTemp", 999 );
+            Scribe_Values.Look( ref netTemp, "netTemp", 999 );
         }
     }
 }
