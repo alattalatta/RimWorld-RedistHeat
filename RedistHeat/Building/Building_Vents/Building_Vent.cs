@@ -42,12 +42,12 @@ namespace RedistHeat
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.LookValue( ref isLocked, "isLocked", false );
+            Scribe_Values.Look( ref isLocked, "isLocked", false );
         }
 
-        public override void SpawnSetup(Map map)
+        public override void SpawnSetup(Map map, bool respawningAfterLoad)
         {
-            base.SpawnSetup(map);
+            base.SpawnSetup(map, respawningAfterLoad);
             vecNorth = Position + IntVec3.North.RotatedBy( Rotation );
             vecSouth = Position + IntVec3.South.RotatedBy( Rotation );
         }
@@ -113,11 +113,11 @@ namespace RedistHeat
             var tempRated = tempDiff*rate;
             if (targetTemp < room.Temperature)
             {
-                room.Temperature = Mathf.Max( targetTemp, room.Temperature - tempRated );
+                room.Group.Temperature = Mathf.Max( targetTemp, room.Temperature - tempRated );
             }
             else if (targetTemp > room.Temperature)
             {
-                room.Temperature = Mathf.Min( targetTemp, room.Temperature + tempRated );
+                room.Group.Temperature = Mathf.Min( targetTemp, room.Temperature + tempRated );
             }
         }
 

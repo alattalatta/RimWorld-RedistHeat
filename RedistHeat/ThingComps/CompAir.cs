@@ -17,9 +17,9 @@ namespace RedistHeat
             return currentLayer == ly;
         }
 
-        public override void PostSpawnSetup()
+        public override void PostSpawnSetup(bool respawningAfterLoad)
         {
-            base.PostSpawnSetup();
+            base.PostSpawnSetup(respawningAfterLoad);
             //ResourceBank.UILower = ContentFinder<Texture2D>.Get("UI/Commands/Lower", true);
             //ResourceBank.UIUpper = ContentFinder<Texture2D>.Get("UI/Commands/Upper", true);
             AirNetManager.NotifyCompSpawn( this );
@@ -34,7 +34,7 @@ namespace RedistHeat
         public override void PostExposeData()
         {
             base.PostExposeData();
-            Scribe_Values.LookValue( ref currentLayer, "currentLayer", NetLayer.Lower );
+            Scribe_Values.Look( ref currentLayer, "currentLayer", NetLayer.Lower );
         }
 
         public void CompPrintForAirGrid( SectionLayer layer )

@@ -47,7 +47,7 @@ namespace RedistHeat
                 flag = !Mathf.Approximately( num4, 0f );
                 if (flag)
                 {
-                    intVec.GetRoom(this.Map).Temperature += num4;
+                    intVec.GetRoom(this.Map).Group.Temperature += num4;
                     GenTemperature.PushHeat( intVec2, this.Map, - num3*1.25f );
                 }
             }

@@ -39,9 +39,9 @@ namespace RedistHeat
             }
         }
 
-        public override void SpawnSetup(Map map)
+        public override void SpawnSetup(Map map, bool respawningAfterLoad)
         {
-            base.SpawnSetup(map);
+            base.SpawnSetup(map, respawningAfterLoad);
             vecNorth = Position + IntVec3.North.RotatedBy( Rotation );
 
             glower = GenSpawn.Spawn( ThingDef.Named( "RedistHeat_HeaterGlower" ), vecNorth, map);
@@ -120,7 +120,7 @@ namespace RedistHeat
             var hotIsHot = !Mathf.Approximately( hotAir, 0f );
             if (hotIsHot)
             {
-                roomNorth.Temperature += hotAir;
+                roomNorth.Group.Temperature += hotAir;
                 WorkingState = true;
             }
             else

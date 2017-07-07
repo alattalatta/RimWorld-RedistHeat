@@ -39,9 +39,9 @@ namespace RedistHeat
             }
         }
 
-        public override void SpawnSetup(Map map)
+        public override void SpawnSetup(Map map, bool respawningAfterLoad)
         {
-            base.SpawnSetup(map);
+            base.SpawnSetup(map, respawningAfterLoad);
             compAir = GetComp<CompAirTrader>();
 
             Common.WipeExistingPipe(Position);
@@ -89,7 +89,7 @@ namespace RedistHeat
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.LookValue(ref Net, "net", true);
+            Scribe_Values.Look(ref Net, "net", true);
         }
     }
 }

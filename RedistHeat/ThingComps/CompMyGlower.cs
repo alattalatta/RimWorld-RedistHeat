@@ -26,14 +26,14 @@ namespace RedistHeat
             }
         }
 
-        public override void PostSpawnSetup()
+        public override void PostSpawnSetup(bool respawningAfterLoad)
         {
             this.UpdateLit(false);
         }
 
         public override void PostExposeData()
         {
-            Scribe_Values.LookValue<bool>(ref this.glowOnInt, "glowOn", false, false);
+            Scribe_Values.Look<bool>(ref this.glowOnInt, "glowOn", false, false);
         }
 
         public override void PostDeSpawn(Map map)
