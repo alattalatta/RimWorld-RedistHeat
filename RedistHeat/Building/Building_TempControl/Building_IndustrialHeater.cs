@@ -70,7 +70,7 @@ namespace RedistHeat
             Log.Message("RedistHeat: IH the net has "+compAir.connectedNet.pullers+" pullers and "+compAir.connectedNet.pushers+"pushers");
 #endif
 
-            var energyLimit = compTempControl.Props.energyPerSecond * energyMod * 4.16666651f;
+            var energyLimit = compTempControl.Props.energyPerSecond * energyMod * 40f;
             var hotAir = ControlTemperatureTempChange(count, temperature, energyLimit,
                                                                         compTempControl.targetTemperature);
 

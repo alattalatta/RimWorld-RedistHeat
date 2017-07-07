@@ -15,6 +15,7 @@ namespace RedistHeat
         protected virtual IntVec3 RoomVec => Position + IntVec3.North.RotatedBy( Rotation );
 
         public bool isLocked;
+        public float adjust = 1.4f;
         public bool shouldChange = true;
         private bool isWorking;
         private int ticksElapsed = 0;
@@ -155,14 +156,15 @@ namespace RedistHeat
                     force = units;
                 }
 
-                if(force >= count)
+                if(force >= count*adjust)
                 {
                     compAir.connectedNet.NetTemperature = temp;
                 }
                 else
                 {
                     float diff = count - force;
-                    float result = ((compAir.connectedNet.NetTemperature * diff) + (temp * force)) / count;
+                    //float result = ((compAir.connectedNet.NetTemperature * diff) + (temp * force)) / count;
+                    float result = ((compAir.connectedNet.NetTemperature * count * adjust) + (temp * force)) / (count*adjust+ force);
 #if DEBUG
                                 Log.Message("RedistHeat: Intake net result temp: " +result+" with diff: "+diff+" force: "+force+" temp: "+temp+" count: "+count);
 #endif
@@ -193,14 +195,15 @@ namespace RedistHeat
                     {
                         avgTemp = room.Temperature;
                     }
-                    if (force >= room.CellCount)
+                    if (force >= room.CellCount*1.4)
                     {
                         room.Group.Temperature = avgTemp;
                     }
                     else
                     {
                         float diff = room.CellCount - force;
-                        float result = ((diff * room.Temperature) + (avgTemp * force)) / room.CellCount;
+                        //float result = ((diff * room.Temperature) + (avgTemp * force)) / room.CellCount;
+                        float result = ((room.CellCount * room.Temperature * adjust) + (avgTemp * force)) / (room.CellCount*adjust+ force);
                         room.Group.Temperature = result;
                     }
 #if DEBUG
@@ -231,7 +234,8 @@ namespace RedistHeat
                     Log.Message("RedistHeat: Outlet force: " + force + " with pullers: " + pullers + " and pushers: " + pushers);
 #endif
                     float diff = count - force;
-                    float result = ((diff * room.Temperature) + (temp * force)) / count;
+                    //float result = ((diff * room.Temperature) + (temp * force)) / count;
+                    float result = ((count * room.Temperature) + (temp * force)) / (count+force);
 #if DEBUG
                     Log.Message("RedistHeat: Outlet result temp: " + result + " with diff: " + diff + " force: " + force + " temp: " + temp + " count: " + count);
 #endif

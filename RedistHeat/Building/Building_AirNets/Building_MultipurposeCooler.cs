@@ -57,7 +57,7 @@ namespace RedistHeat
                 effectiveness = 0.0f;
             }
 
-            var energyLimit = (float)(Energy * effectiveness * 4.16666650772095f);
+            var energyLimit = (float)(Energy * effectiveness * 40f);
 
             if (Net)
             {
