@@ -56,13 +56,12 @@ namespace RedistHeat
             {
                 effectiveness = 0.0f;
             }
-
-            var energyLimit = (float)(Energy * effectiveness * 40f);
+            //4.16666650772095f//
+            var energyLimit = (float)(Energy * effectiveness * 12f);
 
             if (Net)
             {
-                var coldAir = ControlTemperatureTempChange(nodeCount, netTemp, energyLimit,
-                                                        compTempControl.targetTemperature);
+                var coldAir = ControlTemperatureTempChange(nodeCount, netTemp, energyLimit, compTempControl.targetTemperature);
 
                 WorkingState = !Mathf.Approximately(coldAir, 0.0f);
                 if (!WorkingState)
@@ -86,8 +85,7 @@ namespace RedistHeat
             }
             else
             {
-                var coldAir = ControlTemperatureTempChange(room.CellCount, room.Temperature, energyLimit,
-                                                        compTempControl.targetTemperature);
+                var coldAir = ControlTemperatureTempChange(room.CellCount, room.Temperature, energyLimit, compTempControl.targetTemperature);
 
                 WorkingState = !Mathf.Approximately(coldAir, 0.0f);
                 if (!WorkingState)
