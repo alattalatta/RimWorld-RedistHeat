@@ -71,8 +71,7 @@ namespace RedistHeat
 #endif
 
             var energyLimit = compTempControl.Props.energyPerSecond * energyMod * 40f;
-            var hotAir = ControlTemperatureTempChange(count, temperature, energyLimit,
-                                                                        compTempControl.targetTemperature);
+            var hotAir = ControlTemperatureTempChange(count, temperature, energyLimit, compTempControl.targetTemperature);
 
             WorkingState = !Mathf.Approximately(hotAir, 0f);
             if (!WorkingState)

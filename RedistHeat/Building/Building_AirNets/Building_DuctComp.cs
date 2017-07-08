@@ -138,12 +138,15 @@ namespace RedistHeat
             float pullers = compAir.connectedNet.pullers;
             int units = compAir.Props.units;
             float force = 0f;
-
+#if DEBUG
+            Log.Message("RedistHeat: Equalize pushers " + pushers + " pullers " + pullers);
+#endif
+            if (pushers <= 0 || pullers <= 0)
+                return;
             if (units > 0)
             {
                 float temp = room.Temperature;
                 float count = compAir.connectedNet.nodes.Count;
-
                 if (pushers > pullers)
                 {
                     force = (pullers / pushers) * units;
@@ -236,6 +239,8 @@ namespace RedistHeat
                     float diff = count - force;
                     //float result = ((diff * room.Temperature) + (temp * force)) / count;
                     float result = ((count * room.Temperature) + (temp * force)) / (count+force);
+
+                    Log.Message("RedistHeat: DuctOutlet count "+count+" pushers "+pushers+" pullers "+pullers+" force "+force+" result "+result);
 #if DEBUG
                     Log.Message("RedistHeat: Outlet result temp: " + result + " with diff: " + diff + " force: " + force + " temp: " + temp + " count: " + count);
 #endif

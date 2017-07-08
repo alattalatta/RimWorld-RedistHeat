@@ -88,9 +88,8 @@ namespace RedistHeat
             }
 
             var energyLimit = (float)(Energy * activeExhausts.Count * effectiveness * 40f);
+            var coldAir = ControlTemperatureTempChange(nodeCount, tempCold, energyLimit, compTempControl.targetTemperature);
 
-            var coldAir = ControlTemperatureTempChange(nodeCount, tempCold, energyLimit,
-                                                                       compTempControl.targetTemperature);
             WorkingState = !Mathf.Approximately(coldAir, 0.0f);
             if (!WorkingState)
             {
