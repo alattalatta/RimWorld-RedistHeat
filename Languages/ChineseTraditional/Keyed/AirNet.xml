@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <RedistHeat_CurrentConnectionChannel>已連接至{0}管道。</RedistHeat_CurrentConnectionChannel>
+  <RedistHeat_CurrentConnectedNetTemp>管道氣溫：</RedistHeat_CurrentConnectedNetTemp>
+  <RedistHeat_CycleLayerLabel>切換管道</RedistHeat_CycleLayerLabel>
+  <RedistHeat_CycleLayerDesc>在不同管道層級之間切換。</RedistHeat_CycleLayerDesc>
+  <RedistHeat_CycleLayerMote>切換至{0}管道</RedistHeat_CycleLayerMote>
+
+  <RedistHeat_UpperChannelTranslated>頂層</RedistHeat_UpperChannelTranslated>
+  <RedistHeat_LowerChannelTranslated>底層</RedistHeat_LowerChannelTranslated>
+
+  <RedistHeat_DesignatorDeconstructReverse>拆除（反向）</RedistHeat_DesignatorDeconstructReverse>
+  <RedistHeat_DesignatorDeconstructReverseDesc>拆除建築並回收部分資源。該命令將優先拆除管道和電纜。</RedistHeat_DesignatorDeconstructReverseDesc>
+
+  <RedistHeat_WallAlreadyOccupied>這面牆已經被佔用了。</RedistHeat_WallAlreadyOccupied>
+  <RedistHeat_NeedsWall>該設備智能安裝在牆體上。</RedistHeat_NeedsWall>
+
+</LanguageData>

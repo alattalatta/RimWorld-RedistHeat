@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <RH_TemperatureControlHeating.label>RH：工業加熱</RH_TemperatureControlHeating.label>
+  <RH_TemperatureControlHeating.description>解鎖建造工業級加熱器。</RH_TemperatureControlHeating.description>
+
+  <RH_TemperatureControlCooling.label>RH：工業冷卻</RH_TemperatureControlCooling.label>
+  <RH_TemperatureControlCooling.description>解鎖建造工業級製冷機。</RH_TemperatureControlCooling.description>
+
+
+</LanguageData>
