@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <RedistHeat_State>狀態</RedistHeat_State>
+  <RedistHeat_Working>可用</RedistHeat_Working>
+  <RedistHeat_NotWorking>不可用</RedistHeat_NotWorking>
+
+  <RedistHeat_WorkingDucts>可用排氣口</RedistHeat_WorkingDucts>
+
+  <RedistHeat_MustExposeDuct>標記為橙色的方塊不能被阻塞。</RedistHeat_MustExposeDuct>
+  <RedistHeat_MustExposeHotSide>排氣口的熱端不能被阻塞。</RedistHeat_MustExposeHotSide>
+  <RedistHeat_MustExposeColdSide>製冷機的冷端不能被阻塞。</RedistHeat_MustExposeColdSide>
+  <RedistHeat_MustPlaceBackSideOnCooler>灰色的箭頭必須緊挨著製冷機。</RedistHeat_MustPlaceBackSideOnCooler>
+
+</LanguageData>
