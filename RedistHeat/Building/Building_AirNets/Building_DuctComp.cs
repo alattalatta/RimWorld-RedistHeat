@@ -208,10 +208,10 @@ namespace RedistHeat
                         //float result = ((diff * room.Temperature) + (avgTemp * force)) / room.CellCount;
                         float result = ((room.CellCount * room.Temperature * adjust) + (avgTemp * force)) / (room.CellCount*adjust+ force);
                         room.Group.Temperature = result;
-                    }
 #if DEBUG
                     Log.Message("RedistHeat: Intake room result temp: " + result);
 #endif
+                    }
                 }
             }
             else
