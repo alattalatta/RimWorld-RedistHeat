@@ -118,14 +118,13 @@ namespace RedistHeat
             }
         }
 
-        private List< Building_ExhaustPort > GetActiveExhausts()
+        private List<Building_ExhaustPort> GetActiveExhausts()
         {
-            var origin = GenAdj.CellsAdjacentCardinal( this )
-                               .Select( s => Find.VisibleMap.thingGrid.ThingAt< Building_ExhaustPort >( s ) )
-                               .Where( thingAt => thingAt != null )
-                               .ToList();
-
-            return origin.Where( s => s.isAvailable ).ToList();
+            return GenAdj.CellsAdjacentCardinal(this)
+                .Select(s => Map.thingGrid.ThingAt<Building_ExhaustPort>(s))
+                .Where(thingAt => thingAt != null)
+                .Where(s => s.isAvailable)
+                .ToList();
         }
 
         public override string GetInspectString()
