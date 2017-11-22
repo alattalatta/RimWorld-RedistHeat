@@ -21,8 +21,7 @@ namespace RimWorld
 
         protected override void TakePrintFrom( Thing t )
         {
-            var ductBuilding = t as Building_DuctBase;
-            ductBuilding?.PrintForAirGrid( this );
+            t.TryGetComp<CompAir>()?.CompPrintForAirGrid(this);
         }
     }
 }
