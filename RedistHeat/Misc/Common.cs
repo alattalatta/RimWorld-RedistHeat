@@ -13,6 +13,8 @@ namespace RedistHeat
 
     public static class Common
     {
+        public const float AbsoluteZero = -273.15f;
+        
         public static int NetLayerCount()
         {
             return Enum.GetValues( typeof(NetLayer) ).Length;

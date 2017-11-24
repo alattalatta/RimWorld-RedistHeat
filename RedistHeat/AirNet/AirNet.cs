@@ -69,7 +69,7 @@ namespace RedistHeat
                                 s.parent.def.defName == "RedistHeat_DuctIntake" ||
                                 s.parent.def.defName == "RedistHeat_DuctCooler" );
 
-            if (intake == null || intake.netTemp == 999)
+            if (intake == null || intake.netTemp < Common.AbsoluteZero)
             {
                 NetTemperature =  map.mapTemperature.OutdoorTemp;
             }

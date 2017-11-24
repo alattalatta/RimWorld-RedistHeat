@@ -7,20 +7,14 @@ namespace RedistHeat
     {
         public float netTemp;
 
-        public CompAirTraderProperties Props
-        {
-            get
-            {
-                return (CompAirTraderProperties)this.props;
-            }
-        }
+        public CompAirTraderProperties Props => (CompAirTraderProperties) props;
 
         public override void PostSpawnSetup(bool respawningAfterLoad)
         {
             base.PostSpawnSetup(respawningAfterLoad);
-            if (netTemp == 0f)
+            if (netTemp < Common.AbsoluteZero)
             {
-                netTemp = this.parent.Map.mapTemperature.OutdoorTemp;
+                netTemp = parent.Map.mapTemperature.OutdoorTemp;
             }
         }
 
@@ -73,7 +67,7 @@ namespace RedistHeat
         {
             base.PostExposeData();
 
-            Scribe_Values.Look( ref netTemp, "netTemp", 999 );
+            Scribe_Values.Look( ref netTemp, "netTemp", -500f );
         }
     }
 }
