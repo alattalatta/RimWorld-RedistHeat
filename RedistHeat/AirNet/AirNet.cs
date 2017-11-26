@@ -83,7 +83,7 @@ namespace RedistHeat
             } 
             else if (airTrader.Props.units < 0)
             {
-                pushers += airTrader.Props.units;
+                pushers -= airTrader.Props.units;
             }
         }
         
