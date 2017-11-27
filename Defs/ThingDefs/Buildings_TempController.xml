@@ -307,6 +307,7 @@
         </costList>
         <placeWorkers>
             <li>PlaceWorker_Heater</li>
+            <li>RedistHeat.PlaceWorker_DuctBase</li>
         </placeWorkers>
         <comps>
 			<li Class="RedistHeat.CompAirTraderProperties">

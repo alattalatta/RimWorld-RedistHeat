@@ -44,7 +44,7 @@ namespace RedistHeat
             base.SpawnSetup(map, respawningAfterLoad);
             compAir = GetComp<CompAirTrader>();
 
-            Common.WipeExistingPipe(Position);
+            Common.WipeExistingPipe(map, Position);
         }
 
         public override void Tick()

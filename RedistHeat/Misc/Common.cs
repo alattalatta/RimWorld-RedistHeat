@@ -13,6 +13,8 @@ namespace RedistHeat
 
     public static class Common
     {
+        public const float AbsoluteZero = -273.15f;
+        
         public static int NetLayerCount()
         {
             return Enum.GetValues( typeof(NetLayer) ).Length;
@@ -23,13 +25,12 @@ namespace RedistHeat
             return ("RedistHeat_" + layer + "ChannelTranslated").Translate();
         }
 
-        public static void WipeExistingPipe( IntVec3 pos)
+        public static void WipeExistingPipe(Map map, IntVec3 pos)
         {
-            var pipe =
-                Find.VisibleMap.thingGrid.ThingsAt( pos ).ToList().Find(
-                    s => s.def.defName == "RedistHeat_DuctPipeLower" || s.def.defName == "RedistHeat_DuctPipeUpper" );
-
-            pipe?.Destroy();
+            foreach (var pipe in map.thingGrid.ThingsAt(pos).Select(s => s as Building_DuctPipe))
+            {
+                pipe?.Destroy();
+            }
         }
     }
 }
