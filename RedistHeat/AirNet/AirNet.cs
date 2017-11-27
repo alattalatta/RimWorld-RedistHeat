@@ -21,8 +21,8 @@ namespace RedistHeat
 
         public float NetTemperature
         {
-            get => netTemperature;
-            set => netTemperature = Mathf.Clamp( value, -270, 2000 ); 
+            get { return netTemperature; }
+            set { netTemperature = Mathf.Clamp(value, -270, 2000); }
         }
 
         public NetLayer Layer { get; }
@@ -46,7 +46,7 @@ namespace RedistHeat
                 current.connectedNet = this;
 
                 if (netTemperature >= Common.AbsoluteZero) continue;
-                switch (current)
+                /*switch (current)
                 {
                     case CompAirTrader airTrader:
                         if (airTrader.Props.units > 0)
@@ -64,6 +64,24 @@ namespace RedistHeat
                             netTemperature = airTrader.netTemp;
                         }
                         break;    
+                }*/
+                if (current is CompAirTrader)
+                {
+                    var airTrader = (CompAirTrader)current;
+                    if (airTrader.Props.units > 0)
+                    {
+                        AddPusherOrPuller(airTrader);
+                        var room = airTrader.parent.GetRoom();
+                        if (room != null)
+                        {
+                            intakeRoomTemp = room.Temperature;
+                        }
+                    }
+
+                    if (airTrader.netTemp >= Common.AbsoluteZero)
+                    {
+                        netTemperature = airTrader.netTemp;
+                    }
                 }
             }
 
@@ -99,7 +117,7 @@ namespace RedistHeat
                 
                 foreach (var current in nodes.Select(s => s as CompAirTrader).Where(s => s != null))
                 {
-                    switch (current.parent)
+                    /*switch (current.parent)
                     {
                         case Building_DuctComp ductComp:
                             if (!ductComp.isLocked) AddPusherOrPuller(current);
@@ -107,6 +125,17 @@ namespace RedistHeat
                         default:
                             AddPusherOrPuller(current);
                             break;
+                    }*/
+                    if(current.parent is Building_DuctComp)
+                    {
+                        if (!((Building_DuctComp)current.parent).isLocked)
+                        {
+                            AddPusherOrPuller(current);
+                        }
+                    }
+                    else
+                    {
+                        AddPusherOrPuller(current);
                     }
                 }
 #if DEBUG

@@ -9,14 +9,15 @@ namespace RedistHeat
     {
         public override void DrawGhost( ThingDef def, IntVec3 center, Rot4 rot )
         {
+            var map = Find.VisibleMap;
             var vecNorth = center + IntVec3.North.RotatedBy( rot );
-            if (!vecNorth.InBounds(this.Map))
+            if (!vecNorth.InBounds(map))
             {
                 return;
             }
 
             GenDraw.DrawFieldEdges( new List< IntVec3 >() {vecNorth}, Color.white );
-            var room = vecNorth.GetRoom(this.Map);
+            var room = vecNorth.GetRoom(map);
             if (room == null || room.UsesOutdoorTemperature)
             {
                 return;
@@ -24,20 +25,20 @@ namespace RedistHeat
             GenDraw.DrawFieldEdges( room.Cells.ToList(), GenTemperature.ColorRoomHot );
         }
 
-        public override AcceptanceReport AllowsPlacing( BuildableDef def, IntVec3 center, Rot4 rot, Thing thingToIgnore = null)
+        public override AcceptanceReport AllowsPlacing( BuildableDef def, IntVec3 center, Rot4 rot, Map map, Thing thingToIgnore = null)
         {
             var vecNorth = center + IntVec3.North.RotatedBy( rot );
             var vecSouth = center + IntVec3.South.RotatedBy( rot );
-            if (!vecSouth.InBounds(this.Map) || !vecNorth.InBounds(this.Map))
+            if (!vecSouth.InBounds(map) || !vecNorth.InBounds(map))
             {
                 return false;
             }
-            if (vecNorth.Impassable(this.Map))
+            if (vecNorth.Impassable(map))
             {
                 return ResourceBank.ExposeHot;
             }
 
-            var edifice = vecSouth.GetEdifice(this.Map);
+            var edifice = vecSouth.GetEdifice(map);
             if (edifice == null || edifice.def != ThingDef.Named( "RedistHeat_IndustrialCooler" ))
             {
                 return ResourceBank.AttachToCooler;

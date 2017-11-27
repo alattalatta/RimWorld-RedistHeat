@@ -8,8 +8,8 @@ namespace RedistHeat
         public override void DrawGhost( ThingDef def, IntVec3 center, Rot4 rot )
         {
             base.DrawGhost( def, center, rot );
-
-            var room = center.GetRoom(this.Map);
+            var map = Find.VisibleMap;
+            var room = center.GetRoom(map);
             if (room == null || room.UsesOutdoorTemperature)
             {
                 return;
@@ -22,9 +22,9 @@ namespace RedistHeat
                 GenDraw.DrawFieldEdges(room.Cells.ToList(), GenTemperature.ColorRoomHot);
         }
 
-        public override AcceptanceReport AllowsPlacing( BuildableDef def, IntVec3 center, Rot4 rot, Thing thingToIgnore = null)
+        public override AcceptanceReport AllowsPlacing( BuildableDef def, IntVec3 center, Rot4 rot, Map map, Thing thingToIgnore = null)
         {
-            return center.InBounds(this.Map);
+            return center.InBounds(map);
         }
     }
 }

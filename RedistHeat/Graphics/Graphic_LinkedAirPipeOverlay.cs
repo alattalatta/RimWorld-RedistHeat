@@ -28,7 +28,7 @@ namespace RedistHeat
             var occupiedRect = parent.OccupiedRect();
             foreach (var current in occupiedRect)
             {
-                var center = current.ToVector3ShiftedWithAltitude( AltitudeLayer.WorldDataOverlay );
+                var center = current.ToVector3ShiftedWithAltitude( AltitudeLayer.MapDataOverlay );
                 Printer_Plane.PrintPlane( layer, center, new Vector2( 1f, 1f ), LinkedDrawMatFrom( parent, current ),
                                           0f );
             }

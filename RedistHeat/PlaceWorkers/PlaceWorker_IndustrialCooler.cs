@@ -8,15 +8,16 @@ namespace RedistHeat
     {
         public override void DrawGhost( ThingDef def, IntVec3 center, Rot4 rot )
         {
+            var map = Find.VisibleMap;
             var vecSouth = center + IntVec3.South.RotatedBy( rot );
             var vecSouthEast = vecSouth + IntVec3.East.RotatedBy( rot );
-            if (!vecSouth.InBounds(this.Map) || !vecSouthEast.InBounds(this.Map))
+            if (!vecSouth.InBounds(map) || !vecSouthEast.InBounds(map))
             {
                 return;
             }
 
             GenDraw.DrawFieldEdges( new List< IntVec3 >() {vecSouth, vecSouthEast}, GenTemperature.ColorSpotCold );
-            var room = vecSouth.GetRoom(this.Map);
+            var room = vecSouth.GetRoom(map);
             if (room == null || room.UsesOutdoorTemperature)
             {
                 return;
@@ -24,15 +25,15 @@ namespace RedistHeat
             GenDraw.DrawFieldEdges( room.Cells.ToList(), GenTemperature.ColorRoomCold );
         }
 
-        public override AcceptanceReport AllowsPlacing( BuildableDef def, IntVec3 center, Rot4 rot, Thing thingToIgnore = null)
+        public override AcceptanceReport AllowsPlacing( BuildableDef def, IntVec3 center, Rot4 rot, Map map, Thing thingToIgnore = null)
         {
             var vecSouth = center + IntVec3.South.RotatedBy( rot );
             var vecSouthEast = vecSouth + IntVec3.East.RotatedBy( rot );
-            if (!vecSouth.InBounds(this.Map) || !vecSouthEast.InBounds(this.Map))
+            if (!vecSouth.InBounds(map) || !vecSouthEast.InBounds(map))
             {
                 return false;
             }
-            if (vecSouth.Impassable(this.Map) || vecSouthEast.Impassable(this.Map))
+            if (vecSouth.Impassable(map) || vecSouthEast.Impassable(map))
             {
                 return ResourceBank.ExposeCold;
             }

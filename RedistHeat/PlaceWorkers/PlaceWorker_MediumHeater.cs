@@ -10,13 +10,14 @@ namespace RedistHeat
         public override void DrawGhost( ThingDef def, IntVec3 center, Rot4 rot )
         {
             var vecNorth = center + IntVec3.North.RotatedBy( rot );
-            if (!vecNorth.InBounds(this.Map))
+            var map = Find.VisibleMap;
+            if (!vecNorth.InBounds(map))
             {
                 return;
             }
 
             GenDraw.DrawFieldEdges( new List< IntVec3 >() {vecNorth}, GenTemperature.ColorRoomHot );
-            var room = vecNorth.GetRoom(this.Map);
+            var room = vecNorth.GetRoom(map);
             if (room == null || room.UsesOutdoorTemperature)
             {
                 return;
