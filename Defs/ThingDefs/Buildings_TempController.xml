@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Buildings>
+<Defs>
 
     <ThingDef Abstract="True" Name="BuildingBase">
         <category>Building</category>
@@ -187,6 +187,7 @@
         <altitudeLayer>PawnUnused</altitudeLayer>
         <blockLight>false</blockLight>
         <designationCategory>Temperature</designationCategory>
+        <clearBuildingArea>false</clearBuildingArea>
         <drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
         <tickerType>Rare</tickerType>
 		<researchPrerequisites>
@@ -240,6 +241,7 @@
         <altitudeLayer>PawnUnused</altitudeLayer>
         <castEdgeShadows>false</castEdgeShadows>
         <designationCategory>Temperature</designationCategory>
+        <clearBuildingArea>false</clearBuildingArea>
         <drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
         <tickerType>Normal</tickerType>
 		<researchPrerequisites>
@@ -475,4 +477,4 @@
         <tickerType>Normal</tickerType>
     </ThingDef>
 
-</Buildings>
+</Defs>

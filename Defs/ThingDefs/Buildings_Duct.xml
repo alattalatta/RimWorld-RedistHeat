@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Buildings>
+<Defs>
 
     <ThingDef Abstract="True" Name="DuctBase" ParentName="BuildingBase">
         <designationCategory>Ductwork</designationCategory>
         <constructEffect>ConstructMetal</constructEffect>
+        <clearBuildingArea>false</clearBuildingArea>
 		<researchPrerequisites>
 			<li>Electricity</li>
 		</researchPrerequisites>
@@ -120,9 +121,6 @@
         <costList>
             <Steel>30</Steel>
         </costList>
-        <building>
-            <ignoreNeedsPower>true</ignoreNeedsPower>
-        </building>
         <comps>
             <li Class="CompProperties_Power">
                 <compClass>CompPowerTrader</compClass>
@@ -268,4 +266,4 @@
 		</researchPrerequisites>
     </ThingDef>
 
-</Buildings>
+</Defs>
