@@ -29,7 +29,9 @@ namespace RedistHeat
         {
             var vecNorth = center + IntVec3.North.RotatedBy( rot );
             var vecSouth = center + IntVec3.South.RotatedBy( rot );
-            if (!vecSouth.InBounds(map) || !vecNorth.InBounds(map))
+            var vecEast = center + IntVec3.East.RotatedBy(rot);
+            var vecWest = center + IntVec3.West.RotatedBy(rot);
+            /*if (!vecSouth.InBounds(map) || !vecNorth.InBounds(map))
             {
                 return false;
             }
@@ -42,6 +44,28 @@ namespace RedistHeat
             if (edifice == null || edifice.def != ThingDef.Named( "RedistHeat_IndustrialCooler" ))
             {
                 return ResourceBank.AttachToCooler;
+            }*/
+            if (!vecNorth.InBounds(map))
+            {
+                return false;
+            }
+            if (vecNorth.Impassable(map))
+            {
+                return ResourceBank.ExposeHot;
+            }
+
+            var edifice = vecSouth.GetEdifice(map);
+            if (edifice == null || edifice.def != ThingDef.Named("RedistHeat_IndustrialCooler"))
+            {
+                edifice = vecEast.GetEdifice(map);
+                if (edifice == null || edifice.def != ThingDef.Named("RedistHeat_IndustrialCooler"))
+                {
+                    edifice = vecWest.GetEdifice(map);
+                    if (edifice == null || edifice.def != ThingDef.Named("RedistHeat_IndustrialCooler"))
+                    {
+                        return ResourceBank.AttachToCooler;
+                    }
+                }
             }
 
             return true;

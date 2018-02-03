@@ -8,6 +8,8 @@ namespace RedistHeat
     {
         public IntVec3 VecNorth { get; private set; }
         public IntVec3 VecSouth { get; private set; }
+        public IntVec3 VecEast { get; private set; }
+        public IntVec3 VecWest { get; private set; }
 
         public bool isAvailable;
 
@@ -18,6 +20,8 @@ namespace RedistHeat
             base.SpawnSetup(map, respawningAfterLoad);
             VecNorth = Position + IntVec3.North.RotatedBy( Rotation );
             VecSouth = Position + IntVec3.South.RotatedBy( Rotation );
+            VecEast = Position + IntVec3.East.RotatedBy(Rotation);
+            VecWest = Position + IntVec3.West.RotatedBy(Rotation);
         }
 
         public override void Tick()
@@ -75,6 +79,14 @@ namespace RedistHeat
         private Building_IndustrialCooler AdjacentCooler()
         {
             var cooler = Map.thingGrid.ThingAt< Building_IndustrialCooler >( VecSouth );
+            if (cooler == null)
+            {
+                cooler = Map.thingGrid.ThingAt<Building_IndustrialCooler>(VecEast);
+                if (cooler == null)
+                {
+                    cooler = Map.thingGrid.ThingAt<Building_IndustrialCooler>(VecWest);
+                }
+            }
             return cooler;
         }
     }
