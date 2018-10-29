@@ -14,11 +14,11 @@ namespace RedistHeat
             defaultLabel = ResourceBank.DeconstructReversed;
             defaultDesc = ResourceBank.DeconstructReversedDesc;
             icon = ContentFinder< Texture2D >.Get( "UI/Designators/Deconstruct" );
-            soundDragSustain = SoundDefOf.DesignateDragStandard;
-            soundDragChanged = SoundDefOf.DesignateDragStandardChanged;
+            soundDragSustain = SoundDefOf.Designate_DragStandard;
+            soundDragChanged = SoundDefOf.Designate_DragStandard_Changed;
             useMouseIcon = true;
-            soundSucceeded = SoundDefOf.DesignateDeconstruct;
-            hotKey = KeyBindingDefOf.DesignatorDeconstruct;
+            soundSucceeded = SoundDefOf.Designate_Deconstruct;
+            hotKey = KeyBindingDefOf.Designator_Deconstruct;
         }
 
         public override AcceptanceReport CanDesignateCell( IntVec3 c )
@@ -42,7 +42,7 @@ namespace RedistHeat
         private Thing TopDeconstructibleInCell( IntVec3 loc )
         {
             return
-                (from t in Find.VisibleMap.thingGrid.ThingsAt( loc ) orderby t.def.altitudeLayer ascending select t).FirstOrDefault
+                (from t in Find.CurrentMap.thingGrid.ThingsAt( loc ) orderby t.def.altitudeLayer ascending select t).FirstOrDefault
                     ( current => CanDesignateThing( current ).Accepted );
         }
 
@@ -60,7 +60,7 @@ namespace RedistHeat
             }
             else
             {
-                Find.VisibleMap.designationManager.AddDesignation( new Designation( t, DesignationDefOf.Deconstruct ) );
+                Find.CurrentMap.designationManager.AddDesignation( new Designation( t, DesignationDefOf.Deconstruct ) );
             }
         }
 
@@ -89,11 +89,11 @@ namespace RedistHeat
                     }
                 }
             }
-            if (Find.VisibleMap.designationManager.DesignationOn( t, DesignationDefOf.Deconstruct ) != null)
+            if (Find.CurrentMap.designationManager.DesignationOn( t, DesignationDefOf.Deconstruct ) != null)
             {
                 return false;
             }
-            return Find.VisibleMap.designationManager.DesignationOn( t, DesignationDefOf.Uninstall ) == null;
+            return Find.CurrentMap.designationManager.DesignationOn( t, DesignationDefOf.Uninstall ) == null;
         }
 
         public override void SelectedUpdate()

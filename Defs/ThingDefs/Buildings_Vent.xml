@@ -23,7 +23,7 @@
         <repairEffect>Repair</repairEffect>
         <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
         <size>(1,1)</size>
-        <soundImpactDefault>BulletImpactMetal</soundImpactDefault>
+        <soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
         <tickerType>Normal</tickerType>
         <designationCategory>Temperature</designationCategory>
         <clearBuildingArea>false</clearBuildingArea>
@@ -75,8 +75,8 @@
                 <compClass>CompPowerTrader</compClass>
                 <basePowerConsumption>5</basePowerConsumption>
                 <shortCircuitInRain>false</shortCircuitInRain>
-                <soundPowerOn>PowerOnSmall</soundPowerOn>
-                <soundPowerOff>PowerOffSmall</soundPowerOff>
+                <soundPowerOn>Power_OnSmall</soundPowerOn>
+                <soundPowerOff>Power_OffSmall</soundPowerOff>
             </li>
             <li Class="CompProperties_TempControl">
                 <compClass>CompTempControl</compClass>

@@ -7,10 +7,10 @@ namespace RedistHeat
 {
     public class PlaceWorker_DuctComp : PlaceWorker_DuctBase
     {
-        public override void DrawGhost( ThingDef def, IntVec3 center, Rot4 rot )
+        public override void DrawGhost( ThingDef def, IntVec3 center, Rot4 rot, Color ghostCol)
         {
-            base.DrawGhost( def, center, rot );
-            var map = Find.VisibleMap;
+            base.DrawGhost( def, center, rot, ghostCol);
+            var map = Find.CurrentMap;
             var vecNorth = center + IntVec3.North.RotatedBy( rot );
             if (!vecNorth.InBounds(map))
             {

@@ -126,8 +126,8 @@
                 <compClass>CompPowerTrader</compClass>
                 <basePowerConsumption>10</basePowerConsumption>
                 <shortCircuitInRain>false</shortCircuitInRain>
-                <soundPowerOn>PowerOnSmall</soundPowerOn>
-                <soundPowerOff>PowerOffSmall</soundPowerOff>
+                <soundPowerOn>Power_OnSmall</soundPowerOn>
+                <soundPowerOff>Power_OffSmall</soundPowerOff>
             </li>
             <li Class="RedistHeat.CompAirTraderProperties">
                 <compClass>RedistHeat.CompAirTrader</compClass>
@@ -154,15 +154,15 @@
         </statBases>
         <costList>
             <Steel>65</Steel>
-			<Component>1</Component>
+			<ComponentIndustrial>1</ComponentIndustrial>
         </costList>
         <comps>
             <li Class="CompProperties_Power">
                 <compClass>CompPowerTrader</compClass>
                 <basePowerConsumption>20</basePowerConsumption>
                 <shortCircuitInRain>false</shortCircuitInRain>
-                <soundPowerOn>PowerOnSmall</soundPowerOn>
-                <soundPowerOff>PowerOffSmall</soundPowerOff>
+                <soundPowerOn>Power_OnSmall</soundPowerOn>
+                <soundPowerOff>Power_OffSmall</soundPowerOff>
             </li>
             <li Class="RedistHeat.CompAirTraderProperties">
                 <compClass>RedistHeat.CompAirTrader</compClass>
@@ -199,8 +199,8 @@
                 <compClass>CompPowerTrader</compClass>
                 <basePowerConsumption>30</basePowerConsumption>
                 <shortCircuitInRain>false</shortCircuitInRain>
-                <soundPowerOn>PowerOnSmall</soundPowerOn>
-                <soundPowerOff>PowerOffSmall</soundPowerOff>
+                <soundPowerOn>Power_OnSmall</soundPowerOn>
+                <soundPowerOff>Power_OffSmall</soundPowerOff>
             </li>
             <li Class="RedistHeat.CompAirTraderProperties">
                 <compClass>RedistHeat.CompAirTrader</compClass>
@@ -229,7 +229,7 @@
         </statBases>
         <costList>
             <Steel>110</Steel>
-			<Component>3</Component>
+			<ComponentIndustrial>3</ComponentIndustrial>
         </costList>
         <comps>
             <li Class="RedistHeat.CompAirTraderProperties">
@@ -240,8 +240,8 @@
             </li>
             <li Class="CompProperties_Power">
                 <compClass>CompPowerTrader</compClass>
-                <soundPowerOn>PowerOnSmall</soundPowerOn>
-                <soundPowerOff>PowerOffSmall</soundPowerOff>
+                <soundPowerOn>Power_OnSmall</soundPowerOn>
+                <soundPowerOff>Power_OffSmall</soundPowerOff>
                 <basePowerConsumption>200</basePowerConsumption>
             </li>
             <li Class="CompProperties_TempControl">

@@ -7,9 +7,9 @@ namespace RedistHeat
 {
     public class PlaceWorker_ExhaustPort : PlaceWorker
     {
-        public override void DrawGhost( ThingDef def, IntVec3 center, Rot4 rot )
+        public override void DrawGhost( ThingDef def, IntVec3 center, Rot4 rot, Color ghostCol)
         {
-            var map = Find.VisibleMap;
+            var map = Find.CurrentMap;
             var vecNorth = center + IntVec3.North.RotatedBy( rot );
             if (!vecNorth.InBounds(map))
             {

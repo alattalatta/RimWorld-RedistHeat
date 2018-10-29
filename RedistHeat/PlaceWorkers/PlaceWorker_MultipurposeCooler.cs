@@ -1,20 +1,21 @@
 ﻿using System.Linq;
+using UnityEngine;
 using Verse;
 
 namespace RedistHeat
 {
     public class PlaceWorker_MultipurposeCooler : PlaceWorker_DuctBase
     {
-        public override void DrawGhost( ThingDef def, IntVec3 center, Rot4 rot )
+        public override void DrawGhost( ThingDef def, IntVec3 center, Rot4 rot, Color ghostCol)
         {
-            base.DrawGhost( def, center, rot );
-            var map = Find.VisibleMap;
+            base.DrawGhost( def, center, rot, ghostCol);
+            var map = Find.CurrentMap;
             var room = center.GetRoom(map);
             if (room == null || room.UsesOutdoorTemperature)
             {
                 return;
             }
-            Building_MultipurposeCooler t = (Building_MultipurposeCooler)Find.VisibleMap.thingGrid.ThingsListAt(center).Where(s => s.GetType() == typeof(Building_MultipurposeCooler)).ElementAtOrDefault(0);
+            Building_MultipurposeCooler t = (Building_MultipurposeCooler)Find.CurrentMap.thingGrid.ThingsListAt(center).Where(s => s.GetType() == typeof(Building_MultipurposeCooler)).ElementAtOrDefault(0);
 
             if (t != null && !t.Net)
                 GenDraw.DrawFieldEdges( room.Cells.ToList(), GenTemperature.ColorRoomCold );

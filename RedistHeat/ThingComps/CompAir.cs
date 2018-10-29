@@ -74,7 +74,7 @@ namespace RedistHeat
             act.defaultDesc = ResourceBank.CycleLayerDesc;
             act.icon = currentLayer == NetLayer.Lower ? ResourceBank.UILower : ResourceBank.UIUpper;
             act.activateSound = SoundDef.Named("DesignateMine");
-            act.hotKey = KeyBindingDefOf.CommandColonistDraft;
+            act.hotKey = KeyBindingDefOf.Command_ColonistDraft;
             act.action = () =>
             {
                 var oldLayer = currentLayer;

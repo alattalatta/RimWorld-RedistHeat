@@ -16,13 +16,13 @@ namespace RedistHeat
             this.glowOnInt = shouldBeLitNow;
             if (!this.glowOnInt)
             {
-                Find.VisibleMap.mapDrawer.MapMeshDirty(this.parent.Position, MapMeshFlag.Things);
-                Find.VisibleMap.glowGrid.DeRegisterGlower(this);
+                Find.CurrentMap.mapDrawer.MapMeshDirty(this.parent.Position, MapMeshFlag.Things);
+                Find.CurrentMap.glowGrid.DeRegisterGlower(this);
             }
             else
             {
-                Find.VisibleMap.mapDrawer.MapMeshDirty(this.parent.Position, MapMeshFlag.Things);
-                Find.VisibleMap.glowGrid.RegisterGlower(this);
+                Find.CurrentMap.mapDrawer.MapMeshDirty(this.parent.Position, MapMeshFlag.Things);
+                Find.CurrentMap.glowGrid.RegisterGlower(this);
             }
         }
 

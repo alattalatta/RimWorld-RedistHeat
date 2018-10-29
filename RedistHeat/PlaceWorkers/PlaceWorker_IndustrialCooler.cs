@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 using Verse;
 
 namespace RedistHeat
 {
     public class PlaceWorker_IndustrialCooler : PlaceWorker
     {
-        public override void DrawGhost( ThingDef def, IntVec3 center, Rot4 rot )
+        public override void DrawGhost( ThingDef def, IntVec3 center, Rot4 rot, Color ghostCol)
         {
-            var map = Find.VisibleMap;
+            var map = Find.CurrentMap;
             var vecSouth = center + IntVec3.South.RotatedBy( rot );
             var vecSouthEast = vecSouth + IntVec3.East.RotatedBy( rot );
             if (!vecSouth.InBounds(map) || !vecSouthEast.InBounds(map))

@@ -7,10 +7,10 @@ namespace RedistHeat
 {
     public class PlaceWorker_MediumHeater : PlaceWorker
     {
-        public override void DrawGhost( ThingDef def, IntVec3 center, Rot4 rot )
+        public override void DrawGhost( ThingDef def, IntVec3 center, Rot4 rot, Color ghostCol)
         {
             var vecNorth = center + IntVec3.North.RotatedBy( rot );
-            var map = Find.VisibleMap;
+            var map = Find.CurrentMap;
             if (!vecNorth.InBounds(map))
             {
                 return;

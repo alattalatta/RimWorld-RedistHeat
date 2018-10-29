@@ -163,7 +163,7 @@ namespace RedistHeat
             {
                 defaultLabel = ResourceBank.StringToggleAirflowLabel,
                 defaultDesc = ResourceBank.StringToggleAirflowDesc,
-                hotKey = KeyBindingDefOf.CommandItemForbid,
+                hotKey = KeyBindingDefOf.Command_ItemForbid,
                 icon = ResourceBank.UILock,
                 groupKey = 912515,
                 isActive = () => isLocked,

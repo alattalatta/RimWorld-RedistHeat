@@ -44,7 +44,7 @@ namespace RedistHeat
                 oldComps[i] = new List< CompAir >();
             }
 
-            foreach (var current in Find.VisibleMap.listerBuildings.allBuildingsColonist)
+            foreach (var current in Find.CurrentMap.listerBuildings.allBuildingsColonist)
             {
                 var compAir = current.TryGetComp< CompAir >();
                 if (compAir != null)
@@ -239,7 +239,7 @@ namespace RedistHeat
 
         private static Building GetAirNodeAt( IntVec3 loc, NetLayer layer)
         {
-            var things = Find.VisibleMap.thingGrid.ThingsListAt( loc );
+            var things = Find.CurrentMap.thingGrid.ThingsListAt( loc );
             foreach (var current in things)
             {
                 var compAir = current.TryGetComp< CompAir >();
@@ -271,10 +271,10 @@ namespace RedistHeat
             }
             foreach (var current in updatees)
             {
-                Find.VisibleMap.mapDrawer.MapMeshDirty( current, MapMeshFlag.Things, true, false );
-                Find.VisibleMap.mapDrawer.MapMeshDirty( current, MapMeshFlag.PowerGrid, true, false );
+                Find.CurrentMap.mapDrawer.MapMeshDirty( current, MapMeshFlag.Things, true, false );
+                Find.CurrentMap.mapDrawer.MapMeshDirty( current, MapMeshFlag.PowerGrid, true, false );
             }
-            Find.VisibleMap.mapDrawer.MapMeshDrawerUpdate_First();
+            Find.CurrentMap.mapDrawer.MapMeshDrawerUpdate_First();
             updatees.Clear();
         }
     }

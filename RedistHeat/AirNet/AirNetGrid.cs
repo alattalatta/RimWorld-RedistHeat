@@ -32,7 +32,7 @@ namespace RedistHeat
 
         public static Building GetAirTransmitter( this IntVec3 loc, NetLayer layer )
         {
-            foreach (var current in Find.VisibleMap.thingGrid.ThingsListAt( loc ))
+            foreach (var current in Find.CurrentMap.thingGrid.ThingsListAt( loc ))
             {
                 var compAir = current.TryGetComp< CompAir >();
                 if (compAir == null)

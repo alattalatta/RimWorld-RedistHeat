@@ -290,7 +290,7 @@ namespace RedistHeat
             {
                 return;
             }
-            Map visibleMap = Find.VisibleMap;
+            Map CurrentMap = Find.CurrentMap;
             List<IntVec3> cells = new List<IntVec3>();
 
             foreach (IntVec3 current in room.Cells)
@@ -300,19 +300,19 @@ namespace RedistHeat
 
             if (fieldGrid == null)
             {
-                fieldGrid = new BoolGrid(visibleMap);
+                fieldGrid = new BoolGrid(CurrentMap);
             }
             else
             {
-                fieldGrid.ClearAndResizeTo(visibleMap);
+                fieldGrid.ClearAndResizeTo(CurrentMap);
             }
 
-            int x = visibleMap.Size.x;
-            int z = visibleMap.Size.z;
+            int x = CurrentMap.Size.x;
+            int z = CurrentMap.Size.z;
             int count = cells.Count;
             for (int i = 0; i < count; i++)
             {
-                if (cells[i].InBounds(visibleMap))
+                if (cells[i].InBounds(CurrentMap))
                 {
                     fieldGrid[cells[i].x, cells[i].z] = true;
                 }
@@ -320,11 +320,11 @@ namespace RedistHeat
             for (int j = 0; j < count; j++)
             {
                 IntVec3 c = cells[j];
-                if (c.InBounds(visibleMap))
+                if (c.InBounds(CurrentMap))
                 {
                     if(c.z < z - 1 && !fieldGrid[c.x, c.z + 1])
                     {
-                        var door = Find.VisibleMap.thingGrid.ThingsAt(new IntVec3(c.x,c.y,c.z+1)).ToList().Find(s => s.def.defName == "Door" );
+                        var door = Find.CurrentMap.thingGrid.ThingsAt(new IntVec3(c.x,c.y,c.z+1)).ToList().Find(s => s.def.defName == "Door" );
                         if(door != null)
                         {
                             adjacentRooms.Add(RegionAndRoomQuery.RoomAt(new IntVec3(c.x, c.y, c.z + 2), Map));
@@ -332,7 +332,7 @@ namespace RedistHeat
                     }
                     if(c.x < x - 1 && !fieldGrid[c.x + 1, c.z])
                     {
-                        var door = Find.VisibleMap.thingGrid.ThingsAt(new IntVec3(c.x + 1, c.y, c.z)).ToList().Find(s => s.def.defName == "Door");
+                        var door = Find.CurrentMap.thingGrid.ThingsAt(new IntVec3(c.x + 1, c.y, c.z)).ToList().Find(s => s.def.defName == "Door");
                         if (door != null)
                         {
                             adjacentRooms.Add(RegionAndRoomQuery.RoomAt(new IntVec3(c.x + 2, c.y, c.z), Map));
@@ -340,7 +340,7 @@ namespace RedistHeat
                     }
                     if (c.z > 0 && !fieldGrid[c.x, c.z - 1])
                     {
-                        var door = Find.VisibleMap.thingGrid.ThingsAt(new IntVec3(c.x, c.y, c.z - 1)).ToList().Find(s => s.def.defName == "Door");
+                        var door = Find.CurrentMap.thingGrid.ThingsAt(new IntVec3(c.x, c.y, c.z - 1)).ToList().Find(s => s.def.defName == "Door");
                         if (door != null)
                         {
                             adjacentRooms.Add(RegionAndRoomQuery.RoomAt(new IntVec3(c.x, c.y, c.z - 2), Map));
@@ -348,7 +348,7 @@ namespace RedistHeat
                     }
                     if (c.z > 0 && !fieldGrid[c.x - 1, c.z])
                     {
-                        var door = Find.VisibleMap.thingGrid.ThingsAt(new IntVec3(c.x - 1, c.y, c.z)).ToList().Find(s => s.def.defName == "Door");
+                        var door = Find.CurrentMap.thingGrid.ThingsAt(new IntVec3(c.x - 1, c.y, c.z)).ToList().Find(s => s.def.defName == "Door");
                         if (door != null)
                         {
                             adjacentRooms.Add(RegionAndRoomQuery.RoomAt(new IntVec3(c.x - 2, c.y, c.z), Map));
@@ -378,7 +378,7 @@ namespace RedistHeat
             {
                 defaultLabel = ResourceBank.StringToggleAirflowLabel,
                 defaultDesc = ResourceBank.StringToggleAirflowDesc,
-                hotKey = KeyBindingDefOf.CommandItemForbid,
+                hotKey = KeyBindingDefOf.Command_ItemForbid,
                 icon = ResourceBank.UILock,
                 groupKey = 912515,
                 isActive = () => !isLocked,

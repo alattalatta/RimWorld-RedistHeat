@@ -3,13 +3,13 @@
 
     <ThingDef Abstract="True" Name="BuildingBase">
         <category>Building</category>
-        <soundImpactDefault>BulletImpactMetal</soundImpactDefault>
+        <soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
         <selectable>true</selectable>
         <drawerType>MapMeshAndRealTime</drawerType>
         <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
         <repairEffect>Repair</repairEffect>
         <leaveResourcesWhenKilled>true</leaveResourcesWhenKilled>
-        <filthLeaving>BuildingRubble</filthLeaving>
+        <filthLeaving>Filth_RubbleBuilding</filthLeaving>
     </ThingDef>
 
     <ThingDef ParentName="BuildingBase">
@@ -27,25 +27,29 @@
 				<cornerBR>Damage/Corner</cornerBR>
 			</damageData>
         </graphicData>
-		<minifiedDef>MinifiedFurniture</minifiedDef>
+		<minifiedDef>MinifiedThing</minifiedDef>
         <altitudeLayer>Building</altitudeLayer>
         <passability>PassThroughOnly</passability>
 		<pathCost>40</pathCost>
 		<blockWind>true</blockWind>
         <rotatable>false</rotatable>
         <fillPercent>0.4</fillPercent>
+        <thingCategories>
+            <li>BuildingsTemperature</li>
+        </thingCategories>
         <castEdgeShadows>true</castEdgeShadows>
         <staticSunShadowHeight>1.0</staticSunShadowHeight>
         <statBases>
             <WorkToBuild>1000</WorkToBuild>
             <MaxHitPoints>100</MaxHitPoints>
-            <Flammability>1.0</Flammability>
+            <Mass>6</Mass>
+            <Flammability>0.5</Flammability>
         </statBases>
         <tickerType>Normal</tickerType>
         <description>An electrical device that converts electricity into heat. It can automatically turn itself on or off to reach a specific target temperature.</description>
         <costList>
             <Steel>65</Steel>
-			<Component>1</Component>
+			<ComponentIndustrial>1</ComponentIndustrial>
         </costList>
         <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
         <placeWorkers>
@@ -55,9 +59,8 @@
         <comps>
             <li Class="CompProperties_Power">
                 <compClass>CompPowerTrader</compClass>
-                <startElectricalFires>true</startElectricalFires>
-                <soundPowerOn>PowerOnSmall</soundPowerOn>
-                <soundPowerOff>PowerOffSmall</soundPowerOff>
+                <soundPowerOn>Power_OnSmall</soundPowerOn>
+                <soundPowerOff>Power_OffSmall</soundPowerOff>
                 <basePowerConsumption>100</basePowerConsumption>
             </li>
 			<li Class="CompProperties_Flickable"/>
@@ -106,11 +109,10 @@
             <Flammability>1.0</Flammability>
         </statBases>
         <tickerType>Normal</tickerType>
-        <description>An electrical device that fits into a wall and pushes cold air into a room. Its exhaust port generates a lot of heat. Can be used to cool down rooms during the summer months, or to create a walk-in freezer.
-        </description>
+        <description>An electrical device that fits into a wall and pushes cold air into a room. Its exhaust port generates a lot of heat. Can be used to cool down rooms during the summer months, or to create a walk-in freezer.</description>
         <costList>
             <Steel>90</Steel>
-			<Component>3</Component>
+			<ComponentIndustrial>3</ComponentIndustrial>
         </costList>
         <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
         <placeWorkers>
@@ -123,8 +125,8 @@
         <comps>
             <li Class="CompProperties_Power">
                 <compClass>CompPowerTrader</compClass>
-                <soundPowerOn>PowerOnSmall</soundPowerOn>
-                <soundPowerOff>PowerOffSmall</soundPowerOff>
+                <soundPowerOn>Power_OnSmall</soundPowerOn>
+                <soundPowerOff>Power_OffSmall</soundPowerOff>
                 <basePowerConsumption>200</basePowerConsumption>
             </li>
 			<li Class="CompProperties_Flickable"/>
@@ -155,7 +157,7 @@
         </building>
         <costList>
             <Steel>60</Steel>
-			<Component>1</Component>
+			<ComponentIndustrial>1</ComponentIndustrial>
         </costList>
         <statBases>
             <WorkToBuild>500</WorkToBuild>
@@ -165,8 +167,8 @@
         <comps>
             <li Class="CompProperties_Power">
                 <compClass>CompPowerTrader</compClass>
-                <soundPowerOn>PowerOnSmall</soundPowerOn>
-                <soundPowerOff>PowerOffSmall</soundPowerOff>
+                <soundPowerOn>Power_OnSmall</soundPowerOn>
+                <soundPowerOff>Power_OffSmall</soundPowerOff>
                 <basePowerConsumption>100</basePowerConsumption>
             </li>
 			<li Class="CompProperties_Flickable"/>
@@ -206,7 +208,7 @@
         </graphicData>
         <costList>
             <Steel>170</Steel>
-			<Component>3</Component>
+			<ComponentIndustrial>3</ComponentIndustrial>
         </costList>
         <building>
             <isEdifice>false</isEdifice>
@@ -219,8 +221,8 @@
         <comps>
             <li Class="CompProperties_Power">
                 <compClass>CompPowerTrader</compClass>
-                <soundPowerOn>PowerOnSmall</soundPowerOn>
-                <soundPowerOff>PowerOffSmall</soundPowerOff>
+                <soundPowerOn>Power_OnSmall</soundPowerOn>
+                <soundPowerOff>Power_OffSmall</soundPowerOff>
                 <basePowerConsumption>200</basePowerConsumption>
             </li>
 			<li Class="CompProperties_Flickable"/>
@@ -305,7 +307,7 @@
         </statBases>
         <costList>
             <Steel>300</Steel>
-			<Component>9</Component>
+			<ComponentIndustrial>9</ComponentIndustrial>
         </costList>
         <placeWorkers>
             <li>PlaceWorker_Heater</li>
@@ -320,8 +322,8 @@
             </li>
             <li Class="CompProperties_Power">
                 <compClass>CompPowerTrader</compClass>
-                <soundPowerOn>PowerOnSmall</soundPowerOn>
-                <soundPowerOff>PowerOffSmall</soundPowerOff>
+                <soundPowerOn>Power_OnSmall</soundPowerOn>
+                <soundPowerOff>Power_OffSmall</soundPowerOff>
                 <basePowerConsumption>500</basePowerConsumption>
             </li>
 			<li Class="CompProperties_Flickable"/>
@@ -371,7 +373,7 @@
         </statBases>
         <costList>
             <Steel>300</Steel>
-			<Component>9</Component>
+			<ComponentIndustrial>9</ComponentIndustrial>
         </costList>
         <building>
             <canPlaceOverWall>true</canPlaceOverWall>
@@ -385,9 +387,9 @@
             </li>
             <li Class="CompProperties_Power">
                 <compClass>CompPowerTrader</compClass>
-                <soundPowerOn>PowerOnSmall</soundPowerOn>
+                <soundPowerOn>Power_OnSmall</soundPowerOn>
                 <soundAmbientPowered>GeothermalPlant_Ambience</soundAmbientPowered>
-                <soundPowerOff>PowerOffSmall</soundPowerOff>
+                <soundPowerOff>Power_OffSmall</soundPowerOff>
                 <basePowerConsumption>400</basePowerConsumption>
                 <transmitsPower>true</transmitsPower>
             </li>
@@ -440,7 +442,7 @@
         <size>(1,1)</size>
         <costList>
             <Steel>70</Steel>
-			<Component>2</Component>
+			<ComponentIndustrial>2</ComponentIndustrial>
         </costList>
         <building>
             <canPlaceOverWall>true</canPlaceOverWall>
@@ -454,8 +456,8 @@
             </li>
             <li Class="CompProperties_Power">
                 <compClass>CompPowerTrader</compClass>
-                <soundPowerOn>PowerOnSmall</soundPowerOn>
-                <soundPowerOff>PowerOffSmall</soundPowerOff>
+                <soundPowerOn>Power_OnSmall</soundPowerOn>
+                <soundPowerOff>Power_OffSmall</soundPowerOff>
                 <basePowerConsumption>100</basePowerConsumption>
                 <transmitsPower>true</transmitsPower>
             </li>

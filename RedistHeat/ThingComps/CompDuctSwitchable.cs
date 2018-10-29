@@ -35,7 +35,7 @@ namespace RedistHeat
                 act.defaultDesc = "Cycle between the duct network and the room";
                 act.icon = ((Building_DuctSwitchable)parent).Net ? ResourceBank.UINetwork : ResourceBank.UIRoom;
                 act.activateSound = SoundDef.Named("DesignateMine");
-                act.hotKey = KeyBindingDefOf.CommandColonistDraft;
+                act.hotKey = KeyBindingDefOf.Command_ColonistDraft;
                 act.action = () =>
                 {
                     ((Building_DuctSwitchable)parent).CycleMode();
