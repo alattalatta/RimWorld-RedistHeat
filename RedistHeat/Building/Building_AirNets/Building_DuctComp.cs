@@ -2,6 +2,7 @@
 using RimWorld;
 using UnityEngine;
 using Verse;
+using System.Linq;
 
 namespace RedistHeat
 {
@@ -13,8 +14,13 @@ namespace RedistHeat
         protected Room room;
         protected virtual IntVec3 RoomVec => Position + IntVec3.North.RotatedBy( Rotation );
 
-        private bool isLocked;
+        public bool isLocked;
+        public float adjust = 1.4f;
+        public bool shouldChange = true;
         private bool isWorking;
+        private int ticksElapsed = 0;
+        private List<Room> adjacentRooms = new List<Room>();
+        private static BoolGrid fieldGrid;
 
         protected bool WorkingState
         {
@@ -29,12 +35,12 @@ namespace RedistHeat
                 }
                 if (isWorking)
                 {
-                    compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption;
+                    compPowerTrader.PowerOutput = -compPowerTrader.Props.basePowerConsumption;
                 }
                 else
                 {
-                    compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption*
-                                                  compTempControl.props.lowPowerConsumptionFactor;
+                    compPowerTrader.PowerOutput = -compPowerTrader.Props.basePowerConsumption*
+                                                  compTempControl.Props.lowPowerConsumptionFactor;
                 }
 
                 compTempControl.operatingAtHighPower = isWorking;
@@ -42,25 +48,26 @@ namespace RedistHeat
         }
 
 
-        public override string LabelBase => base.LabelBase + " (" + compAir.currentLayer.ToString().ToLower() + ")";
+        public override string LabelNoCount => base.LabelNoCount + " (" + compAir.currentLayer.ToString().ToLower() + ")";
 
-        public override void SpawnSetup()
+        public override void SpawnSetup(Map map, bool respawningAfterLoad)
         {
-            base.SpawnSetup();
+            base.SpawnSetup(map, respawningAfterLoad);
             compAir = GetComp< CompAirTrader >();
 
-            Common.WipeExistingPipe( Position );
+            Common.WipeExistingPipe(map, Position);
         }
 
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.LookValue( ref isLocked, "isLocked", false );
+            Scribe_Values.Look( ref isLocked, "isLocked", false );
         }
 
         public override void Tick()
         {
             base.Tick();
+            ticksElapsed++;
             if (!this.IsHashIntervalTick( 60 ))
             {
                 return;
@@ -70,6 +77,12 @@ namespace RedistHeat
             {
                 WorkingState = false;
                 return;
+            }
+
+            if(ticksElapsed >= 1000)
+            {
+                ticksElapsed = 0;
+                FindAdjacentRooms();
             }
 
             WorkingState = true;
@@ -86,23 +99,155 @@ namespace RedistHeat
                 return false;
             }
 
-            if (RoomVec.Impassable())
+            if (RoomVec.Impassable(this.Map))
             {
                 return false;
             }
 
-            room = RoomVec.GetRoom();
+            room = RoomVec.GetRoom(this.Map);
+
             if (room == null)
             {
                 return false;
             }
 
-            return !isLocked && (compPowerTrader == null || compPowerTrader.PowerOn);
+            if(isLocked)
+            {
+                if(shouldChange)
+                {
+                    shouldChange = !shouldChange;
+                    int units = compAir.Props.units;
+                    if (units > 0)
+                    {
+                        compAir.connectedNet.pushers -= units;
+                    }
+                    else
+                    {
+                        compAir.connectedNet.pullers -= -units;
+                    }
+                }
+                return false;
+            }
+
+            return (compPowerTrader == null || compPowerTrader.PowerOn);
         }
 
         protected virtual void Equalize()
         {
-            float pointTemp;
+            float pushers = compAir.connectedNet.pushers;
+            float pullers = compAir.connectedNet.pullers;
+            int units = compAir.Props.units;
+            float force = 0f;
+#if DEBUG
+            Log.Message("RedistHeat: Equalize pushers " + pushers + " pullers " + pullers);
+#endif
+            if (pushers <= 0 || pullers <= 0)
+                return;
+            if (units > 0)
+            {
+                float temp = room.Temperature;
+                float count = compAir.connectedNet.nodes.Count;
+                if (pushers > pullers)
+                {
+                    force = (pullers / pushers) * units;
+#if DEBUG
+                    Log.Message("RedistHeat: Intake force: " +force+" with pullers: "+pullers+" and pushers: "+pushers);
+#endif
+                }
+                else
+                {
+                    force = units;
+                }
+
+                if(force >= count*adjust)
+                {
+                    compAir.connectedNet.NetTemperature = temp;
+                }
+                else
+                {
+                    float diff = count - force;
+                    //float result = ((compAir.connectedNet.NetTemperature * diff) + (temp * force)) / count;
+                    float result = ((compAir.connectedNet.NetTemperature * count * adjust) + (temp * force)) / (count*adjust+ force);
+#if DEBUG
+                                Log.Message("RedistHeat: Intake net result temp: " +result+" with diff: "+diff+" force: "+force+" temp: "+temp+" count: "+count);
+#endif
+                    compAir.connectedNet.NetTemperature = result;
+                }
+                if(!room.UsesOutdoorTemperature)
+                {
+                    float avgTemp = 0;
+                    int cells = 0;
+                    if (adjacentRooms.Count > 0)
+                    {
+                        foreach (var current in adjacentRooms)
+                        {
+                            avgTemp += current.Temperature;
+                            cells += current.CellCount;
+                        }
+                        if (cells >= force)
+                        {
+                            avgTemp /= adjacentRooms.Count;
+                        }
+                        else
+                        {
+                            avgTemp += this.Map.mapTemperature.OutdoorTemp;
+                            avgTemp /= (adjacentRooms.Count+1);
+                        }
+                    }
+                    else
+                    {
+                        avgTemp = room.Temperature;
+                    }
+                    if (force >= room.CellCount*1.4)
+                    {
+                        room.Group.Temperature = avgTemp;
+                    }
+                    else
+                    {
+                        float diff = room.CellCount - force;
+                        //float result = ((diff * room.Temperature) + (avgTemp * force)) / room.CellCount;
+                        float result = ((room.CellCount * room.Temperature * adjust) + (avgTemp * force)) / (room.CellCount*adjust+ force);
+                        room.Group.Temperature = result;
+#if DEBUG
+                    Log.Message("RedistHeat: Intake room result temp: " + result);
+#endif
+                    }
+                }
+            }
+            else
+            {
+                float temp = compAir.connectedNet.NetTemperature;
+                float count = room.CellCount;
+
+                if (pushers < pullers)
+                {
+                    force = (pushers  / pullers) * -units;
+                }
+                else
+                {
+                    force = -units;
+                }
+                if (force >= count)
+                {
+                    room.Group.Temperature = temp;
+                }
+                else
+                {
+#if DEBUG
+                    Log.Message("RedistHeat: Outlet force: " + force + " with pullers: " + pullers + " and pushers: " + pushers);
+#endif
+                    float diff = count - force;
+                    //float result = ((diff * room.Temperature) + (temp * force)) / count;
+                    float result = ((count * room.Temperature) + (temp * force)) / (count+force);
+
+                    Log.Message("RedistHeat: DuctOutlet count "+count+" pushers "+pushers+" pullers "+pullers+" force "+force+" result "+result);
+#if DEBUG
+                    Log.Message("RedistHeat: Outlet result temp: " + result + " with diff: " + diff + " force: " + force + " temp: " + temp + " count: " + count);
+#endif
+                    room.Group.Temperature = result;
+                }
+            }
+            /*float pointTemp;
             if (room.UsesOutdoorTemperature)
             {
                 pointTemp = room.Temperature;
@@ -110,8 +255,8 @@ namespace RedistHeat
             else
             {
                 pointTemp = (room.Temperature*room.CellCount +
-                             compAir.connectedNet.NetTemperature*compAir.connectedNet.nodes.Count)
-                            /(room.CellCount + compAir.connectedNet.nodes.Count);
+                             compAir.connectedNet.NetTemperature*compAir.connectedNet.nodes.Count*5)
+                            /(room.CellCount + compAir.connectedNet.nodes.Count*5);
             }
 
             if (compTempControl != null)
@@ -126,11 +271,90 @@ namespace RedistHeat
                     pointTemp = Mathf.Min( pointTemp, compTempControl.targetTemperature ) + 1;
                 }
             }
-
+//#if DEBUG
+//            Log.Message("RedistHeat: DuctComp ----- Device: " + this + ", pointTemp: " + pointTemp);
+//#endif
             compAir.EqualizeWithNet( pointTemp, EqualizationRate );
             if (!room.UsesOutdoorTemperature)
             {
                 compAir.EqualizeWithRoom( room, pointTemp, EqualizationRate );
+            }
+                
+             */
+        }
+
+        private void FindAdjacentRooms()
+        {
+            adjacentRooms.Clear();
+            if(room.UsesOutdoorTemperature)
+            {
+                return;
+            }
+            Map CurrentMap = Find.CurrentMap;
+            List<IntVec3> cells = new List<IntVec3>();
+
+            foreach (IntVec3 current in room.Cells)
+            {
+                cells.Add(current);
+            }
+
+            if (fieldGrid == null)
+            {
+                fieldGrid = new BoolGrid(CurrentMap);
+            }
+            else
+            {
+                fieldGrid.ClearAndResizeTo(CurrentMap);
+            }
+
+            int x = CurrentMap.Size.x;
+            int z = CurrentMap.Size.z;
+            int count = cells.Count;
+            for (int i = 0; i < count; i++)
+            {
+                if (cells[i].InBounds(CurrentMap))
+                {
+                    fieldGrid[cells[i].x, cells[i].z] = true;
+                }
+            }
+            for (int j = 0; j < count; j++)
+            {
+                IntVec3 c = cells[j];
+                if (c.InBounds(CurrentMap))
+                {
+                    if(c.z < z - 1 && !fieldGrid[c.x, c.z + 1])
+                    {
+                        var door = Find.CurrentMap.thingGrid.ThingsAt(new IntVec3(c.x,c.y,c.z+1)).ToList().Find(s => s.def.defName == "Door" );
+                        if(door != null)
+                        {
+                            adjacentRooms.Add(RegionAndRoomQuery.RoomAt(new IntVec3(c.x, c.y, c.z + 2), Map));
+                        }
+                    }
+                    if(c.x < x - 1 && !fieldGrid[c.x + 1, c.z])
+                    {
+                        var door = Find.CurrentMap.thingGrid.ThingsAt(new IntVec3(c.x + 1, c.y, c.z)).ToList().Find(s => s.def.defName == "Door");
+                        if (door != null)
+                        {
+                            adjacentRooms.Add(RegionAndRoomQuery.RoomAt(new IntVec3(c.x + 2, c.y, c.z), Map));
+                        }
+                    }
+                    if (c.z > 0 && !fieldGrid[c.x, c.z - 1])
+                    {
+                        var door = Find.CurrentMap.thingGrid.ThingsAt(new IntVec3(c.x, c.y, c.z - 1)).ToList().Find(s => s.def.defName == "Door");
+                        if (door != null)
+                        {
+                            adjacentRooms.Add(RegionAndRoomQuery.RoomAt(new IntVec3(c.x, c.y, c.z - 2), Map));
+                        }
+                    }
+                    if (c.z > 0 && !fieldGrid[c.x - 1, c.z])
+                    {
+                        var door = Find.CurrentMap.thingGrid.ThingsAt(new IntVec3(c.x - 1, c.y, c.z)).ToList().Find(s => s.def.defName == "Door");
+                        if (door != null)
+                        {
+                            adjacentRooms.Add(RegionAndRoomQuery.RoomAt(new IntVec3(c.x - 2, c.y, c.z), Map));
+                        }
+                    }
+                }
             }
         }
 
@@ -139,7 +363,7 @@ namespace RedistHeat
             base.Draw();
             if (isLocked)
             {
-                OverlayDrawer.DrawOverlay( this, OverlayTypes.ForbiddenBig );
+                this.Map.overlayDrawer.DrawOverlay( this, OverlayTypes.ForbiddenBig );
             }
         }
 
@@ -154,11 +378,38 @@ namespace RedistHeat
             {
                 defaultLabel = ResourceBank.StringToggleAirflowLabel,
                 defaultDesc = ResourceBank.StringToggleAirflowDesc,
-                hotKey = KeyBindingDefOf.CommandItemForbid,
+                hotKey = KeyBindingDefOf.Command_ItemForbid,
                 icon = ResourceBank.UILock,
                 groupKey = 912515,
-                isActive = () => isLocked,
-                toggleAction = () => isLocked = !isLocked
+                isActive = () => !isLocked,
+                toggleAction = () =>
+                {
+                    isLocked = !isLocked;
+                    shouldChange = false;
+                    int units = compAir.Props.units;
+                    if(isLocked)
+                    {
+                        if (units > 0)
+                        {
+                            compAir.connectedNet.pushers -= units;
+                        }
+                        else
+                        {
+                            compAir.connectedNet.pullers -= -units;
+                        }
+                    }
+                    else
+                    {
+                        if (units > 0)
+                        {
+                            compAir.connectedNet.pushers += units;
+                        }
+                        else
+                        {
+                            compAir.connectedNet.pullers += -units;
+                        }
+                    }
+                }
             };
             yield return l;
         }

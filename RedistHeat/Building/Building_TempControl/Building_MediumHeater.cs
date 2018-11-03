@@ -10,7 +10,7 @@ namespace RedistHeat
 
         private IntVec3 vecNorth;
         private Room roomNorth;
-        private CompGlower compGlower;
+        private CompMyGlower compGlower;
         private bool isWorking;
         private bool wasLit;
 
@@ -27,27 +27,27 @@ namespace RedistHeat
                 }
                 if (isWorking)
                 {
-                    compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption;
+                    compPowerTrader.PowerOutput = -compPowerTrader.Props.basePowerConsumption;
                 }
                 else
                 {
-                    compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption*
-                                                  compTempControl.props.lowPowerConsumptionFactor;
+                    compPowerTrader.PowerOutput = -compPowerTrader.Props.basePowerConsumption*
+                                                  compTempControl.Props.lowPowerConsumptionFactor;
                 }
 
                 compTempControl.operatingAtHighPower = isWorking;
             }
         }
 
-        public override void SpawnSetup()
+        public override void SpawnSetup(Map map, bool respawningAfterLoad)
         {
-            base.SpawnSetup();
+            base.SpawnSetup(map, respawningAfterLoad);
             vecNorth = Position + IntVec3.North.RotatedBy( Rotation );
 
-            glower = GenSpawn.Spawn( ThingDef.Named( "RedistHeat_HeaterGlower" ), vecNorth );
+            glower = GenSpawn.Spawn( ThingDef.Named( "RedistHeat_HeaterGlower" ), vecNorth, map);
             ((Building_HeaterGlower) glower).Reinit( this );
-            compGlower = glower.TryGetComp< CompGlower >();
-            compGlower.Lit = false;
+            compGlower = glower.TryGetComp< CompMyGlower >();
+            //compGlower.Lit = false;
         }
 
         public override void Destroy( DestroyMode mode = DestroyMode.Vanish )
@@ -58,14 +58,15 @@ namespace RedistHeat
 
         public override void Tick()
         {
+            base.Tick();
             if (compPowerTrader.PowerOn && !wasLit)
             {
-                compGlower.Lit = true;
+                compGlower.UpdateLit(true);
                 wasLit = true;
             }
             else if (!compPowerTrader.PowerOn && wasLit)
             {
-                compGlower.Lit = false;
+                compGlower.UpdateLit(false);
                 wasLit = false;
             }
 
@@ -84,12 +85,12 @@ namespace RedistHeat
 
         protected virtual bool Validate()
         {
-            if (vecNorth.Impassable())
+            if (vecNorth.Impassable(this.Map))
             {
                 return false;
             }
 
-            roomNorth = vecNorth.GetRoom();
+            roomNorth = vecNorth.GetRoom(this.Map);
             if (roomNorth == null)
             {
                 return false;
@@ -112,14 +113,14 @@ namespace RedistHeat
                     ? 0f
                     : Mathf.InverseLerp( 120f, 20f, temperature );
             }
-            var energyLimit = compTempControl.props.energyPerSecond*energyMod*4.16666651f;
-            var hotAir = GenTemperature.ControlTemperatureTempChange( vecNorth, energyLimit,
+            var energyLimit = compTempControl.Props.energyPerSecond*energyMod*4.16666651f;
+            var hotAir = GenTemperature.ControlTemperatureTempChange( vecNorth, this.Map, energyLimit,
                                                                       compTempControl.targetTemperature );
 
             var hotIsHot = !Mathf.Approximately( hotAir, 0f );
             if (hotIsHot)
             {
-                roomNorth.Temperature += hotAir;
+                roomNorth.Group.Temperature += hotAir;
                 WorkingState = true;
             }
             else

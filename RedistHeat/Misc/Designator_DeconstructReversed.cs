@@ -14,20 +14,20 @@ namespace RedistHeat
             defaultLabel = ResourceBank.DeconstructReversed;
             defaultDesc = ResourceBank.DeconstructReversedDesc;
             icon = ContentFinder< Texture2D >.Get( "UI/Designators/Deconstruct" );
-            soundDragSustain = SoundDefOf.DesignateDragStandard;
-            soundDragChanged = SoundDefOf.DesignateDragStandardChanged;
+            soundDragSustain = SoundDefOf.Designate_DragStandard;
+            soundDragChanged = SoundDefOf.Designate_DragStandard_Changed;
             useMouseIcon = true;
-            soundSucceeded = SoundDefOf.DesignateDeconstruct;
-            hotKey = KeyBindingDefOf.DesignatorDeconstruct;
+            soundSucceeded = SoundDefOf.Designate_Deconstruct;
+            hotKey = KeyBindingDefOf.Designator_Deconstruct;
         }
 
         public override AcceptanceReport CanDesignateCell( IntVec3 c )
         {
-            if (!c.InBounds())
+            if (!c.InBounds(this.Map))
             {
                 return false;
             }
-            if (!Game.GodMode && c.Fogged())
+            if (!DebugSettings.godMode && c.Fogged(this.Map))
             {
                 return false;
             }
@@ -42,25 +42,25 @@ namespace RedistHeat
         private Thing TopDeconstructibleInCell( IntVec3 loc )
         {
             return
-                (from t in Find.ThingGrid.ThingsAt( loc ) orderby t.def.altitudeLayer ascending select t).FirstOrDefault
+                (from t in Find.CurrentMap.thingGrid.ThingsAt( loc ) orderby t.def.altitudeLayer ascending select t).FirstOrDefault
                     ( current => CanDesignateThing( current ).Accepted );
         }
 
         public override void DesignateThing( Thing t )
         {
-            if (t.Faction != Faction.OfColony)
+            if (t.Faction != Faction.OfPlayer)
             {
-                t.SetFaction( Faction.OfColony );
+                t.SetFaction( Faction.OfPlayer );
             }
             var innerIfMinified = t.GetInnerIfMinified();
-            if (Game.GodMode || Mathf.Approximately( innerIfMinified.GetStatValue( StatDefOf.WorkToMake ), 0 ) ||
+            if (DebugSettings.godMode || Mathf.Approximately( innerIfMinified.GetStatValue( StatDefOf.WorkToBuild ), 0 ) ||
                 t.def.IsFrame)
             {
                 t.Destroy( DestroyMode.Deconstruct );
             }
             else
             {
-                Find.DesignationManager.AddDesignation( new Designation( t, DesignationDefOf.Deconstruct ) );
+                Find.CurrentMap.designationManager.AddDesignation( new Designation( t, DesignationDefOf.Deconstruct ) );
             }
         }
 
@@ -71,29 +71,29 @@ namespace RedistHeat
             {
                 return false;
             }
-            if (!Game.GodMode)
+            if (!DebugSettings.godMode)
             {
                 if (!building.def.building.IsDeconstructible)
                 {
                     return false;
                 }
-                if (building.Faction != Faction.OfColony)
+                if (building.Faction != Faction.OfPlayer)
                 {
                     if (building.Faction != null)
                     {
                         return false;
                     }
-                    if (!building.ClaimableBy( Faction.OfColony ))
+                    if (!building.ClaimableBy( Faction.OfPlayer ))
                     {
                         return false;
                     }
                 }
             }
-            if (Find.DesignationManager.DesignationOn( t, DesignationDefOf.Deconstruct ) != null)
+            if (Find.CurrentMap.designationManager.DesignationOn( t, DesignationDefOf.Deconstruct ) != null)
             {
                 return false;
             }
-            return Find.DesignationManager.DesignationOn( t, DesignationDefOf.Uninstall ) == null;
+            return Find.CurrentMap.designationManager.DesignationOn( t, DesignationDefOf.Uninstall ) == null;
         }
 
         public override void SelectedUpdate()

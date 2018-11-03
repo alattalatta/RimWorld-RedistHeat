@@ -27,12 +27,12 @@ namespace RedistHeat
                 }
                 if (isWorking)
                 {
-                    compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption;
+                    compPowerTrader.PowerOutput = -compPowerTrader.Props.basePowerConsumption;
                 }
                 else
                 {
-                    compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption*
-                                                  compTempControl.props.lowPowerConsumptionFactor;
+                    compPowerTrader.PowerOutput = -compPowerTrader.Props.basePowerConsumption*
+                                                  compTempControl.Props.lowPowerConsumptionFactor;
                 }
 
                 compTempControl.operatingAtHighPower = isWorking;
@@ -42,12 +42,12 @@ namespace RedistHeat
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.LookValue( ref isLocked, "isLocked", false );
+            Scribe_Values.Look( ref isLocked, "isLocked", false );
         }
 
-        public override void SpawnSetup()
+        public override void SpawnSetup(Map map, bool respawningAfterLoad)
         {
-            base.SpawnSetup();
+            base.SpawnSetup(map, respawningAfterLoad);
             vecNorth = Position + IntVec3.North.RotatedBy( Rotation );
             vecSouth = Position + IntVec3.South.RotatedBy( Rotation );
         }
@@ -113,23 +113,23 @@ namespace RedistHeat
             var tempRated = tempDiff*rate;
             if (targetTemp < room.Temperature)
             {
-                room.Temperature = Mathf.Max( targetTemp, room.Temperature - tempRated );
+                room.Group.Temperature = Mathf.Max( targetTemp, room.Temperature - tempRated );
             }
             else if (targetTemp > room.Temperature)
             {
-                room.Temperature = Mathf.Min( targetTemp, room.Temperature + tempRated );
+                room.Group.Temperature = Mathf.Min( targetTemp, room.Temperature + tempRated );
             }
         }
 
         protected virtual bool Validate()
         {
-            if (vecNorth.Impassable() || vecSouth.Impassable())
+            if (vecNorth.Impassable(this.Map) || vecSouth.Impassable(this.Map))
             {
                 return false;
             }
 
-            roomNorth = (Position + IntVec3.North.RotatedBy( Rotation )).GetRoom();
-            roomSouth = (Position + IntVec3.South.RotatedBy( Rotation )).GetRoom();
+            roomNorth = (Position + IntVec3.North.RotatedBy( Rotation )).GetRoom(this.Map);
+            roomSouth = (Position + IntVec3.South.RotatedBy( Rotation )).GetRoom(this.Map);
             if (roomNorth == null || roomSouth == null || roomNorth == roomSouth)
             {
                 return false;
@@ -148,7 +148,7 @@ namespace RedistHeat
             base.Draw();
             if (isLocked)
             {
-                OverlayDrawer.DrawOverlay( this, OverlayTypes.ForbiddenBig );
+                this.Map.overlayDrawer.DrawOverlay( this, OverlayTypes.ForbiddenBig );
             }
         }
 
@@ -163,7 +163,7 @@ namespace RedistHeat
             {
                 defaultLabel = ResourceBank.StringToggleAirflowLabel,
                 defaultDesc = ResourceBank.StringToggleAirflowDesc,
-                hotKey = KeyBindingDefOf.CommandItemForbid,
+                hotKey = KeyBindingDefOf.Command_ItemForbid,
                 icon = ResourceBank.UILock,
                 groupKey = 912515,
                 isActive = () => isLocked,

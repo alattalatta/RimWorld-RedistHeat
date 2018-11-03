@@ -18,10 +18,9 @@ namespace RedistHeat
                 return false;
             }
 
-            var lowerFlag = AirNetGrid.NetAt( c, NetLayer.Lower ) != null && compAir.IsLayerOf( NetLayer.Lower );
-            var upperFlag = AirNetGrid.NetAt( c, NetLayer.Upper ) != null && compAir.IsLayerOf( NetLayer.Upper );
-
-            return c.InBounds() && (lowerFlag || upperFlag);
+            var lowerFlag = AirNetGrid.NetAt( c, parent.Map, NetLayer.Lower ) != null && compAir.IsLayerOf( NetLayer.Lower );
+            var upperFlag = AirNetGrid.NetAt( c, parent.Map, NetLayer.Upper ) != null && compAir.IsLayerOf( NetLayer.Upper );
+            return c.InBounds(parent.Map) && (lowerFlag || upperFlag);
         }
 
         public override void Print( SectionLayer layer, Thing parent )
@@ -29,7 +28,7 @@ namespace RedistHeat
             var occupiedRect = parent.OccupiedRect();
             foreach (var current in occupiedRect)
             {
-                var center = current.ToVector3ShiftedWithAltitude( AltitudeLayer.WorldDataOverlay );
+                var center = current.ToVector3ShiftedWithAltitude( AltitudeLayer.MapDataOverlay );
                 Printer_Plane.PrintPlane( layer, center, new Vector2( 1f, 1f ), LinkedDrawMatFrom( parent, current ),
                                           0f );
             }

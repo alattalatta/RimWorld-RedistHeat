@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!--[Core] <Vent.label>通风孔</Vent.label>-->
+  <!--[Core] <Vent.description>一个简单的通风孔，在平衡两个房间的温度同时保持墙体无法通过。</Vent.description>-->
+  <!--[Core] <Vent_Blueprint.label>vent (blueprint)</Vent_Blueprint.label>-->
+  <!--[Core] <Vent_Frame.label>vent (building)</Vent_Frame.label>-->
+
+  <RedistHeat_ActiveVent.label>温控通风孔</RedistHeat_ActiveVent.label>
+  <RedistHeat_ActiveVent.description>一个简单的通风孔，在平衡两个房间的温度同时保持墙体无法通过。标记为橙色的方块需要朝向你需要控制温度的房间。</RedistHeat_ActiveVent.description>
+  <RedistHeat_ActiveVent_Blueprint.label>温控通风孔（蓝图）</RedistHeat_ActiveVent_Blueprint.label>
+  <RedistHeat_ActiveVent_Frame.label>温控通风孔（建造中）</RedistHeat_ActiveVent_Frame.label>
+
+
+</LanguageData>

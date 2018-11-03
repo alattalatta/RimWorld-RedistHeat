@@ -4,20 +4,24 @@ using Verse;
 
 namespace RedistHeat
 {
-    public class Building_ExhaustPort : Building_TempControl
+    public class Building_ExhaustPort : Building_DuctSwitchable
     {
         public IntVec3 VecNorth { get; private set; }
         public IntVec3 VecSouth { get; private set; }
+        public IntVec3 VecEast { get; private set; }
+        public IntVec3 VecWest { get; private set; }
 
         public bool isAvailable;
 
         private Building_IndustrialCooler neighCooler;
 
-        public override void SpawnSetup()
+        public override void SpawnSetup(Map map, bool respawningAfterLoad)
         {
-            base.SpawnSetup();
+            base.SpawnSetup(map, respawningAfterLoad);
             VecNorth = Position + IntVec3.North.RotatedBy( Rotation );
             VecSouth = Position + IntVec3.South.RotatedBy( Rotation );
+            VecEast = Position + IntVec3.East.RotatedBy(Rotation);
+            VecWest = Position + IntVec3.West.RotatedBy(Rotation);
         }
 
         public override void Tick()
@@ -28,15 +32,15 @@ namespace RedistHeat
             }
 
             neighCooler = AdjacentCooler();
-            if (compPowerTrader.PowerOn && neighCooler != null && !VecNorth.Impassable())
+            if (compPowerTrader.PowerOn && neighCooler != null && !VecNorth.Impassable(this.Map))
             {
                 isAvailable = true;
-                compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption;
+                compPowerTrader.PowerOutput = -compPowerTrader.Props.basePowerConsumption;
             }
             else
             {
                 isAvailable = false;
-                compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption*0.1f;
+                compPowerTrader.PowerOutput = -compPowerTrader.Props.basePowerConsumption*0.1f;
             }
         }
 
@@ -53,16 +57,36 @@ namespace RedistHeat
 
         public void PushHeat( float amount )
         {
-            if (VecNorth.UsesOutdoorTemperature())
+            if (Net)
             {
-                return;
+                compAir.SetNetTemperatureDirect(amount);
             }
-            GenTemperature.PushHeat( VecNorth, amount );
+            else
+            {
+                if (VecNorth.UsesOutdoorTemperature(this.Map))
+                {
+                    return;
+                }
+                GenTemperature.PushHeat(VecNorth, this.Map, amount);
+            }
+        }
+
+        public AirNet GetNet()
+        {
+            return compAir.connectedNet;
         }
 
         private Building_IndustrialCooler AdjacentCooler()
         {
-            var cooler = Find.ThingGrid.ThingAt< Building_IndustrialCooler >( VecSouth );
+            var cooler = Map.thingGrid.ThingAt< Building_IndustrialCooler >( VecSouth );
+            if (cooler == null)
+            {
+                cooler = Map.thingGrid.ThingAt<Building_IndustrialCooler>(VecEast);
+                if (cooler == null)
+                {
+                    cooler = Map.thingGrid.ThingAt<Building_IndustrialCooler>(VecWest);
+                }
+            }
             return cooler;
         }
     }

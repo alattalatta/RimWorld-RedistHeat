@@ -5,12 +5,12 @@ namespace RedistHeat
 {
     public class CompAirTransmitter : CompAir
     {
-        public override void PostSpawnSetup()
+        public override void PostSpawnSetup(bool respawningAfterLoad)
         {
             var compAirProps = props as CompAirTransmitterProperties;
             if (compAirProps == null)
             {
-                Log.Error( "LT-RH: Could not find CompAirTransmtterProperties for CompAirTransmitter! " );
+                Log.Error("RedistHeat: Could not find CompAirTransmtterProperties for CompAirTransmitter! ");
                 currentLayer = NetLayer.Lower;
             }
             else
@@ -18,10 +18,10 @@ namespace RedistHeat
                 currentLayer = compAirProps.layer;
             }
 
-            base.PostSpawnSetup();
+            base.PostSpawnSetup(respawningAfterLoad);
         }
 
-        public override IEnumerable< Command > CompGetGizmosExtra()
+        public override IEnumerable<Gizmo> CompGetGizmosExtra()
         {
             yield break;
         }

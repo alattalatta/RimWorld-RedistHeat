@@ -7,39 +7,17 @@ using Verse;
 
 namespace RedistHeat
 {
-    public class Building_IndustrialCooler : Building_TempControl
+    public class Building_IndustrialCooler : Building_DuctSwitchable
     {
         private IntVec3 vecSouth, vecSouthEast;
         private Room roomSouth;
         private List< Building_ExhaustPort > activeExhausts;
 
-        private float Energy => compTempControl.props.energyPerSecond;
+        private float Energy => compTempControl.Props.energyPerSecond;
 
-        private bool isWorking;
-
-        private bool WorkingState
+        public override void SpawnSetup(Map map, bool respawningAfterLoad)
         {
-            set
-            {
-                isWorking = value;
-
-                if (isWorking)
-                {
-                    compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption;
-                }
-                else
-                {
-                    compPowerTrader.PowerOutput = -compPowerTrader.props.basePowerConsumption*
-                                                  compTempControl.props.lowPowerConsumptionFactor;
-                }
-
-                compTempControl.operatingAtHighPower = isWorking;
-            }
-        }
-
-        public override void SpawnSetup()
-        {
-            base.SpawnSetup();
+            base.SpawnSetup(map, respawningAfterLoad);
             vecSouth = Position + IntVec3.South.RotatedBy( Rotation );
             vecSouthEast = vecSouth + IntVec3.East.RotatedBy( Rotation );
         }
@@ -60,14 +38,19 @@ namespace RedistHeat
             ControlTemperature();
         }
 
-        private bool Validate()
+        protected override bool Validate()
         {
-            if (vecSouth.Impassable() || vecSouthEast.Impassable())
+            if (compAir.connectedNet == null)
             {
                 return false;
             }
 
-            roomSouth = vecSouth.GetRoom();
+            if (vecSouth.Impassable(this.Map) || vecSouthEast.Impassable(this.Map))
+            {
+                return false;
+            }
+
+            roomSouth = vecSouth.GetRoom(this.Map);
             if (roomSouth == null)
             {
                 return false;
@@ -80,38 +63,47 @@ namespace RedistHeat
                 return false;
             }
 
-            return compTempControl.targetTemperature < roomSouth.Temperature;
+            return compTempControl.targetTemperature - 1 < roomSouth.Temperature - 3;
         }
 
         private void ControlTemperature()
         {
             //Average of exhaust ports' room temperature
-            var tempHotAvg = activeExhausts.Sum( s => s.VecNorth.GetTemperature() )/activeExhausts.Count;
+            var tempHotAvg = activeExhausts.Sum(s => s.Net ? s.GetNet().NetTemperature : s.VecNorth.GetTemperature(this.Map)) / activeExhausts.Count;
 
             //Cooler's temperature
-            var tempCold = roomSouth.Temperature;
+            var tempCold = Net ? compAir.connectedNet.NetTemperature : roomSouth.Temperature;
             var tempDiff = tempHotAvg - tempCold;
+            var nodeCount = Net ? compAir.connectedNet.nodes.Count : roomSouth.CellCount;
 
             if (tempHotAvg - tempDiff > 40.0)
             {
                 tempDiff = tempHotAvg - 40f;
             }
 
-            var num2 = 1.0 - tempDiff*(1.0/130.0);
-            if (num2 < 0.0)
+            var effectiveness = 1.0 - tempDiff * (1.0 / 130.0);
+            if (effectiveness < 0.0)
             {
-                num2 = 0.0f;
+                effectiveness = 0.0f;
             }
 
-            var energyLimit = (float) (Energy*activeExhausts.Count*num2*4.16666650772095);
-            var coldAir = GenTemperature.ControlTemperatureTempChange( vecSouth, energyLimit,
-                                                                       compTempControl.targetTemperature );
-            isWorking = !Mathf.Approximately( coldAir, 0.0f );
-            if (!isWorking)
+            var energyLimit = (float)(Energy * activeExhausts.Count * effectiveness * 40f);
+            var coldAir = ControlTemperatureTempChange(nodeCount, tempCold, energyLimit, compTempControl.targetTemperature);
+
+            WorkingState = !Mathf.Approximately(coldAir, 0.0f);
+            if (!WorkingState)
             {
                 return;
             }
-            roomSouth.Temperature += coldAir;
+
+            if (Net)
+            {
+                compAir.SetNetTemperatureDirect(coldAir);
+            }
+            else
+            {
+                roomSouth.Group.Temperature += coldAir;
+            }
 
             var hotAir = (float) (-energyLimit*1.25/activeExhausts.Count);
 
@@ -126,14 +118,13 @@ namespace RedistHeat
             }
         }
 
-        private List< Building_ExhaustPort > GetActiveExhausts()
+        private List<Building_ExhaustPort> GetActiveExhausts()
         {
-            var origin = GenAdj.CellsAdjacentCardinal( this )
-                               .Select( s => Find.ThingGrid.ThingAt< Building_ExhaustPort >( s ) )
-                               .Where( thingAt => thingAt != null )
-                               .ToList();
-
-            return origin.Where( s => s.isAvailable ).ToList();
+            return GenAdj.CellsAdjacentCardinal(this)
+                .Select(s => Map.thingGrid.ThingAt<Building_ExhaustPort>(s))
+                .Where(thingAt => thingAt != null)
+                .Where(s => s.isAvailable)
+                .ToList();
         }
 
         public override string GetInspectString()
@@ -152,6 +143,24 @@ namespace RedistHeat
                 str.Append( "0" );
             }
             return str.ToString();
+        }
+
+        private static float ControlTemperatureTempChange(int count, float temperature, float energyLimit, float targetTemperature)
+        {
+            var b = energyLimit / count;
+            var a = targetTemperature - temperature;
+            float num;
+            if (energyLimit > 0f)
+            {
+                num = Mathf.Min(a, b);
+                num = Mathf.Max(num, 0f);
+            }
+            else
+            {
+                num = Mathf.Max(a, b);
+                num = Mathf.Min(num, 0f);
+            }
+            return num;
         }
     }
 }

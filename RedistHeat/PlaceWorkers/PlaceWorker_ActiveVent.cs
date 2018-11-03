@@ -7,11 +7,12 @@ namespace RedistHeat
 {
     public class PlaceWorker_ActiveVent : PlaceWorker
     {
-        public override void DrawGhost( ThingDef def, IntVec3 center, Rot4 rot )
+        public override void DrawGhost( ThingDef def, IntVec3 center, Rot4 rot, Color ghostCol)
         {
+            var map = Find.CurrentMap;
             var vecNorth = center + IntVec3.North.RotatedBy( rot );
             var vecSouth = center + IntVec3.South.RotatedBy( rot );
-            if (!vecNorth.InBounds() || !vecSouth.InBounds())
+            if (!vecNorth.InBounds(map) || !vecSouth.InBounds(map))
             {
                 return;
             }
@@ -25,8 +26,8 @@ namespace RedistHeat
                 vecSouth
             }, Color.white );
 
-            var controlledRoom = vecNorth.GetRoom();
-            var otherRoom = vecSouth.GetRoom();
+            var controlledRoom = vecNorth.GetRoom(map);
+            var otherRoom = vecSouth.GetRoom(map);
 
             if (controlledRoom == null || otherRoom == null)
             {
@@ -39,15 +40,15 @@ namespace RedistHeat
             }
         }
 
-        public override AcceptanceReport AllowsPlacing( BuildableDef def, IntVec3 center, Rot4 rot )
+        public override AcceptanceReport AllowsPlacing( BuildableDef def, IntVec3 center, Rot4 rot, Map map, Thing thingToIgnore = null)
         {
             var vecNorth = center + IntVec3.North.RotatedBy( rot );
             var vecSouth = center + IntVec3.South.RotatedBy( rot );
-            if (!vecNorth.InBounds() || !vecSouth.InBounds())
+            if (!vecNorth.InBounds(map) || !vecSouth.InBounds(map))
             {
                 return false;
             }
-            if (vecNorth.Impassable() || vecSouth.Impassable())
+            if (vecNorth.Impassable(map) || vecSouth.Impassable(map))
             {
                 return ResourceBank.ExposeBoth;
             }

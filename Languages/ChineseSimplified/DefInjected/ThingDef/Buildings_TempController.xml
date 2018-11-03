@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!--[Core] <Heater.label>小型加热器</Heater.label>-->
+  <!--[Core] <Heater.description>一个将电能转换成热能的电器设备。它会自动根据当前室内温度开关以达到设定的目标温度。</Heater.description>-->
+  <!--[Core] <Heater_Blueprint.label>small heater（蓝图）</Heater_Blueprint.label>-->
+  <!--[Core] <Heater_Blueprint_Install.label>small heater（蓝图）</Heater_Blueprint_Install.label>-->
+  <!--[Core] <Heater_Frame.label>small heater（建造中）</Heater_Frame.label>-->
+
+  <!--[Core] <Cooler.label>中型制冷机</Cooler.label>-->
+  <!--[Core] <Cooler.description>一个能够作为墙体安装的电器设备，可将冷空气吹入房间内，同时外机部分产生大量热量。可以在夏天为房间降温，或者用其建造一个冷库。</Cooler.description>-->
+  <!--[Core] <Cooler_Blueprint.label>medium cooler（蓝图）</Cooler_Blueprint.label>-->
+  <!--[Core] <Cooler_Frame.label>medium cooler（建造中）</Cooler_Frame.label>-->
+
+  <RH_SmallCooler.label>小型制冷机</RH_SmallCooler.label>
+  <RH_SmallCooler.description>可安装于墙内的电器，可将冷空气吹入房间内，同时在外机部分产生大量热量。可以在夏天为房间降温，或者用其建造一个冷库。</RH_SmallCooler.description>
+  <RH_SmallCooler_Blueprint.label>小型制冷机（蓝图）</RH_SmallCooler_Blueprint.label>
+  <RH_SmallCooler_Frame.label>小型制冷机（建造中）</RH_SmallCooler_Frame.label>
+
+  <RH_MediumHeater.label>中型加热器</RH_MediumHeater.label>
+  <RH_MediumHeater.description>安装于墙上的加热器，加热大房间和基地的效率更高。可根据指定的目标温度自动开启或关闭。</RH_MediumHeater.description>
+  <RH_MediumHeater_Blueprint.label>中型加热器（蓝图）</RH_MediumHeater_Blueprint.label>
+  <RH_MediumHeater_Frame.label>中型加热器（建造中）</RH_MediumHeater_Frame.label>
+
+
+  <!-- Medium Heater Glower -->
+
+  <RedistHeat_HeaterGlower.label>中型加热器</RedistHeat_HeaterGlower.label>
+
+  <RedistHeat_IndustrialHeater.label>工业级加热器</RedistHeat_IndustrialHeater.label>
+  <RedistHeat_IndustrialHeater.description>巨大的工业级加热器，可以高效地加热大型房间和基地。可根据指定的目标温度自动开启或关闭。</RedistHeat_IndustrialHeater.description>
+  <RedistHeat_IndustrialHeater_Blueprint.label>工业级加热器（蓝图）</RedistHeat_IndustrialHeater_Blueprint.label>
+  <RedistHeat_IndustrialHeater_Frame.label>工业级加热器（建造中）</RedistHeat_IndustrialHeater_Frame.label>
+
+  <RedistHeat_IndustrialCooler.label>工业级制冷机</RedistHeat_IndustrialCooler.label>
+  <RedistHeat_IndustrialCooler.description>将冷空气送入房间的巨大电气设备。需要连接至少一个「排气口」。</RedistHeat_IndustrialCooler.description>
+  <RedistHeat_IndustrialCooler_Blueprint.label>工业级制冷机（蓝图）</RedistHeat_IndustrialCooler_Blueprint.label>
+  <RedistHeat_IndustrialCooler_Frame.label>工业级制冷机（建造中）</RedistHeat_IndustrialCooler_Frame.label>
+
+  <RedistHeat_ExhaustPort.label>排气口</RedistHeat_ExhaustPort.label>
+  <RedistHeat_ExhaustPort.description>连接工业级制冷机的排气口。产生大量热量。</RedistHeat_ExhaustPort.description>
+  <RedistHeat_ExhaustPort_Blueprint.label>排气口（蓝图）</RedistHeat_ExhaustPort_Blueprint.label>
+  <RedistHeat_ExhaustPort_Frame.label>排气口（建造中）</RedistHeat_ExhaustPort_Frame.label>
+
+
+</LanguageData>

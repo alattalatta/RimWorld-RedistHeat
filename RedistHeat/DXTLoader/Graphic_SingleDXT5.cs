@@ -10,11 +10,13 @@ namespace RedistHeat
 
 		public override Material MatSingle => mat;
 
-		public override Material MatFront => mat;
+        public override Material MatWest => mat;
 
-		public override Material MatSide => mat;
+        public override Material MatSouth => mat;
 
-		public override Material MatBack => mat;
+		public override Material MatEast => mat;
+
+		public override Material MatNorth => mat;
 
 		public override bool ShouldDrawRotated => data == null || data.drawRotated;
 

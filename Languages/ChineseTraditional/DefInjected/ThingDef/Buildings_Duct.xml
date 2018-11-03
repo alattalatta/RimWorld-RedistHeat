@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Duct pipes -->
+
+  <RedistHeat_DuctPipeUpper.label>管道（頂層）</RedistHeat_DuctPipeUpper.label>
+  <RedistHeat_DuctPipeUpper.description>用於輸送空氣的管道。</RedistHeat_DuctPipeUpper.description>
+  <RedistHeat_DuctPipeUpper_Blueprint.label>管道（頂層）（藍圖）</RedistHeat_DuctPipeUpper_Blueprint.label>
+  <RedistHeat_DuctPipeUpper_Frame.label>管道（頂層）（建造中）</RedistHeat_DuctPipeUpper_Frame.label>
+
+  <RedistHeat_DuctPipeLower.label>管道（底層）</RedistHeat_DuctPipeLower.label>
+  <RedistHeat_DuctPipeLower.description>用於輸送空氣的管道。</RedistHeat_DuctPipeLower.description>
+  <RedistHeat_DuctPipeLower_Blueprint.label>管道（底層）（藍圖）</RedistHeat_DuctPipeLower_Blueprint.label>
+  <RedistHeat_DuctPipeLower_Frame.label>管道（底層）（建造中）</RedistHeat_DuctPipeLower_Frame.label>
+
+
+  <!-- Duct Components -->
+
+  <RedistHeat_DuctOutlet.label>管道出風口</RedistHeat_DuctOutlet.label>
+  <RedistHeat_DuctOutlet.description>一個管道設施，將管道內的空氣推送進房間。</RedistHeat_DuctOutlet.description>
+  <RedistHeat_DuctOutlet_Blueprint.label>管道出風口（藍圖）</RedistHeat_DuctOutlet_Blueprint.label>
+  <RedistHeat_DuctOutlet_Frame.label>管道出風口（建造中）</RedistHeat_DuctOutlet_Frame.label>
+
+  <RedistHeat_SmartDuctOutlet.label>溫控出風口</RedistHeat_SmartDuctOutlet.label>
+  <RedistHeat_SmartDuctOutlet.description>一個管道設施，將管道內的空氣推送進房間，並根據目標溫度自動開關以調節室溫。</RedistHeat_SmartDuctOutlet.description>
+  <RedistHeat_SmartDuctOutlet_Blueprint.label>溫控出風口（藍圖）</RedistHeat_SmartDuctOutlet_Blueprint.label>
+  <RedistHeat_SmartDuctOutlet_Frame.label>溫控出風口（建造中）</RedistHeat_SmartDuctOutlet_Frame.label>
+
+  <RedistHeat_DuctIntake.label>管道入風口</RedistHeat_DuctIntake.label>
+  <RedistHeat_DuctIntake.description>一個管道設施，將空氣抽進管道內。</RedistHeat_DuctIntake.description>
+  <RedistHeat_DuctIntake_Blueprint.label>管道入風口（藍圖）</RedistHeat_DuctIntake_Blueprint.label>
+  <RedistHeat_DuctIntake_Frame.label>管道入風口（建造中）</RedistHeat_DuctIntake_Frame.label>
+
+  <RedistHeat_MultipurposeCooler.label>多用冷卻器</RedistHeat_MultipurposeCooler.label>
+  <RedistHeat_MultipurposeCooler.description>可以對房間或管道內的空氣進行冷卻的設施。</RedistHeat_MultipurposeCooler.description>
+  <RedistHeat_MultipurposeCooler_Blueprint.label>多用冷卻器（藍圖）</RedistHeat_MultipurposeCooler_Blueprint.label>
+  <RedistHeat_MultipurposeCooler_Frame.label>多用冷卻器（建造中）</RedistHeat_MultipurposeCooler_Frame.label>
+
+
+</LanguageData>

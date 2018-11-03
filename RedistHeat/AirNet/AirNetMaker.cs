@@ -11,7 +11,7 @@ namespace RedistHeat
         private static HashSet< Building > openSet = new HashSet< Building >();
         private static HashSet< Building > currentSet = new HashSet< Building >();
 
-        private static IEnumerable< CompAir > ContiguousAirBuildings( Building root, NetLayer layer )
+        private static IEnumerable< CompAir > ContiguousAirBuildings( Building root, NetLayer layer, Map map)
         {
             closedSet.Clear();
             currentSet.Clear();
@@ -32,7 +32,7 @@ namespace RedistHeat
 
                 foreach (var things in currentSet.SelectMany( openBuilding =>
                                                                   GenAdj.CellsAdjacentCardinal( openBuilding )
-                                                                        .Select( openCells => openCells.GetThingList() ) )
+                                                                        .Select( openCells => openCells.GetThingList(map) ) )
                     )
                 {
                     //All adjacent things
@@ -69,9 +69,9 @@ namespace RedistHeat
                    select b.TryGetComp< CompAir >();
         }
 
-        public static AirNet NewAirNetStartingFrom( Building root, NetLayer layer )
+        public static AirNet NewAirNetStartingFrom( Building root, Map map, NetLayer layer )
         {
-            return new AirNet( ContiguousAirBuildings( root, layer ), layer, root.TryGetComp< CompAir >() );
+            return new AirNet( ContiguousAirBuildings( root, layer, map), layer, root.TryGetComp< CompAir >(), map );
         }
     }
 }

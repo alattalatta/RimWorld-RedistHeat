@@ -5,17 +5,19 @@ namespace RedistHeat
 {
 	public class Graphic_MultiDXT5 : Graphic
 	{
-		private Material[] mats = new Material[3];
+		private Material[] mats = new Material[4];
 
 		public override Material MatSingle => mats[2];
 
-		public override Material MatFront => mats[2];
+        public override Material MatWest => mats[3];
 
-		public override Material MatSide => mats[1];
+        public override Material MatSouth => mats[2];
 
-		public override Material MatBack => mats[0];
+		public override Material MatEast => mats[1];
 
-		public override bool ShouldDrawRotated => MatSide == MatBack;
+		public override Material MatNorth => mats[0];
+
+		public override bool ShouldDrawRotated => MatEast == MatNorth;
 
         public override void Init( GraphicRequest req )
 		{

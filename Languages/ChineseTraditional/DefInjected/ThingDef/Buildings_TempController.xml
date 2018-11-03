@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!--[Core] <Heater.label>small heater</Heater.label>-->
+  <!--[Core] <Heater.description>An electrical device that converts electricity into heat. It can automatically turn itself on or off to reach a specific target temperature.</Heater.description>-->
+  <!--[Core] <Heater_Blueprint.label>small heater（藍圖）</Heater_Blueprint.label>-->
+  <!--[Core] <Heater_Blueprint_Install.label>small heater（藍圖）</Heater_Blueprint_Install.label>-->
+  <!--[Core] <Heater_Frame.label>small heater（建造中）</Heater_Frame.label>-->
+
+  <!--[Core] <Cooler.label>medium cooler</Cooler.label>-->
+  <!--[Core] <Cooler.description>An electrical device that fits into a wall and pushes cold air into a room. Its 排氣口 generates a lot of heat. Can be used to cool down rooms during the summer months, or to create a walk-in freezer.</Cooler.description>-->
+  <!--[Core] <Cooler_Blueprint.label>medium cooler（藍圖）</Cooler_Blueprint.label>-->
+  <!--[Core] <Cooler_Frame.label>medium cooler（建造中）</Cooler_Frame.label>-->
+
+  <RH_SmallCooler.label>小型制冷机</RH_SmallCooler.label>
+  <RH_SmallCooler.description>可安裝於牆內的電器，可將冷空氣吹入房間內，同時在外機部分產生大量熱量。可以在夏天為房間降溫，或者用其建造一個冷庫。</RH_SmallCooler.description>
+  <RH_SmallCooler_Blueprint.label>小型制冷机（藍圖）</RH_SmallCooler_Blueprint.label>
+  <RH_SmallCooler_Frame.label>小型制冷机（建造中）</RH_SmallCooler_Frame.label>
+
+  <RH_MediumHeater.label>中型加熱器</RH_MediumHeater.label>
+  <RH_MediumHeater.description>安裝於牆上的加熱器，加熱大房間和基地的效率更高。可根據置頂的目標溫度自動開啟或關閉。</RH_MediumHeater.description>
+  <RH_MediumHeater_Blueprint.label>中型加熱器（藍圖）</RH_MediumHeater_Blueprint.label>
+  <RH_MediumHeater_Frame.label>中型加熱器（建造中）</RH_MediumHeater_Frame.label>
+
+
+  <!-- Medium Heater Glower -->
+
+  <RedistHeat_HeaterGlower.label>中型加熱器</RedistHeat_HeaterGlower.label>
+
+  <RedistHeat_IndustrialHeater.label>工業級加熱器</RedistHeat_IndustrialHeater.label>
+  <RedistHeat_IndustrialHeater.description>巨大的工業級加熱器，可以高效地加熱大型房間和基地。可根據指定的目標溫度自動開啟或關閉。</RedistHeat_IndustrialHeater.description>
+  <RedistHeat_IndustrialHeater_Blueprint.label>工業級加熱器（藍圖）</RedistHeat_IndustrialHeater_Blueprint.label>
+  <RedistHeat_IndustrialHeater_Frame.label>工業級加熱器（建造中）</RedistHeat_IndustrialHeater_Frame.label>
+
+  <RedistHeat_IndustrialCooler.label>工業級製冷機</RedistHeat_IndustrialCooler.label>
+  <RedistHeat_IndustrialCooler.description>將冷空氣送入房間的巨大電器設備。需要連接至少一個「排氣口」</RedistHeat_IndustrialCooler.description>
+  <RedistHeat_IndustrialCooler_Blueprint.label>工業級製冷機（藍圖）</RedistHeat_IndustrialCooler_Blueprint.label>
+  <RedistHeat_IndustrialCooler_Frame.label>工業級製冷機（建造中）</RedistHeat_IndustrialCooler_Frame.label>
+
+  <RedistHeat_ExhaustPort.label>排氣口</RedistHeat_ExhaustPort.label>
+  <RedistHeat_ExhaustPort.description>鏈接工業級製冷機的排氣口。產生大量熱量。</RedistHeat_ExhaustPort.description>
+  <RedistHeat_ExhaustPort_Blueprint.label>排氣口（藍圖）</RedistHeat_ExhaustPort_Blueprint.label>
+  <RedistHeat_ExhaustPort_Frame.label>排氣口（建造中）</RedistHeat_ExhaustPort_Frame.label>
+
+
+</LanguageData>

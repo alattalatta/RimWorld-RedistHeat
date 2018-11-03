@@ -14,8 +14,8 @@
 
         private bool ValidateTemp( float roomTemp, float netTemp )
         {
-            return ((roomTemp < compTempControl.targetTemperature && roomTemp < netTemp) ||
-                    (roomTemp > compTempControl.targetTemperature && roomTemp > netTemp));
+            return ((roomTemp + 3 < compTempControl.targetTemperature + 1 && roomTemp + 3 < netTemp) ||
+                    (roomTemp - 3 > compTempControl.targetTemperature - 1 && roomTemp - 3 > netTemp));
         }
     }
 }

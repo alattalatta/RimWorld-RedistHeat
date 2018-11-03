@@ -25,9 +25,9 @@ namespace RedistHeat
             }
         }
 
-        public override void SpawnSetup()
+        public override void SpawnSetup(Map map, bool respawningAfterLoad)
         {
-            base.SpawnSetup();
+            base.SpawnSetup(map, respawningAfterLoad);
             GetGraphic();
         }
 
@@ -37,9 +37,18 @@ namespace RedistHeat
             {
                 return;
             }
-
-            var graphicSingle = GraphicDatabase.Get< Graphic_Single >( def.graphicData.texPath );
-            graphicLinked = new Graphic_LinkedAirPipe( graphicSingle );
+                       
+            //Things/Building/Linked/DuctPipeLower
+            //var graphicSingle = GraphicDatabase.Get< Graphic_Single >( def.graphicData.texPath );
+            //graphicLinked = new Graphic_LinkedAirPipe( graphicSingle );
+            if (def.graphicData.texPath == "Things/Building/Linked/DuctPipeUpper")
+            {
+                graphicLinked = new Graphic_LinkedAirPipe( ResourceBank.graphicSingleUpper);
+            }
+            if (def.graphicData.texPath == "Things/Building/Linked/DuctPipeLower")
+            {
+                graphicLinked = new Graphic_LinkedAirPipe( ResourceBank.graphicSingleLower);
+            }
         }
     }
 }

@@ -6,13 +6,15 @@ namespace RedistHeat
     {
         public static bool doneInit;
 
+        public AirNetTicker(Map map) : base(map) { }
+
         public override void MapComponentUpdate()
         {
             if (!doneInit)
             {
-                Initialize();
+                Initialize(map);
             }
-            AirNetManager.AirNetsUpdate();
+            AirNetManager.AirNetsUpdate(map);
             AirNetManager.UpdateMapDrawer();
         }
 
@@ -21,16 +23,16 @@ namespace RedistHeat
         {
             if (!doneInit)
             {
-                Initialize();
+                Initialize(map);
             }
             AirNetManager.AirNetsTick();
         }
 
-        public static void Initialize()
+        public static void Initialize(Map map)
         {
-            AirNetGrid.Reinit();
+            AirNetGrid.Reinit(map);
             AirNetManager.Reinit();
-            Log.Message( "LT-RH: Initialized RedistHeat." );
+            Log.Message("RedistHeat: Initialized RedistHeat.");
             doneInit = true;
         }
     }

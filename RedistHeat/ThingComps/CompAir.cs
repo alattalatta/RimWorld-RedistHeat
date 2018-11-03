@@ -3,6 +3,7 @@ using System.Text;
 using RimWorld;
 using UnityEngine;
 using Verse;
+using System;
 
 namespace RedistHeat
 {
@@ -16,22 +17,24 @@ namespace RedistHeat
             return currentLayer == ly;
         }
 
-        public override void PostSpawnSetup()
+        public override void PostSpawnSetup(bool respawningAfterLoad)
         {
-            base.PostSpawnSetup();
+            base.PostSpawnSetup(respawningAfterLoad);
+            //ResourceBank.UILower = ContentFinder<Texture2D>.Get("UI/Commands/Lower", true);
+            //ResourceBank.UIUpper = ContentFinder<Texture2D>.Get("UI/Commands/Upper", true);
             AirNetManager.NotifyCompSpawn( this );
         }
 
-        public override void PostDestroy( DestroyMode mode = DestroyMode.Vanish )
+        public override void PostDestroy( DestroyMode mode, Map previousMap)
         {
-            base.PostDestroy( mode );
+            base.PostDestroy(mode, previousMap);
             AirNetManager.NotifyCompDespawn( this );
         }
 
         public override void PostExposeData()
         {
             base.PostExposeData();
-            Scribe_Values.LookValue( ref currentLayer, "currentLayer", NetLayer.Lower );
+            Scribe_Values.Look( ref currentLayer, "currentLayer", NetLayer.Lower );
         }
 
         public void CompPrintForAirGrid( SectionLayer layer )
@@ -49,6 +52,7 @@ namespace RedistHeat
             if (connectedNet != null)
             {
                 result.Append( Mathf.Round( connectedNet.NetTemperature ).ToStringTemperature( "F0" ) );
+                result.Append(". Flow: " + Math.Min(connectedNet.pushers, connectedNet.pullers));
 #if DEBUG
                 result.AppendLine().Append( "Debug ID: " ).Append( connectedNet.debugId );
 #endif
@@ -57,29 +61,31 @@ namespace RedistHeat
             return result.ToString();
         }
 
-        public override IEnumerable< Command > CompGetGizmosExtra()
+        public override IEnumerable<Gizmo> CompGetGizmosExtra()
         {
-            var com = new Command_Action
-            {
-                defaultLabel  = ResourceBank.CycleLayerLabel,
-                defaultDesc   = ResourceBank.CycleLayerDesc,
-                icon          = currentLayer == NetLayer.Lower ? ResourceBank.UILower : ResourceBank.UIUpper,
-                activateSound = SoundDef.Named( "DesignateMine" ),
-                hotKey        = KeyBindingDefOf.CommandColonistDraft,
-                action        = () =>
-                {
-                    var oldLayer = currentLayer;
-                    currentLayer = currentLayer == NetLayer.Lower ? NetLayer.Upper : NetLayer.Lower;
-                    MoteThrower.ThrowText( parent.Position.ToVector3Shifted(),
-                                           ResourceBank.CycleLayerMote.Translate( currentLayer.ToStringTranslated() ) );
-                    AirNetManager.NotifyCompLayerChange( this, oldLayer );
-                }
-            };
-
             foreach (var current in base.CompGetGizmosExtra())
                 yield return current;
 
-            yield return com;
+            if(this.parent.Faction == Faction.OfPlayer)
+            {
+                Command_Action act = new Command_Action();
+
+            act.defaultLabel = ResourceBank.CycleLayerLabel;
+            act.defaultDesc = ResourceBank.CycleLayerDesc;
+            act.icon = currentLayer == NetLayer.Lower ? ResourceBank.UILower : ResourceBank.UIUpper;
+            act.activateSound = SoundDef.Named("DesignateMine");
+            act.hotKey = KeyBindingDefOf.Command_ColonistDraft;
+            act.action = () =>
+            {
+                var oldLayer = currentLayer;
+                currentLayer = currentLayer == NetLayer.Lower ? NetLayer.Upper : NetLayer.Lower;
+                MoteMaker.ThrowText(parent.Position.ToVector3Shifted(), parent.Map,
+                                        ResourceBank.CycleLayerMote.Translate(currentLayer.ToStringTranslated()) 
+                                        );
+                AirNetManager.NotifyCompLayerChange(this, oldLayer);
+            };
+                yield return act;
+            }
         }
     }
 }
